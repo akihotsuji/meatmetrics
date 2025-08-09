@@ -14,7 +14,7 @@ alwaysApply: true
 
   1. **全体タスク管理ファイル**の更新
 
-     - `docs\tasks\tasks.md`の更新作業。
+     - `docs\90_tasks\tasks.md`の更新作業。
      - 完了したタスクのステータス変更
      - 新たに発見されたタスクの追加
      - 優先度の見直しと調整
@@ -27,7 +27,7 @@ alwaysApply: true
 
   3. **翌日のタスク計画**の作成・更新
 
-     - `docs\tasks\next_task.md`の更新作業。
+     - `docs\90_tasks\next_task.md`の更新作業。
      - 翌日の作業予定の明確化
      - 優先順位の設定
      - 必要なリソースや前提条件の確認
@@ -35,7 +35,7 @@ alwaysApply: true
   4. **事後作業**の実施サポート
 
      - git への commit メッセージの作成。
-     - 本日の躓きポイント、重要な学びを`docs\tasks\knowledge.md`に記載する。
+     - 本日の躓きポイント、重要な学びを`docs\90_tasks\knowledge.md`に記載する。
 
 ### `/teachme`コマンド
 
@@ -73,13 +73,13 @@ alwaysApply: true
 
   1. **今日のタスク抽出**
 
-     - `docs\tasks\next_task.md`から「今日の優先タスク」セクションのみを抽出
+     - `docs\90_tasks\next_task.md`から「今日の優先タスク」セクションのみを抽出
      - 完了済みタスクは除外
      - 優先度順に整理（高 → 中 → 低）
 
   2. **今日のタスク表作成**
 
-     - `docs\tasks\today_tasks.md`ファイルを作成・更新
+     - `docs\90_tasks\today_tasks.md`ファイルを作成・更新
      - 予想作業時間は 1 ～ 2 時間で見積もって作業量を調整してください。
      - 以下のフォーマットで今日のタスクのみを記載：
 
