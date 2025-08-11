@@ -1,0 +1,17 @@
+# Spring Boot用Dockerfile (開発環境)
+FROM maven:latest
+
+WORKDIR /app
+
+# 依存関係のインストール
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# ソースコードのコピー
+COPY src ./src
+
+# 開発用ポートの公開
+EXPOSE 8080
+
+# 開発サーバーの起動
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.jvmArguments='-Xmx512m -Xms256m'"]

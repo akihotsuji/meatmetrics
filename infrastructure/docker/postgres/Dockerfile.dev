@@ -1,0 +1,9 @@
+FROM postgres:16
+
+# 開発用。基本は本番と同じ。ただし、必要なら追加ツールを入れる想定。
+# 今はベースの postgres:16 のまま。
+
+# 例: デバッグ用に nano を入れる場合（必要時のみ）
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     nano && rm -rf /var/lib/apt/lists/*
+

@@ -27,6 +27,14 @@
 - [x] データベース設計書作成 (`docs/detail/database_design.md`)
 - [x] リリースタスク一覧作成 (`task.md`)
 
+##### インフラ（Docker）
+
+- [x] Docker 構成の dev/prod 分離（`infrastructure/docker/dev|prod/docker-compose.yml`）
+- [x] PostgreSQL を Dockerfile 化し dev/prod でビルド切替（`infrastructure/docker/postgres/`）
+- [x] 本番では DB ポート非公開、開発のみ `15432:5432` 公開に統一
+- [x] ルート `infrastructure/docker/docker-compose.yml` を廃止
+- [x] 手順書・記事の更新（`docs/docker/*.md`, `docs/99.Qiita/Dockerによる開発環境コンテナ化.md`）
+
 #### 完了済みタスク ✅
 
 - [x] 開発環境の構築
@@ -44,6 +52,12 @@
   - [ ] データベーススキーマ作成
   - [ ] 初期データ投入
   - [ ] マイグレーション設定
+
+##### インフラ（フォローアップ）
+
+- [ ] CI/CD の Compose 参照先を `infrastructure/docker/prod` に統一
+- [ ] 監視・バックアップ手順の doc 追記（DB バックアップ、ボリュームバックアップ）
+- [ ] `.env` の管理方針明確化（本番は Secrets 管理を前提）
 
 ### 🔐 **Phase 2: 認証・ユーザー管理** - 未着手
 
@@ -244,6 +258,6 @@
 
 ---
 
-**最終更新**: 2025 年 8 月 10 日  
+**最終更新**: 2025 年 8 月 11 日  
 **更新者**: 開発チーム  
-**次回更新予定**: 2025 年 8 月 11 日（Phase 1 進捗確認）
+**次回更新予定**: 2025 年 8 月 12 日（Phase 1 進捗確認）

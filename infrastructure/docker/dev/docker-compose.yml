@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  postgres:
+    build:
+      context: ..
+      dockerfile: ./postgres/Dockerfile.dev
+    container_name: meatmetrics-postgres-dev
+    environment:
+      POSTGRES_DB: meatmetrics
+      POSTGRES_USER: meatmetrics
+      POSTGRES_PASSWORD: meatmetrics123
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres16_data:/var/lib/postgresql/data
+      - ../init:/docker-entrypoint-initdb.d
+    networks:
+      - meatmetrics-network
+
+  backend:
+    build:
+      context: ../../../backend
+      dockerfile: ../backend/Dockerfile.dev
+    container_name: meatmetrics-backend-dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/meatmetrics
+      SPRING_DATASOURCE_USERNAME: meatmetrics
+      SPRING_DATASOURCE_PASSWORD: meatmetrics123
+    volumes:
+      - ../../../backend:/app
+      - maven_cache:/root/.m2
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - meatmetrics-network
+
+  frontend:
+    build:
+      context: ../../../frontend
+      dockerfile: ../frontend/Dockerfile.dev
+    container_name: meatmetrics-frontend-dev
+    volumes:
+      - ../../../frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - meatmetrics-network
+
+volumes:
+  postgres16_data:
+  maven_cache:
+
+networks:
+  meatmetrics-network:
+    driver: bridge
