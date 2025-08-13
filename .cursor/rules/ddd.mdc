@@ -1,0 +1,43 @@
+---
+description: Apply this rule to the entire repository
+globs:
+alwaysApply: true
+---
+
+# DDD 実装ルール（MVP/拡張）
+
+## 基本原則
+
+- 境界づけられたコンテキストを明確化（Auth/User, Food Catalog, Meal Tracking, Summary）
+- ユビキタス言語を設計書・API・コードで統一（例: net_carbs, meal_records）
+- レイヤー分離（Presentation → Application → Domain ← Infrastructure）
+
+## 設計/命名
+
+- ドメイン層は技術詳細に依存しない（pure Java/TS）
+- エンティティは同一性、値オブジェクトは等価性を重視
+- アプリケーションサービスはユースケースを編成し、ドメインサービスを調停
+- リポジトリはドメインモデルの集合として扱う
+
+## 依存ルール
+
+- 上位層から下位層へのみ依存。ドメイン層は他層へ依存しない
+- インフラ詳細（JPA, SQL）はインフラ層に隔離。ドメインはインターフェースのみに依存
+
+## データモデリング
+
+- MVP は柔軟性重視で JSONB を許容。高頻度アクセスは正規化も検討
+- タグは TEXT[] で開始、需要に応じてタグマスタへ抽出
+
+## 集約/整合性
+
+- 集約ごとに不変条件を定義。外部参照は ID のみ（遅延取得）
+- ドメインイベントは必要最小限（拡張で導入）
+
+## コード規約（抜粋）
+
+- 名前に意図を埋め込む（省略語禁止）
+- 例外はドメイン例外とアプリ例外に層別化
+- テストでユビキタス言語を用いる（テスト名・テストデータ）
+
+参照: docs/2_detail/06_domain_model.md, docs/2_detail/01_system_architecture.md

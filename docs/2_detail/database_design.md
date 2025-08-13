@@ -15,6 +15,61 @@
 - **開発用データベース**: `meatmetrics_dev`
 - **テスト用データベース**: `meatmetrics_test`
 
+## 1.3 MVP 用スキーマ差分
+
+- 方針: 栄養計算はアプリケーション層（Java）で実施。ビュー/ストアドは MVP では未使用
+- 目標: 「糖質」を追加（net carbs）。糖質(g) = 炭水化物(g) - 食物繊維(g)
+- タグ: `foods` に複数タグを保持できる列を追加し、検索で利用
+
+```sql
+-- foods へのタグ列追加（存在しない場合のみ）
+ALTER TABLE foods
+  ADD COLUMN IF NOT EXISTS tags TEXT[];
+
+CREATE INDEX IF NOT EXISTS idx_foods_tags ON foods USING gin (tags);
+
+-- MVP最小テーブル（概略）
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_goals (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  daily_calorie_goal INTEGER CHECK (daily_calorie_goal BETWEEN 800 AND 5000),
+  protein_goal_g DECIMAL(6,2) CHECK (protein_goal_g BETWEEN 50 AND 500),
+  fat_goal_g DECIMAL(6,2) CHECK (fat_goal_g BETWEEN 30 AND 400),
+  net_carbs_goal_g DECIMAL(6,2) CHECK (net_carbs_goal_g BETWEEN 0 AND 150),
+  is_active BOOLEAN DEFAULT true,
+  effective_date DATE DEFAULT CURRENT_DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id, effective_date)
+);
+
+-- foods は既存構成を利用。MVPでは nutrition_data から
+-- calories/protein/fat/carbohydrates/fiber を参照
+
+CREATE TABLE IF NOT EXISTS meal_records (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  meal_date DATE NOT NULL,
+  items JSONB NOT NULL, -- [{food_id, amount_g}]
+  total_nutrition JSONB NOT NULL, -- {calories, protein, fat, net_carbs}
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT chk_items_json CHECK (jsonb_typeof(items) = 'array'),
+  CONSTRAINT chk_total_nutrition_json CHECK (jsonb_typeof(total_nutrition) = 'object')
+);
+
+CREATE INDEX IF NOT EXISTS idx_meal_records_user_date ON meal_records(user_id, meal_date);
+```
+
 ## 2. テーブル設計
 
 ### 2.1 ユーザー管理系テーブル

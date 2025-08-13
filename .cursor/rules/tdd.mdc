@@ -1,0 +1,38 @@
+---
+description: Apply this rule to the entire repository
+globs:
+alwaysApply: true
+---
+
+# TDD 運用ルール（MVP/拡張）
+
+## 原則
+
+- Red → Green → Refactor を小さな単位で反復
+- 仕様変更はテストの変更から始める
+- フレークテストを放置しない
+
+## スコープ/優先度
+
+- ユニット（ドメイン計算: net_carbs, 合計, 達成率）を最優先
+- API/統合（主要ハッピーパス + 代表異常系）
+- E2E は拡張で導入（Playwright/Cypress）
+
+## タイミング
+
+- 新規ユースケース追加前に失敗するテストを先に書く
+- バグ再現テストを先に追加してから修正
+- リファクタリング時は既存テストで守る
+
+## ツール（推奨）
+
+- Backend: JUnit 5, Spring Boot Test, Testcontainers（PostgreSQL）
+- Frontend: Vitest / Testing Library / MSW（モック）
+- CI: GitHub Actions（PR 時にユニット/統合を実行）
+
+## カバレッジ（目標）
+
+- ユニット: 70% 以上
+- API/統合: 主要シナリオ網羅
+
+参照: docs/2_detail/09_test_strategy.md

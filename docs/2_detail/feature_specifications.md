@@ -1,5 +1,15 @@
 # カーニボア専用栄養成分計算アプリ 詳細機能仕様書
 
+## 0. MVP 仕様サマリ
+
+- 認証: メール確認なし。登録/ログイン、ログイン中のパスワード変更のみ（2FA/メール送信は除外）
+- 目標: 1 日あたり カロリー(kcal)・タンパク質(g)・脂質(g)・糖質(g)
+- 食材/検索: 名前部分一致 + カテゴリ + タグ（複数可、例: 乳製品/低糖質/低価格）
+- 記録: g 単位のみで日付・食材・量を入力
+- 計算: マクロ 4 種をサーバー側で計算。糖質(g) = 炭水化物(g) - 食物繊維(g)
+- サマリー: 日別の合計と目標達成率のみ
+- 非対象: 詳細分析、レポート、週/月ダッシュボード、メールでの再設定
+
 ## 1. ユーザー管理機能の詳細仕様
 
 ### 1.1 ユーザー登録・プロフィール設定
@@ -335,43 +345,123 @@ CREATE INDEX idx_meal_records_user_date ON meal_records(user_id, meal_date);
 CREATE INDEX idx_foods_nutrition ON foods USING gin(nutrition_data);
 ```
 
-## 6. API 設計
+## 6. API 設計（MVP）
+
+- 原則: 認証後のエンドポイントは `Authorization: Bearer <JWT>` を必須
+- データキー: 糖質は `net_carbs` を使用
 
 ### 6.1 認証 API
 
 ```
-POST /api/auth/register     # ユーザー登録
-POST /api/auth/login        # ログイン
-POST /api/auth/logout       # ログアウト
-POST /api/auth/refresh      # トークン更新
+POST /api/auth/register
+  body: { "email": string, "password": string, "username": string }
+  res: 201 Created { "userId": number }
+
+POST /api/auth/login
+  body: { "email": string, "password": string }
+  res: 200 OK { "accessToken": string, "expiresIn": number }
+
+POST /api/auth/logout
+  res: 204 No Content
+
+POST /api/auth/refresh
+  res: 200 OK { "accessToken": string, "expiresIn": number }
 ```
 
 ### 6.2 食材 API
 
 ```
-GET  /api/foods             # 食材一覧（検索・フィルター）
-GET  /api/foods/{id}        # 食材詳細
-GET  /api/foods/categories  # カテゴリ一覧
-POST /api/foods/favorites   # お気に入り登録
+GET /api/foods?q=&category=&tags=
+  - q: 部分一致キーワード（食材名）
+  - category: カテゴリ名 or ID（任意）
+  - tags: カンマ区切りの複数タグ（例: tags=乳製品,低糖質）
+  res: 200 OK [
+    {
+      "id": number,
+      "name": string,
+      "category": string,
+      "tags": string[],
+      "nutrition_per_100g": {
+        "calories": number,
+        "protein": number,
+        "fat": number,
+        "carbohydrates": number,
+        "fiber"?: number
+      }
+    }
+  ]
+
+GET /api/foods/{id}
+  res: 200 OK {
+    "id": number,
+    "name": string,
+    "category": string,
+    "tags": string[],
+    "nutrition_per_100g": { "calories": number, "protein": number, "fat": number, "carbohydrates": number, "fiber"?: number }
+  }
 ```
 
 ### 6.3 食事記録 API
 
 ```
-GET  /api/meals             # 食事記録一覧
-POST /api/meals             # 食事記録作成
-PUT  /api/meals/{id}        # 食事記録更新
-DELETE /api/meals/{id}      # 食事記録削除
-GET  /api/meals/analysis    # 栄養分析
+GET /api/meals?date=YYYY-MM-DD
+  res: 200 OK [
+    {
+      "id": number,
+      "date": "YYYY-MM-DD",
+      "items": [ { "foodId": number, "amount_g": number } ],
+      "total_nutrition": { "calories": number, "protein": number, "fat": number, "net_carbs": number },
+      "notes"?: string
+    }
+  ]
+
+POST /api/meals
+  body: { "date": "YYYY-MM-DD", "items": [ { "foodId": number, "amount_g": number } ], "notes"?: string }
+  res: 201 Created { "id": number, "total_nutrition": { "calories": number, "protein": number, "fat": number, "net_carbs": number } }
+
+PUT /api/meals/{id}
+  body: { "items"?: [ { "foodId": number, "amount_g": number } ], "notes"?: string }
+  res: 200 OK { "id": number, "total_nutrition": { "calories": number, "protein": number, "fat": number, "net_carbs": number } }
+
+DELETE /api/meals/{id}
+  res: 204 No Content
 ```
 
-### 6.4 ユーザー API
+### 6.4 サマリー API
 
 ```
-GET  /api/users/profile     # プロフィール取得
-PUT  /api/users/profile     # プロフィール更新
-GET  /api/users/progress    # 進捗状況
-GET  /api/users/reports     # レポート生成
+GET /api/summary?date=YYYY-MM-DD
+  res: 200 OK {
+    "date": "YYYY-MM-DD",
+    "totals": { "calories": number, "protein": number, "fat": number, "net_carbs": number },
+    "goals": { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number },
+    "achievement": { "calorie": number, "protein": number, "fat": number, "net_carbs": number } // 0-100(%)
+  }
+```
+
+### 6.5 ユーザー API
+
+```
+GET /api/users/goals
+  res: 200 OK { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
+
+PUT /api/users/goals
+  body: { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
+  res: 200 OK { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
+
+PUT /api/users/password
+  body: { "currentPassword": string, "newPassword": string }
+  res: 204 No Content
+```
+
+### 6.6 エラーモデル（共通）
+
+```
+400 Bad Request { "code": "VALIDATION_ERROR", "message": string, "details"?: any }
+401 Unauthorized { "code": "UNAUTHORIZED", "message": string }
+404 Not Found { "code": "NOT_FOUND", "message": string }
+409 Conflict { "code": "CONFLICT", "message": string }
+500 Internal Server Error { "code": "INTERNAL_ERROR", "message": string }
 ```
 
 ## 7. フロントエンド画面設計

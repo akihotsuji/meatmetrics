@@ -127,6 +127,18 @@
 - **起動確認**: ログ確認と DB 接続テストの重要性
 - **エラーハンドリング**: 正常な動作とエラーの区別
 
+### Mermaid 図の安定描画ルール（実務）
+
+- ノードラベル内の括弧 `()` やスラッシュ `/` の多用は避け、必要ならダブルクオートで囲む
+- sequenceDiagram の participant・メッセージはダブルクオートで安全
+- 記号は `-` や `:` を使い、形状指定と衝突しないようにする
+
+### CI/CD の基本設計
+
+- PR で backend-test / frontend-test を必須化し、Green でマージ可
+- main への push で build 実行、必要時 Docker build/push
+- Secrets 管理（DB 接続、JWT 秘密鍵、Registry 認証）は GitHub Secrets
+
 ### Windows 開発環境での注意点
 
 - **コマンド実行**: 適切なファイル拡張子の選択
