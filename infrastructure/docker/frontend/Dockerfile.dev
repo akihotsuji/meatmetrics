@@ -13,8 +13,8 @@ COPY . .
 # ホットリロードでのファイル監視を安定させるための環境変数（Docker上の開発時に有効）
 ENV CHOKIDAR_USEPOLLING=true
 
-# 開発用ポートの公開
-EXPOSE 3000
+# Vite のデフォルト開発ポート
+EXPOSE 5173
 
 # 開発サーバーの起動（ホットリロード対応）
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

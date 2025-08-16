@@ -1,6 +1,7 @@
 package com.meatmetrics.meatmetrics;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +21,11 @@ public class HealthController {
     }
 
     @GetMapping({"/health", "/api/health"})
-    public ResponseEntity<Map<String, Object>> health() {
+    public ResponseEntity<Map<String, Object>> health(@RequestParam(name = "fail", required = false, defaultValue = "false") boolean fail) {
         Map<String, Object> body = new HashMap<>();
+        if (fail) {
+            throw new RuntimeException("intentional failure");
+        }
         body.put("status", "ok");
         body.put("time", Instant.now().toString());
         return ResponseEntity.ok(body);

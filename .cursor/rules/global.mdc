@@ -83,6 +83,18 @@ alwaysApply: true
 
 ---
 
+# 技術スタック
+
+@technologystack.md
+
+---
+
+# ディレクトリ構成
+
+@directorystructure.md
+
+---
+
 - DDD の詳細: `.cursor/rules/ddd.mdc`
 - TDD の詳細: `.cursor/rules/tdd.mdc`
 - CI/CD: `docs/2_detail/11_ci_cd.md`

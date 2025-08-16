@@ -1,4 +1,4 @@
-# MeatMetrics 全体タスク管理 📋
+# MeatMetrics タスク管理システム 📋
 
 ## プロジェクト概要
 
@@ -9,9 +9,18 @@
 
 ---
 
+### 注意点・前提条件 ⚠️
+
+- PostgreSQL 16 は dev で `15432:5432` 公開
+- Backend: `http://localhost:8080`
+- Frontend: `http://localhost:5173`
+- CORS 設定後、フロントから `/api/health` をフェッチして確認
+
+---
+
 ## 全体タスク一覧
 
-### 🏗️ **Phase 1: 基盤構築** - 進行中
+### ��️ **Phase 1: 基盤構築** - 進行中
 
 **優先度**: 高  
 **予想完了日**: 2024 年 12 月下旬  
@@ -27,7 +36,7 @@
   - [x] API 個別設計ドキュメント雛形の整備（`docs/2_detail/api/*.md`）
   - [x] テスト運用ガイドの整備（`docs/2_detail/testing/README.md`）
   - [x] インフラ設計書の整備（`docs/2_detail/10_infrastructure.md`）
-  - [x] CI/CD 設計書の整備（`docs/2_detail/11_ci_cd.md`）
+  - [x] CI/CD 設計書の整備（`docs/2_detail/11_ci_cd.md`)
 - [x] アプリケーション要件定義 (`docs/requirements.md`)
 - [x] 機能仕様書作成 (`docs/detail/feature_specifications.md`)
 - [x] データベース設計書作成 (`docs/detail/database_design.md`)
@@ -49,15 +58,93 @@
   - [x] PostgreSQL + Docker 環境
   - [x] IDE・ツール設定
 
-#### 進行中タスク 🔄
+#### 進行中タスク ��
 
 - [ ] プロジェクト構造構築
-  - [ ] バックエンド基盤
+  - [x] バックエンド基盤
+  - [x] 共通エラーハンドリングの実装
+  - [x] `@ControllerAdvice` と `@ExceptionHandler` の雛形作成
+  - [x] API 共通エラーレスポンスの定義（timestamp, path, message, code）
+  - [x] エラーコードの整理（`ApiErrorCode`）
+  - [x] 代表例外のマッピング
+    - [x] `MethodArgumentNotValidException` → 400 `VALIDATION_ERROR`
+    - [x] `ConstraintViolationException` → 400 `VALIDATION_ERROR`
+    - [x] `HttpMessageNotReadableException` → 400 `BAD_REQUEST`
+    - [x] `MissingServletRequestParameterException` → 400 `BAD_REQUEST`
+    - [x] `HttpRequestMethodNotSupportedException` → 405 `METHOD_NOT_ALLOWED`
+    - [x] `NoSuchElementException` → 404 `NOT_FOUND`
+    - [x] `DataIntegrityViolationException` → 409 `CONFLICT`
+    - [x] `SQLException`/`DataAccessException` → 500 `DB_ERROR`
+    - [x] `Exception` → 500 `INTERNAL_ERROR`
+  - [x] ログ出力方針（WARN/ERROR、スタックトレースはレスポンス非掲載）
+  - [x] 簡易動作確認（`GET /api/health?fail=true` で 500 と共通形式を返す）
+- [x] CORS（dev）/ セキュリティヘッダー設定
+  - [x] Vite プロキシで `/api` をバックエンドへ転送
+  - [x] Spring Security によるセキュリティヘッダー管理
+- [x] Spring Security 基盤導入
+  - [x] Spring Security 依存関係追加
+  - [x] 基本セキュリティ設定（SecurityConfig）
+  - [x] 開発環境用プロファイル設定（application-dev.properties）
+  - [x] パスワードエンコーダー（BCryptPasswordEncoder）
   - [ ] フロントエンド基盤
+    - [ ] React アプリケーションの起動確認
+      - [ ] `npm run dev` での起動とホットリロード確認
+      - [ ] 開発サーバー（localhost:5173）での動作確認
+    - [ ] 基本的なルーティング設定
+      - [ ] React Router の導入と設定
+      - [ ] ホームページ（`/`）の作成
+      - [ ] ナビゲーションコンポーネントの実装
+      - [ ] 404 ページの作成
+    - [ ] 共通コンポーネントの実装
+      - [ ] ヘッダー・フッターの作成
+      - [ ] ボタン・フォーム・カード等の基本 UI コンポーネント
+      - [ ] レスポンシブデザインの基本対応
+    - [ ] 開発環境の整備
+      - [ ] ESLint・Prettier の設定確認
+      - [ ] TypeScript の型定義ファイル整備
+      - [ ] 環境変数の設定（API エンドポイント等）
 - [ ] データベース設計・構築
   - [ ] データベーススキーマ作成
+    - [ ] ユーザーテーブル（users）の設計
+      - [ ] 基本情報（id, email, username, password_hash, created_at, updated_at）
+      - [ ] 栄養目標（calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g）
+      - [ ] インデックス設計（email の unique, username の unique）
+    - [ ] 食材テーブル（foods）の設計
+      - [ ] 基本情報（id, name, category_id, created_at, updated_at）
+      - [ ] 栄養成分（calories_per_100g, protein_g_per_100g, fat_g_per_100g, carbohydrates_g_per_100g, fiber_g_per_100g）
+      - [ ] タグ管理（tags TEXT[] 配列、GIN インデックス）
+      - [ ] インデックス設計（name の全文検索、category_id, tags）
+    - [ ] カテゴリテーブル（categories）の設計
+      - [ ] 階層構造（id, name, parent_id, level, created_at）
+      - [ ] インデックス設計（parent_id, level）
+    - [ ] 食事記録テーブル（meals）の設計
+      - [ ] 基本情報（id, user_id, meal_date, meal_type, created_at, updated_at）
+      - [ ] 食事内容（food_id, quantity_g）
+      - [ ] 栄養集計（total_calories, total_protein_g, total_fat_g, total_net_carbs_g）
+      - [ ] インデックス設計（user_id, meal_date, meal_type）
   - [ ] 初期データ投入
+    - [ ] カテゴリデータの作成
+      - [ ] 主要食材カテゴリ（肉類、魚類、卵・乳製品、野菜、調味料等）
+      - [ ] 階層構造の設定（親子関係）
+    - [ ] 食材データの作成
+      - [ ] 代表的な食材 50-100 件の登録
+      - [ ] 栄養成分データの設定（標準栄養成分表ベース）
+      - [ ] タグの付与（低糖質、高タンパク、低価格等）
+    - [ ] テストユーザーの作成
+      - [ ] 開発用アカウントの作成
+      - [ ] サンプルデータの設定
   - [ ] マイグレーション設定
+    - [ ] Flyway の導入と設定
+      - [ ] 依存関係の追加（pom.xml）
+      - [ ] 設定ファイルの作成（application.properties）
+      - [ ] マイグレーションファイルの配置場所設定
+    - [ ] 初期スキーマのマイグレーションファイル作成
+      - [ ] V1\_\_Create_initial_schema.sql
+      - [ ] V2\_\_Create_indexes.sql
+      - [ ] V3\_\_Insert_initial_data.sql
+    - [ ] マイグレーション実行と動作確認
+      - [ ] 開発環境での実行確認
+      - [ ] ロールバック機能の確認
 
 ##### インフラ（フォローアップ）
 
@@ -65,7 +152,7 @@
 - [ ] 監視・バックアップ手順の doc 追記（DB バックアップ、ボリュームバックアップ）
 - [ ] `.env` の管理方針明確化（本番は Secrets 管理を前提）
 
-### 🔐 **Phase 2: 認証・ユーザー管理 (MVP)** - 未着手
+### �� **Phase 2: 認証・ユーザー管理 (MVP)** - 未着手
 
 **優先度**: 高  
 **予想完了日**: 2025 年 1 月上旬  
@@ -75,14 +162,45 @@
 
 - [ ] 認証システム（メール確認なし）
   - [ ] ユーザー登録（email, password, username）
+    - [ ] バリデーション（email 形式、パスワード強度、username 重複チェック）
+    - [ ] パスワードハッシュ化（BCrypt）
+    - [ ] ユーザー登録 API（`POST /api/auth/register`）
+    - [ ] 登録成功・失敗のレスポンス設計
   - [ ] ログイン・ログアウト（JWT）
+    - [ ] ログイン認証（email/password 照合）
+    - [ ] JWT トークン生成（payload: user_id, email, username, exp）
+    - [ ] ログイン API（`POST /api/auth/login`）
+    - [ ] ログアウト API（`POST /api/auth/logout`）
+    - [ ] セキュリティ設定（JWT フィルター、パス保護）
   - [ ] JWT トークン発行/更新/失効
+    - [ ] アクセストークン（15 分）とリフレッシュトークン（7 日）の実装
+    - [ ] トークン更新 API（`POST /api/auth/refresh`）
+    - [ ] トークン失効処理（ブラックリスト管理）
+    - [ ] セキュリティヘッダー設定（Authorization: Bearer）
   - [ ] パスワード変更（ログイン中、現在パスワード必須）
+    - [ ] 現在パスワードの照合
+    - [ ] 新パスワードのバリデーション
+    - [ ] パスワード変更 API（`PUT /api/users/password`）
 - [ ] ユーザープロフィール（MVP 最小）
   - [ ] プロフィール表示・編集（最小項目）
+    - [ ] プロフィール取得 API（`GET /api/users/profile`）
+    - [ ] プロフィール更新 API（`PUT /api/users/profile`）
+    - [ ] 基本項目（username, email, created_at）
+    - [ ] プロフィール画像（拡張）
   - [ ] 栄養目標設定 API（calorie, protein_g, fat_g, net_carbs_g）
+    - [ ] 目標取得 API（`GET /api/users/goals`）
+    - [ ] 目標設定 API（`PUT /api/users/goals`）
+    - [ ] バリデーション（最小値・最大値チェック）
+    - [ ] 目標達成率計算ロジック
   - [ ] 個人設定管理（拡張）
+    - [ ] 言語設定（日本語/英語）
+    - [ ] 単位設定（g/kg, kcal/cal）
+    - [ ] 通知設定（拡張）
   - [ ] パスワードリセット（メール送信）・メール認証（拡張）
+    - [ ] パスワードリセット要求 API（`POST /api/auth/forgot-password`）
+    - [ ] リセットトークン生成・検証
+    - [ ] 新パスワード設定 API（`POST /api/auth/reset-password`）
+    - [ ] メール送信機能（拡張）
 
 ### 🥩 **Phase 3: 食材管理システム (MVP)** - 未着手
 
@@ -105,7 +223,7 @@
   - [ ] 栄養成分での絞り込み（拡張）
   - [ ] お気に入り機能（拡張）
 
-### 🧮 **Phase 4: 栄養計算エンジン (MVP)** - 未着手
+### �� **Phase 4: 栄養計算エンジン (MVP)** - 未着手
 
 **優先度**: 高  
 **予想完了日**: 2025 年 1 月下旬  
@@ -127,7 +245,7 @@
   - [ ] 栄養成分の集計（total_nutrition に 4 種保持）
   - [ ] 食事テンプレート機能（拡張）
 
-### 📊 **Phase 5: 進捗追跡・分析** - 未着手
+### �� **Phase 5: 進捗追跡・分析** - 未着手
 
 **優先度**: 中  
 **予想完了日**: 2025 年 2 月上旬  
@@ -215,6 +333,15 @@
 
 ---
 
+### 注意点・前提条件 ⚠️
+
+- PostgreSQL 16 は dev で `15432:5432` 公開、本番は非公開
+- Spring Boot は dev で 8080 公開、prod は Nginx 経由
+- データベース接続は Compose のサービス名 `postgres` を使用
+- `infrastructure/docker` は dev/prod 分離済み（ルート Compose は撤去済み）
+
+---
+
 ## 技術的課題・依存関係
 
 ### 現在の課題
@@ -268,11 +395,11 @@
 
 - ✅ **2024 年 12 月**: 基盤構築（設計・ドキュメント）
 - 🎯 **2025 年 1 月**: MVP 機能完成（Phase 2-4: 認証・検索・食事記録・サマリー・目標）
-- 🎯 **2025 年 2 月**: 機能拡張・品質向上（Phase 5-7）
-- 🎯 **2025 年 3 月**: 本番リリース（Phase 8-9）
+- �� **2025 年 2 月**: 機能拡張・品質向上（Phase 5-7）
+- �� **2025 年 3 月**: 本番リリース（Phase 8-9）
 
 ---
 
-**最終更新**: 2025 年 8 月 13 日  
+**最終更新**: 2025 年 8 月 14 日  
 **更新者**: 開発チーム  
-**次回更新予定**: 2025 年 8 月 14 日（Phase 1/2 進捗確認）
+**次回更新予定**: 2025 年 8 月 15 日（Phase 1/2 進捗確認）

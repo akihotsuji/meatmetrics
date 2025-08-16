@@ -22,9 +22,11 @@ Spring Boot（バックエンド）と React（フロントエンド）を統合
 
 - **定義**: 特定のドメイン内での一貫したモデルとルール
 - **例**:
-  - `UserManagement`: ユーザー登録・更新・削除
-  - `Authentication`: ログイン・認証・認可
-  - `DataAnalysis`: データ処理・分析・可視化
+  - `Auth`: 認証・認可・トークン発行
+  - `FoodCatalog`: 食材検索・詳細
+  - `MealTracking`: 食事記録・合計計算
+  - `Summary`: 日別サマリー・達成率
+  - `Users`: 目標設定・プロフィール
 - **目的**: ドメイン間の境界を明確化し、モデルの一貫性を保つ
 
 #### **ユビキタス言語（Ubiquitous Language）**
@@ -93,32 +95,49 @@ backend/src/main/java/com/meatmetrics/
 
 ```
 frontend/src/
-├── features/                   # 機能別（ドメイン別）
-│   ├── user/                  # ユーザー管理機能
-│   │   ├── components/        # ユーザー関連コンポーネント
-│   │   ├── hooks/             # ユーザー関連フック
-│   │   ├── services/          # ユーザー関連サービス
-│   │   ├── stores/            # ユーザー関連ストア
-│   │   └── types/             # ユーザー関連型定義
-│   ├── auth/                  # 認証機能
-│   │   ├── components/        # 認証関連コンポーネント
-│   │   ├── hooks/             # 認証関連フック
-│   │   ├── services/          # 認証関連サービス
-│   │   ├── stores/            # 認証関連ストア
-│   │   └── types/             # 認証関連型定義
-│   └── data-analysis/         # データ分析機能
-│       ├── components/        # データ分析関連コンポーネント
-│       ├── hooks/             # データ分析関連フック
-│       ├── services/          # データ分析関連サービス
-│       ├── stores/            # データ分析関連ストア
-│       └── types/             # データ分析関連型定義
-├── shared/                    # 共有コンポーネント・ユーティリティ
-│   ├── components/            # 共通コンポーネント
-│   ├── hooks/                 # 共通フック
-│   ├── services/              # 共通サービス
-│   ├── stores/                # 共通ストア
-│   ├── types/                 # 共通型定義
-│   └── utils/                 # ユーティリティ関数
+├── features/                   # 機能別（境界別）
+│   ├── auth/
+│   │   ├── components/
+│   │   ├── api/
+│   │   ├── hooks/
+│   │   ├── schemas/
+│   │   └── types/
+│   ├── foods/
+│   │   ├── components/
+│   │   ├── api/
+│   │   ├── hooks/
+│   │   ├── schemas/
+│   │   └── types/
+│   ├── meals/
+│   │   ├── components/
+│   │   ├── api/
+│   │   ├── hooks/
+│   │   ├── schemas/
+│   │   └── types/
+│   ├── summary/
+│   │   ├── components/
+│   │   ├── api/
+│   │   ├── hooks/
+│   │   ├── schemas/
+│   │   └── types/
+│   └── users/                  # 目標設定含む
+│       ├── components/
+│       ├── api/
+│       ├── hooks/
+│       ├── schemas/
+│       └── types/
+├── components/
+│   ├── ui/                     # shadcn/ui（導入時）
+│   └── common/                 # Header, Footer, Layout 等
+├── lib/
+│   ├── api/client.ts           # fetch ベースのクライアント
+│   ├── query/                  # TanStack Query ヘルパ
+│   └── validators/             # 共通 Zod
+├── stores/                     # Zustand（必要最小限）
+├── styles/                     # Tailwind エントリ、globals.css
+├── app/                        # Provider 集約（Router, QueryClient 等）
+├── router.tsx
+└── tests/                      # MSW ハンドラ等（テスト補助）
 ```
 
 ### 2. 命名規則
@@ -212,18 +231,12 @@ UI Update ← Component ← Hook ← Service ← Store ← API ← Backend
 
 ```
 meatmetrics/
-├── .github/                    # GitHub Actions 設定
-├── .vscode/                    # VS Code 設定
-├── .cursor/                    # Cursor 設定
-├── docs/                       # プロジェクトドキュメント
 ├── backend/                    # Spring Boot アプリケーション
 ├── frontend/                   # React アプリケーション
-├── infrastructure/             # インフラ設定（Terraform等）
-├── scripts/                    # 開発・デプロイ用スクリプト
-├── docker-compose.yml          # ローカル開発用
-├── .gitignore
-├── .gitattributes
-├── README.md
+├── infrastructure/             # Docker/Terraform
+├── docs/                       # 設計書
+├── scripts/                    # 開発・デプロイスクリプト
+├── HELP.md
 ├── technologystack.md
 └── directorystructure.md
 ```
@@ -234,178 +247,52 @@ meatmetrics/
 
 ```
 backend/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── meatmetrics/
-│   │   │           ├── MeatmetricsApplication.java
-│   │   │           ├── shared/                     # 共有設定・ユーティリティ
-│   │   │           │   ├── config/                 # 共通設定
-│   │   │           │   │   ├── SecurityConfig.java # Spring Security設定
-│   │   │           │   │   ├── DatabaseConfig.java # データベース設定
-│   │   │           │   │   └── SwaggerConfig.java  # OpenAPI設定
-│   │   │           │   ├── exception/              # 共通例外
-│   │   │           │   │   ├── GlobalExceptionHandler.java
-│   │   │           │   │   ├── BusinessException.java
-│   │   │           │   │   └── ValidationException.java
-│   │   │           │   └── util/                   # 共通ユーティリティ
-│   │   │           │       ├── DateUtils.java
-│   │   │           │       ├── StringUtils.java
-│   │   │           │       └── ValidationUtils.java
-│   │   │           ├── user/                        # ユーザー管理ドメイン
-│   │   │           │   ├── domain/                  # ドメイン層
-│   │   │           │   │   ├── entity/              # エンティティ
-│   │   │           │   │   │   ├── User.java
-│   │   │           │   │   │   └── UserProfile.java
-│   │   │           │   │   ├── valueobject/         # 値オブジェクト
-│   │   │           │   │   │   ├── EmailAddress.java
-│   │   │           │   │   │   └── UserId.java
-│   │   │           │   │   ├── repository/          # リポジトリインターフェース
-│   │   │           │   │   │   └── UserRepository.java
-│   │   │           │   │   └── service/             # ドメインサービス
-│   │   │           │   │       └── UserDomainService.java
-│   │   │           │   ├── application/             # アプリケーション層
-│   │   │           │   │   ├── service/             # アプリケーションサービス
-│   │   │           │   │   │   └── UserApplicationService.java
-│   │   │           │   │   ├── dto/                 # データ転送オブジェクト
-│   │   │           │   │   │   ├── CreateUserRequest.java
-│   │   │           │   │   │   ├── UpdateUserRequest.java
-│   │   │           │   │   │   └── UserResponse.java
-│   │   │           │   │   └── command/             # コマンドオブジェクト
-│   │   │           │   │       ├── CreateUserCommand.java
-│   │   │           │   │       └── UpdateUserCommand.java
-│   │   │           │   ├── infrastructure/          # インフラストラクチャ層
-│   │   │           │   │   ├── repository/          # リポジトリ実装
-│   │   │           │   │   │   └── UserRepositoryImpl.java
-│   │   │           │   │   └── persistence/         # 永続化関連
-│   │   │           │   │       └── UserJpaEntity.java
-│   │   │           │   └── presentation/            # プレゼンテーション層
-│   │   │           │       └── controller/          # REST コントローラー
-│   │   │           │           └── UserController.java
-│   │   │           ├── auth/                         # 認証ドメイン
-│   │   │           │   ├── domain/                  # ドメイン層
-│   │   │           │   │   ├── entity/              # エンティティ
-│   │   │           │   │   │   ├── UserSession.java
-│   │   │           │   │   │   └── RefreshToken.java
-│   │   │           │   │   ├── valueobject/         # 値オブジェクト
-│   │   │           │   │   │   ├── JwtToken.java
-│   │   │           │   │   │   └── Password.java
-│   │   │           │   │   ├── repository/          # リポジトリインターフェース
-│   │   │           │   │   │   ├── UserSessionRepository.java
-│   │   │           │   │   │   └── RefreshTokenRepository.java
-│   │   │           │   │   └── service/             # ドメインサービス
-│   │   │           │   │       ├── AuthenticationService.java
-│   │   │           │   │       └── PasswordService.java
-│   │   │           │   ├── application/             # アプリケーション層
-│   │   │           │   │   ├── service/             # アプリケーションサービス
-│   │   │           │   │   │   └── AuthApplicationService.java
-│   │   │           │   │   ├── dto/                 # データ転送オブジェクト
-│   │   │           │   │   │   ├── LoginRequest.java
-│   │   │           │   │   │   ├── LoginResponse.java
-│   │   │           │   │   │   └── RefreshTokenRequest.java
-│   │   │           │   │   └── command/             # コマンドオブジェクト
-│   │   │           │   │       ├── LoginCommand.java
-│   │   │           │   │       └── RefreshTokenCommand.java
-│   │   │           │   ├── infrastructure/          # インフラストラクチャ層
-│   │   │           │   │   ├── repository/          # リポジトリ実装
-│   │   │           │   │   │   ├── UserSessionRepositoryImpl.java
-│   │   │           │   │   │   └── RefreshTokenRepositoryImpl.java
-│   │   │           │   │   └── persistence/         # 永続化関連
-│   │   │           │   │       ├── UserSessionJpaEntity.java
-│   │   │           │   │       └── RefreshTokenJpaEntity.java
-│   │   │           │   └── presentation/            # プレゼンテーション層
-│   │   │           │       └── controller/          # REST コントローラー
-│   │   │           │           └── AuthController.java
-│   │   │           ├── data-analysis/               # データ分析ドメイン
-│   │   │           │   ├── domain/                  # ドメイン層
-│   │   │           │   │   ├── entity/              # エンティティ
-│   │   │           │   │   │   ├── AnalysisJob.java
-│   │   │           │   │   │   └── AnalysisResult.java
-│   │   │           │   │   ├── valueobject/         # 値オブジェクト
-│   │   │           │   │   │   ├── AnalysisType.java
-│   │   │           │   │   │   └── JobStatus.java
-│   │   │           │   │   ├── repository/          # リポジトリインターフェース
-│   │   │           │   │   │   ├── AnalysisJobRepository.java
-│   │   │           │   │   │   └── AnalysisResultRepository.java
-│   │   │           │   │   └── service/             # ドメインサービス
-│   │   │           │   │       ├── DataAnalysisService.java
-│   │   │           │   │       └── ReportGenerationService.java
-│   │   │           │   ├── application/             # アプリケーション層
-│   │   │           │   │   ├── service/             # アプリケーションサービス
-│   │   │           │   │   │   └── DataAnalysisApplicationService.java
-│   │   │           │   │   ├── dto/                 # データ転送オブジェクト
-│   │   │           │   │   │   ├── CreateAnalysisJobRequest.java
-│   │   │           │   │   │   ├── AnalysisJobResponse.java
-│   │   │           │   │   │   └── AnalysisResultResponse.java
-│   │   │           │   │   └── command/             # コマンドオブジェクト
-│   │   │           │   │       ├── CreateAnalysisJobCommand.java
-│   │   │           │   │       └── GenerateReportCommand.java
-│   │   │           │   ├── infrastructure/          # インフラストラクチャ層
-│   │   │           │   │   ├── repository/          # リポジトリ実装
-│   │   │           │   │   │   ├── AnalysisJobRepositoryImpl.java
-│   │   │           │   │   │   └── AnalysisResultRepositoryImpl.java
-│   │   │           │   │   └── persistence/         # 永続化関連
-│   │   │           │   │       ├── AnalysisJobJpaEntity.java
-│   │   │           │   │       └── AnalysisResultJpaEntity.java
-│   │   │           │   └── presentation/            # プレゼンテーション層
-│   │   │           │       └── controller/          # REST コントローラー
-│   │   │           │           └── DataAnalysisController.java
-│   │   │           └── security/                     # セキュリティ設定
-│   │   │               ├── jwt/                      # JWT関連
-│   │   │               │   ├── JwtTokenProvider.java
-│   │   │               │   └── JwtAuthenticationFilter.java
-│   │   │               ├── oauth2/                   # OAuth2関連
-│   │   │               │   └── OAuth2AuthenticationProvider.java
-│   │   │               └── filter/                   # セキュリティフィルター
-│   │   │                   └── SecurityFilterChain.java
-│   │   └── resources/
-│   │       ├── application.properties                # 基本設定
-│   │       ├── application-local.properties          # ローカル環境
-│   │       ├── application-dev.properties            # 開発環境
-│   │       ├── application-prod.properties           # 本番環境
-│   │       ├── db/
-│   │       │   └── migration/                        # Flyway マイグレーション
-│   │       │       ├── V1__Create_initial_tables.sql
-│   │       │       ├── V2__Add_user_authentication.sql
-│   │       │       └── V3__Add_data_analysis_tables.sql
-│   │       └── static/                               # 静的ファイル（開発時）
-│   └── test/
-│       ├── java/
-│       │   └── com/
-│       │       └── meatmetrics/
-│       │           ├── shared/                       # 共通テスト
-│       │           │   ├── TestDataBuilder.java
-│       │           │   └── TestUtils.java
-│       │           ├── user/                         # ユーザー管理テスト
-│       │           │   ├── domain/                   # ドメイン層テスト
-│       │           │   ├── application/              # アプリケーション層テスト
-│       │           │   ├── infrastructure/           # インフラストラクチャ層テスト
-│       │           │   └── presentation/             # プレゼンテーション層テスト
-│       │           ├── auth/                         # 認証テスト
-│       │           │   ├── domain/                   # ドメイン層テスト
-│       │           │   ├── application/              # アプリケーション層テスト
-│       │           │   ├── infrastructure/           # インフラストラクチャ層テスト
-│       │           │   └── presentation/             # プレゼンテーション層テスト
-│       │           ├── data-analysis/                # データ分析テスト
-│       │           │   ├── domain/                   # ドメイン層テスト
-│       │           │   ├── application/              # アプリケーション層テスト
-│       │           │   ├── infrastructure/           # インフラストラクチャ層テスト
-│       │           │   └── presentation/             # プレゼンテーション層テスト
-│       │           └── integration/                  # 統合テスト
-│       │               ├── UserManagementIntegrationTest.java
-│       │               ├── AuthenticationIntegrationTest.java
-│       │               └── DataAnalysisIntegrationTest.java
-│       └── resources/
-│           ├── application-test.properties            # テスト環境設定
-│           └── test-data/                            # テストデータ
-│               ├── user/                             # ユーザー関連テストデータ
-│               ├── auth/                             # 認証関連テストデータ
-│               └── data-analysis/                    # データ分析関連テストデータ
-├── target/                        # ビルド成果物
-├── pom.xml                        # Maven 設定
-├── Dockerfile                     # コンテナ化用
-└── .mvn/                          # Maven Wrapper設定
+└── src/
+    ├── main/
+    │   ├── java/com/meatmetrics/meatmetrics/
+    │   │   ├── MeatmetricsApplication.java
+    │   │   ├── shared/                     # 共有（設定・例外のみ）
+    │   │   │   ├── config/                 # CORS, Jackson, OpenAPI など
+    │   │   │   └── exception/              # 例外・エラーモデル
+    │   │   ├── auth/
+    │   │   │   ├── presentation/           # REST Controller
+    │   │   │   ├── application/            # usecase, dto
+    │   │   │   ├── domain/                 # entity, valueobject, service, repository
+    │   │   │   └── infrastructure/         # jpa, mapper 等
+    │   │   ├── foods/
+    │   │   │   ├── presentation/
+    │   │   │   ├── application/
+    │   │   │   ├── domain/
+    │   │   │   └── infrastructure/
+    │   │   ├── meals/
+    │   │   │   ├── presentation/
+    │   │   │   ├── application/
+    │   │   │   ├── domain/
+    │   │   │   └── infrastructure/
+    │   │   ├── summary/
+    │   │   │   ├── presentation/
+    │   │   │   ├── application/
+    │   │   │   ├── domain/
+    │   │   │   └── infrastructure/
+    │   │   └── users/                      # 目標設定を含む
+    │   │       ├── presentation/
+    │   │       ├── application/
+    │   │       ├── domain/
+    │   │       └── infrastructure/
+    │   └── resources/
+    │       ├── application.properties
+    │       └── db/migration/               # Flyway（拡張）
+    └── test/
+        └── java/com/meatmetrics/meatmetrics/
+            ├── auth/
+            │   ├── domain/                 # ユニット（計算/検証）
+            │   ├── application/            # ユニット
+            │   ├── presentation/           # スライス/API
+            │   └── integration/            # Testcontainers（拡張）
+            ├── foods/
+            ├── meals/
+            ├── summary/
+            └── users/
 ```
 
 ---
@@ -577,48 +464,38 @@ frontend/
 
 ```
 docs/
-├── README.md                   # プロジェクト概要
-├── basic_design.md             # 基本設計書
-├── detail/                     # 詳細設計書
-│   ├── api_design.md           # API 設計
-│   │   ├── authentication.md   # 認証API設計
-│   │   ├── user_management.md  # ユーザー管理API設計
-│   │   └── common_api.md       # 共通API設計
-│   ├── database_design.md      # データベース設計
-│   │   ├── schema.md           # スキーマ設計
-│   │   ├── migration.md        # マイグレーション設計
-│   │   └── indexes.md          # インデックス設計
-│   ├── security_design.md      # セキュリティ設計
-│   │   ├── authentication.md   # 認証設計
-│   │   ├── authorization.md    # 認可設計
-│   │   └── data_protection.md  # データ保護設計
-│   └── ui_design.md            # UI 設計
-│       ├── component_library.md # コンポーネントライブラリ
-│       ├── page_layouts.md     # ページレイアウト
-│       └── responsive_design.md # レスポンシブデザイン
-├── deployment/                 # デプロイ関連
-│   ├── aws_setup.md            # AWS 環境構築
-│   │   ├── ecs_setup.md        # ECS設定
-│   │   ├── rds_setup.md        # RDS設定
-│   │   └── s3_cloudfront.md    # S3+CloudFront設定
-│   ├── docker_setup.md         # Docker 環境構築
-│   └── ci_cd_setup.md          # CI/CD設定
-├── development/                 # 開発ガイド
-│   ├── setup.md                # 開発環境セットアップ
-│   │   ├── backend_setup.md    # バックエンド環境構築
-│   │   ├── frontend_setup.md   # フロントエンド環境構築
-│   │   └── database_setup.md   # データベース環境構築
-│   ├── coding_standards.md     # コーディング規約
-│   │   ├── java_standards.md   # Javaコーディング規約
-│   │   ├── typescript_standards.md # TypeScriptコーディング規約
-│   │   └── naming_conventions.md   # 命名規約
-│   ├── testing.md              # テスト方針
-│   │   ├── backend_testing.md  # バックエンドテスト
-│   │   ├── frontend_testing.md # フロントエンドテスト
-│   │   └── e2e_testing.md      # E2Eテスト
-│   └── troubleshooting.md      # トラブルシューティング
-├── tasks.md                    # タスク管理
-└── knowledge.md                # 技術知識・学び
+├── 1_requirements/
+│   └── requirements.md
+├── 2_detail/
+│   ├── 01_system_architecture.md
+│   ├── 02_database.md
+│   ├── 03_api.md
+│   ├── 04_security.md
+│   ├── 05_ui.md
+│   ├── 06_domain_model.md
+│   ├── 07_sequence_flows.md
+│   ├── 08_non_functional.md
+│   ├── 09_test_strategy.md
+│   ├── 10_infrastructure.md
+│   ├── 11_ci_cd.md
+│   └── api/
+│       ├── auth.md
+│       ├── foods.md
+│       ├── meals.md
+│       ├── summary.md
+│       └── users.md
+├── 90_tasks/
+│   ├── tasks.md
+│   ├── next_task.md
+│   ├── today_tasks.md
+│   └── knowledge.md
+├── docker/
+│   ├── architecture.md
+│   ├── deployment.md
+│   └── setup.md
+├── development/
+├── deployment/
+└── 99.Qiita/
 ```
 
 ---
@@ -627,60 +504,19 @@ docs/
 
 ```
 infrastructure/
-├── terraform/                  # Terraform 設定
-│   ├── environments/           # 環境別設定
-│   │   ├── dev/               # 開発環境
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── terraform.tfvars
-│   │   ├── prod/              # 本番環境
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── terraform.tfvars
-│   │   └── prod/              # 本番環境
-│   │       ├── main.tf
-│   │       ├── variables.tf
-│   │       └── terraform.tfvars
-│   ├── modules/                # 再利用可能なモジュール
-│   │   ├── vpc/               # VPC設定
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   ├── ecs/               # ECS設定
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   ├── rds/               # RDS設定
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   ├── s3/                # S3設定
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   └── cloudfront/        # CloudFront設定
-│   │       ├── main.tf
-│   │       ├── variables.tf
-│   │       └── outputs.tf
-│   ├── shared/                 # 共有設定
-│   │   ├── providers.tf        # プロバイダー設定
-│   │   ├── backend.tf          # バックエンド設定
-│   │   └── versions.tf         # バージョン設定
-│   └── README.md               # インフラ構成説明
-├── docker/                     # Docker 関連設定
-│   ├── nginx/                  # Nginx 設定
-│   │   ├── nginx.conf          # Nginx設定ファイル
-│   │   └── Dockerfile          # Nginxコンテナ
-│   ├── postgres/               # PostgreSQL 設定
-│   │   ├── init.sql            # 初期化SQL
-│   │   └── postgresql.conf     # PostgreSQL設定
-│   └── scripts/                # Docker用スクリプト
-│       ├── setup-dev.sh        # 開発環境セットアップ
-│       └── cleanup.sh          # クリーンアップ
-└── scripts/                    # インフラ用スクリプト
-    ├── deploy-infra.sh         # インフラデプロイ
-    ├── backup-db.sh            # データベースバックアップ
-    └── monitor-resources.sh    # リソース監視
+├── docker/
+│   ├── dev/
+│   │   └── docker-compose.yml
+│   ├── prod/
+│   │   └── docker-compose.yml
+│   ├── backend/
+│   ├── frontend/
+│   ├── postgres/
+│   ├── nginx/
+│   └── init/
+└── terraform/
+    ├── environments/
+    └── modules/
 ```
 
 ---

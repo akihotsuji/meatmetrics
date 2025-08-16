@@ -3,8 +3,8 @@ version: "3.8"
 services:
   postgres:
     build:
-      context: ..
-      dockerfile: ./postgres/Dockerfile.dev
+      context: ../postgres
+      dockerfile: Dockerfile.dev
     container_name: meatmetrics-postgres-dev
     environment:
       POSTGRES_DB: meatmetrics
@@ -21,7 +21,7 @@ services:
   backend:
     build:
       context: ../../../backend
-      dockerfile: ../backend/Dockerfile.dev
+      dockerfile: ../infrastructure/docker/backend/Dockerfile.dev
     container_name: meatmetrics-backend-dev
     environment:
       SPRING_PROFILES_ACTIVE: dev
@@ -41,13 +41,13 @@ services:
   frontend:
     build:
       context: ../../../frontend
-      dockerfile: ../frontend/Dockerfile.dev
+      dockerfile: ../infrastructure/docker/frontend/Dockerfile.dev
     container_name: meatmetrics-frontend-dev
     volumes:
       - ../../../frontend:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "5173:5173"
     networks:
       - meatmetrics-network
 

@@ -13,5 +13,5 @@ COPY src ./src
 # 開発用ポートの公開
 EXPOSE 8080
 
-# 開発サーバーの起動
-CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.jvmArguments='-Xmx512m -Xms256m'"]
+# 開発サーバーの起動（JVM オプションは一旦未指定で安定起動を優先）
+CMD ["mvn", "spring-boot:run"]

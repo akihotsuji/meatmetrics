@@ -19,7 +19,7 @@
 ## フロントエンド
 
 - **フレームワーク**: React 19.x
-- **ビルドツール**: Vite 5.x
+- **ビルドツール**: Vite 7.x
 - **UI**: Tailwind CSS 3.x（必須）, shadcn/ui 2.x（推奨・初期加速用）
 - **ルーティング**: React Router 6.x
 - **フォーム**: React Hook Form 7.x + Zod 3.x
@@ -56,7 +56,7 @@
 
 ---
 
-## インフラ（AWS）
+## インフラ
 
 - **ホスティング**:
   - Backend: ECS Fargate
@@ -111,8 +111,8 @@
 ## 開発環境セットアップ
 
 - **必須ソフトウェア**:
-  - Java 21 (OpenJDK)
-  - Node.js 18+ / npm
+  - Java 17（OpenJDK）
+  - Node.js 20 LTS / npm
   - Docker Desktop（Windows）
   - Git
   - IDE: IntelliJ IDEA / VS Code
@@ -123,5 +123,5 @@
 
 ---
 
-**最終更新**: 2024 年 12 月
+**最終更新**: 2025 年 8 月
 **更新者**: 開発チーム
