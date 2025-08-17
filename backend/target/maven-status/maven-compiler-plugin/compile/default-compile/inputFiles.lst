@@ -1,3 +1,6 @@
 /app/src/main/java/com/meatmetrics/meatmetrics/HealthController.java
 /app/src/main/java/com/meatmetrics/meatmetrics/MeatmetricsApplication.java
+/app/src/main/java/com/meatmetrics/meatmetrics/api/error/ApiErrorCode.java
+/app/src/main/java/com/meatmetrics/meatmetrics/api/error/ErrorResponse.java
 /app/src/main/java/com/meatmetrics/meatmetrics/api/error/GlobalExceptionHandler.java
+/app/src/main/java/com/meatmetrics/meatmetrics/config/SecurityConfig.java

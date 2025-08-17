@@ -20,7 +20,7 @@
 
 - **フレームワーク**: React 19.x
 - **ビルドツール**: Vite 7.x
-- **UI**: Tailwind CSS 3.x（必須）, shadcn/ui 2.x（推奨・初期加速用）
+- **UI**: Tailwind CSS 3.x（必須）, shadcn/ui 2.x（推奨）
 - **ルーティング**: React Router 6.x
 - **フォーム**: React Hook Form 7.x + Zod 3.x
 - **サーバー状態**: TanStack Query 5.x（必須）
@@ -50,7 +50,9 @@
 
 - **RDBMS**: PostgreSQL 16.x
 - **接続**: HikariCP
-- **開発用**: Testcontainers（Docker Desktop 前提）
+- **開発用**: Docker Compose 環境（必須）
+  - ローカル開発時は必ず Docker 環境を使用
+  - テスト時は Testcontainers（Docker Desktop 前提）
 - **インデックス / パフォーマンス**: 必要に応じて設計時に記載
 - **バックアップ**: RDS 自動バックアップ（インフラ側で設定）
 
@@ -91,7 +93,7 @@
 
 ## 環境構成
 
-- **環境**: local / dev / stg / prod
+- **環境**: local / dev / prod
 - **設定**:
   - Backend: `application-{profile}.properties`
   - Frontend: `.env.{mode}`（Vite）
@@ -111,11 +113,13 @@
 ## 開発環境セットアップ
 
 - **必須ソフトウェア**:
-  - Java 17（OpenJDK）
-  - Node.js 20 LTS / npm
   - Docker Desktop（Windows）
   - Git
   - IDE: IntelliJ IDEA / VS Code
+- **開発環境**: Docker Compose による統合環境（必須）
+  - フロントエンド: React + Vite（コンテナ内）
+  - バックエンド: Spring Boot（コンテナ内）
+  - データベース: PostgreSQL（コンテナ内）
 - **推奨ツール**:
   - Postman / Insomnia（API テスト）
   - pgAdmin / DBeaver（DB 管理）
