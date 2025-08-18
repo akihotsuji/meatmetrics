@@ -144,40 +144,44 @@
         - [x] レスポンシブデザインの基本設定
         - [x] ダークモード・ライトモードの設定
         - [x] フォント設定（日本語対応）
-    - [ ] 開発環境の整備
-      - [ ] ESLint・Prettier の設定確認
-      - [ ] TypeScript の型定義ファイル整備
-      - [ ] 環境変数の設定（API エンドポイント等）
+    - [x] 開発環境の整備
+      - [x] ESLint・Prettier の設定確認
+      - [x] TypeScript の型定義ファイル整備
+      - [x] 環境変数の設定（API エンドポイント等）
 - [ ] データベース設計・構築
-  - [ ] データベーススキーマ作成
-    - [ ] ユーザーテーブル（users）の設計
-      - [ ] 基本情報（id, email, username, password_hash, created_at, updated_at）
-      - [ ] 栄養目標（calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g）
-      - [ ] インデックス設計（email の unique, username の unique）
-    - [ ] 食材テーブル（foods）の設計
-      - [ ] 基本情報（id, name, category_id, created_at, updated_at）
-      - [ ] 栄養成分（calories_per_100g, protein_g_per_100g, fat_g_per_100g, carbohydrates_g_per_100g, fiber_g_per_100g）
-      - [ ] タグ管理（tags TEXT[] 配列、GIN インデックス）
-      - [ ] インデックス設計（name の全文検索、category_id, tags）
-    - [ ] カテゴリテーブル（categories）の設計
-      - [ ] 階層構造（id, name, parent_id, level, created_at）
-      - [ ] インデックス設計（parent_id, level）
-    - [ ] 食事記録テーブル（meals）の設計
-      - [ ] 基本情報（id, user_id, meal_date, meal_type, created_at, updated_at）
-      - [ ] 食事内容（food_id, quantity_g）
-      - [ ] 栄養集計（total_calories, total_protein_g, total_fat_g, total_net_carbs_g）
-      - [ ] インデックス設計（user_id, meal_date, meal_type）
-  - [ ] 初期データ投入
-    - [ ] カテゴリデータの作成
-      - [ ] 主要食材カテゴリ（肉類、魚類、卵・乳製品、野菜、調味料等）
-      - [ ] 階層構造の設定（親子関係）
-    - [ ] 食材データの作成
-      - [ ] 代表的な食材 50-100 件の登録
-      - [ ] 栄養成分データの設定（標準栄養成分表ベース）
-      - [ ] タグの付与（低糖質、高タンパク、低価格等）
-    - [ ] テストユーザーの作成
-      - [ ] 開発用アカウントの作成
-      - [ ] サンプルデータの設定
+  - [x] データベーススキーマ作成
+    - [x] ユーザーテーブル（users）の設計
+      - [x] 基本情報（id, email, username, password_hash, created_at, updated_at）
+      - [x] 栄養目標（calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g）
+      - [x] インデックス設計（email の unique, username の unique）
+    - [x] 食材テーブル（foods）の設計
+      - [x] 基本情報（id, name, category_id, created_at, updated_at）
+      - [x] 栄養成分（calories_per_100g, protein_g_per_100g, fat_g_per_100g, carbohydrates_g_per_100g, fiber_g_per_100g）
+      - [x] タグ管理（tags TEXT[] 配列、GIN インデックス）
+      - [x] インデックス設計（name の全文検索、category_id, tags）
+    - [x] カテゴリテーブル（categories）の設計
+      - [x] 階層構造（id, name, parent_id, level, created_at）
+      - [x] インデックス設計（parent_id, level）
+    - [x] 食事記録テーブル（meals）の設計
+      - [x] 基本情報（id, user_id, meal_date, meal_type, created_at, updated_at）
+      - [x] 栄養集計（total_calories, total_protein_g, total_fat_g, total_net_carbs_g）
+      - [x] インデックス設計（user_id, meal_date, meal_type）
+    - [x] 食事詳細テーブル（meal_items）の設計
+      - [x] 基本情報（id, meal_id, food_id, quantity_g, created_at, updated_at）
+      - [x] 栄養成分キャッシュ（item_calories, item_protein_g, item_fat_g, item_net_carbs_g）
+      - [x] 自動計算トリガー（食材 × 摂取量 → 栄養成分、meal_items→meals 集計）
+      - [x] インデックス設計（meal_id, food_id, 複合インデックス）
+  - [x] 初期データ投入
+    - [x] カテゴリデータの作成
+      - [x] 主要食材カテゴリ（肉類、魚類、卵・乳製品、野菜、調味料等）
+      - [x] 階層構造の設定（親子関係）
+    - [x] 食材データの作成
+      - [x] 代表的な食材 50-100 件の登録
+      - [x] 栄養成分データの設定（標準栄養成分表ベース）
+      - [x] タグの付与（低糖質、高タンパク、低価格等）
+    - [x] テストユーザーの作成
+      - [x] 開発用アカウントの作成
+      - [x] サンプルデータの設定（食事記録含む）
   - [ ] マイグレーション設定
     - [ ] Flyway の導入と設定
       - [ ] 依存関係の追加（pom.xml）
