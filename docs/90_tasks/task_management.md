@@ -183,17 +183,26 @@
       - [x] 開発用アカウントの作成
       - [x] サンプルデータの設定（食事記録含む）
   - [ ] マイグレーション設定
-    - [ ] Flyway の導入と設定
-      - [ ] 依存関係の追加（pom.xml）
-      - [ ] 設定ファイルの作成（application.properties）
-      - [ ] マイグレーションファイルの配置場所設定
-    - [ ] 初期スキーマのマイグレーションファイル作成
-      - [ ] V1\_\_Create_initial_schema.sql
-      - [ ] V2\_\_Create_indexes.sql
-      - [ ] V3\_\_Insert_initial_data.sql
-    - [ ] マイグレーション実行と動作確認
-      - [ ] 開発環境での実行確認
-      - [ ] ロールバック機能の確認
+    - [x] Flyway の導入と設定（既存マイグレーションファイル V001-V010 活用）
+      - [x] 依存関係の追加（pom.xml）
+      - [x] 設定ファイルの更新（application.properties, application-dev.properties）
+      - [x] 既存マイグレーションファイルの検証と調整
+    - [x] 初期スキーマのマイグレーションファイル作成（完了済み）
+      - [x] V001\_\_create_users_table.sql（ユーザーテーブル）
+      - [x] V002\_\_insert_test_users.sql（テストユーザー）
+      - [x] V003\_\_create_foods_table.sql（食材テーブル）
+      - [x] V004\_\_insert_initial_foods.sql（初期食材データ）
+      - [x] V005\_\_create_categories_table.sql（カテゴリテーブル）
+      - [x] V006\_\_insert_initial_categories.sql（初期カテゴリデータ）
+      - [x] V007\_\_add_foods_category_constraint.sql（外部キー制約）
+      - [x] V008\_\_create_meals_table.sql（食事テーブル）
+      - [x] V009\_\_create_meal_items_table.sql（食事項目テーブル）
+      - [x] V010\_\_insert_sample_meals.sql（サンプル食事データ）
+    - [x] マイグレーション実行と動作確認
+      - [x] 開発環境（Docker）での初回実行確認
+      - [x] flyway_schema_history テーブル確認
+      - [x] 全テーブル・制約・インデックス作成確認
+      - [x] アプリケーション統合テスト実行
 
 ##### インフラ（フォローアップ）
 

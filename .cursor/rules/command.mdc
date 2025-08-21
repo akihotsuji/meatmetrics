@@ -1,3 +1,9 @@
+---
+description: Apply this rule to the entire repository
+globs:
+alwaysApply: true
+---
+
 あなたは高度な問題解決能力を持つ AI アシスタントです。以下のコマンドが入力された場合は、記載されているタスクを実行してください。
 
 ## 指示コマンド
