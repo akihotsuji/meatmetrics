@@ -11,6 +11,8 @@
 
 ## 2. コンテキスト図（MVP）
 
+### システム全体図
+
 ```mermaid
 graph LR
   U["User"]
@@ -20,6 +22,60 @@ graph LR
 
   U -->|HTTPS| FE -->|REST JSON| BE -->|JDBC| DB
   BE -.JWT issuance/verify.- BE
+```
+
+### 境界づけられたコンテキスト図
+
+```mermaid
+graph TD
+  subgraph "Frontend Layer"
+    UI["React UI Components"]
+  end
+
+  subgraph "Backend: Spring Boot"
+    subgraph "Auth/User Context"
+      AC["Auth Controllers"]
+      AS["Auth Services"]
+      AU["User Aggregate"]
+      UG["UserGoal Entity"]
+    end
+
+    subgraph "Food Catalog Context"
+      FC_CTL["Food Controllers"]
+      FC_SVC["Food Services"]
+      FC_DOM["Food Domain"]
+    end
+
+    subgraph "Meal Tracking Context"
+      MT_CTL["Meal Controllers"]
+      MT_SVC["Meal Services"]
+      MT_DOM["Meal Domain"]
+    end
+
+    subgraph "Summary Context"
+      SM_CTL["Summary Controllers"]
+      SM_SVC["Summary Services"]
+      SM_DOM["Summary Domain"]
+    end
+  end
+
+  DB["PostgreSQL"]
+
+  UI --> AC
+  UI --> FC_CTL
+  UI --> MT_CTL
+  UI --> SM_CTL
+
+  AS --> AU
+  AU --> UG
+
+  MT_SVC -.->|"user_id参照"| AU
+  SM_SVC -.->|"user_id + UserGoal参照"| AU
+
+  AC --> DB
+  FC_CTL --> DB
+  MT_CTL --> DB
+  SM_CTL --> DB
 ```
 
 ## 3. 論理アーキテクチャ

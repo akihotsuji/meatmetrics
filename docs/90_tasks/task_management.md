@@ -182,7 +182,7 @@
     - [x] テストユーザーの作成
       - [x] 開発用アカウントの作成
       - [x] サンプルデータの設定（食事記録含む）
-  - [ ] マイグレーション設定
+  - [x] マイグレーション設定
     - [x] Flyway の導入と設定（既存マイグレーションファイル V001-V010 活用）
       - [x] 依存関係の追加（pom.xml）
       - [x] 設定ファイルの更新（application.properties, application-dev.properties）
@@ -210,7 +210,7 @@
 - [ ] 監視・バックアップ手順の doc 追記（DB バックアップ、ボリュームバックアップ）
 - [ ] `.env` の管理方針明確化（本番は Secrets 管理を前提）
 
-### �� **Phase 2: 認証・ユーザー管理 (MVP)** - 未着手
+### 🔐 **Phase 2: 認証・ユーザー管理 (MVP)** - 未着手
 
 **優先度**: 高  
 **予想完了日**: 2025 年 1 月上旬  
@@ -218,104 +218,116 @@
 
 #### 未着手タスク ⏳
 
-- [ ] 認証システム（メール確認なし）
-  - [ ] ユーザー登録（email, password, username）
-    - [ ] バリデーション（email 形式、パスワード強度、username 重複チェック）
-    - [ ] パスワードハッシュ化（BCrypt）
-    - [ ] ユーザー登録 API（`POST /api/auth/register`）
-    - [ ] 登録成功・失敗のレスポンス設計
-  - [ ] ログイン・ログアウト（JWT）
-    - [ ] ログイン認証（email/password 照合）
-    - [ ] JWT トークン生成（payload: user_id, email, username, exp）
-    - [ ] ログイン API（`POST /api/auth/login`）
-    - [ ] ログアウト API（`POST /api/auth/logout`）
-    - [ ] セキュリティ設定（JWT フィルター、パス保護）
-  - [ ] JWT トークン発行/更新/失効
-    - [ ] アクセストークン（15 分）とリフレッシュトークン（7 日）の実装
-    - [ ] トークン更新 API（`POST /api/auth/refresh`）
-    - [ ] トークン失効処理（ブラックリスト管理）
-    - [ ] セキュリティヘッダー設定（Authorization: Bearer）
-  - [ ] パスワード変更（ログイン中、現在パスワード必須）
-    - [ ] 現在パスワードの照合
-    - [ ] 新パスワードのバリデーション
-    - [ ] パスワード変更 API（`PUT /api/users/password`）
-- [ ] ユーザープロフィール（MVP 最小）
-  - [ ] プロフィール表示・編集（最小項目）
-    - [ ] プロフィール取得 API（`GET /api/users/profile`）
-    - [ ] プロフィール更新 API（`PUT /api/users/profile`）
-    - [ ] 基本項目（username, email, created_at）
-    - [ ] プロフィール画像（拡張）
-  - [ ] 栄養目標設定 API（calorie, protein_g, fat_g, net_carbs_g）
-    - [ ] 目標取得 API（`GET /api/users/goals`）
-    - [ ] 目標設定 API（`PUT /api/users/goals`）
-    - [ ] バリデーション（最小値・最大値チェック）
-    - [ ] 目標達成率計算ロジック
-  - [ ] 個人設定管理（拡張）
-    - [ ] 言語設定（日本語/英語）
-    - [ ] 単位設定（g/kg, kcal/cal）
-    - [ ] 通知設定（拡張）
-  - [ ] パスワードリセット（メール送信）・メール認証（拡張）
-    - [ ] パスワードリセット要求 API（`POST /api/auth/forgot-password`）
-    - [ ] リセットトークン生成・検証
-    - [ ] 新パスワード設定 API（`POST /api/auth/reset-password`）
-    - [ ] メール送信機能（拡張）
-  - [ ] JUnit による自動テスト実装
-    - [ ] テスト環境のセットアップ
-      - [ ] JUnit 5 の依存関係追加（pom.xml）
-      - [ ] Spring Boot Test の依存関係追加
-      - [ ] Testcontainers の依存関係追加（PostgreSQL テスト用）
-      - [ ] テスト用の設定ファイル作成（application-test.properties）
-    - [ ] ユーザー登録機能のテスト
-      - [ ] 正常系テスト（有効なデータでの登録成功）
-      - [ ] 異常系テスト（無効な email 形式）
-      - [ ] 異常系テスト（弱いパスワード）
-      - [ ] 異常系テスト（重複 username）
-      - [ ] 異常系テスト（重複 email）
-      - [ ] バリデーションエラーの詳細確認
-    - [ ] ログイン機能のテスト
-      - [ ] 正常系テスト（正しい認証情報でのログイン成功）
-      - [ ] 異常系テスト（存在しない email）
-      - [ ] 異常系テスト（間違ったパスワード）
-      - [ ] 異常系テスト（無効な JWT トークン）
-      - [ ] ログイン後の JWT トークン検証
-    - [ ] JWT トークン管理のテスト
-      - [ ] アクセストークンの有効期限テスト（15 分）
-      - [ ] リフレッシュトークンの有効期限テスト（7 日）
-      - [ ] トークン更新機能のテスト
-      - [ ] 無効化されたトークンの拒否テスト
-      - [ ] セキュリティヘッダーの検証テスト
-    - [ ] パスワード変更機能のテスト
-      - [ ] 正常系テスト（正しい現在パスワードでの変更成功）
-      - [ ] 異常系テスト（間違った現在パスワード）
-      - [ ] 異常系テスト（弱い新パスワード）
-      - [ ] 未認証ユーザーからのアクセス拒否テスト
-    - [ ] ユーザープロフィール機能のテスト
-      - [ ] プロフィール取得の認証チェックテスト
-      - [ ] プロフィール更新の認証チェックテスト
-      - [ ] 他ユーザーのプロフィールアクセス拒否テスト
-      - [ ] 栄養目標設定・取得のテスト
-    - [ ] セキュリティ設定のテスト
-      - [ ] 保護されたエンドポイントへの未認証アクセス拒否テスト
-      - [ ] 異なるユーザーのリソースへのアクセス拒否テスト
-      - [ ] CSRF 保護のテスト（必要に応じて）
-    - [ ] 統合テスト
-      - [ ] ユーザー登録からログインまでの一連フロー
-      - [ ] ログインからプロフィール更新までの一連フロー
-      - [ ] トークン失効後の再認証フロー
-    - [ ] テストデータ管理
-      - [ ] テスト用データベースの初期化・クリーンアップ
-      - [ ] テストケース間のデータ分離
-      - [ ] モックデータの作成・管理
-    - [ ] テスト実行・レポート
-      - [ ] 個別テストの実行方法確認
-      - [ ] 全テストの一括実行
-      - [ ] テストカバレッジの確認
-      - [ ] テスト結果レポートの生成
+##### 🏗️ DDD 境界づけられたコンテキストの設計（最優先）
 
-##### インフラ（フォローアップ）
+- [x] **auth-context-001**: **境界づけられたコンテキスト**の定義 - Auth/User コンテキストの境界とユビキタス言語の策定 ✅
+- [x] **auth-db-migration**: **UserGoal 分離対応**の DB マイグレーション - V011-V014 のマイグレーションファイル作成完了 ✅
+- [x] **auth-context-002**: **集約設計** - User 集約の不変条件とビジネスルールの定義（email 重複禁止、パスワード強度等） ✅
+- [x] **auth-context-003**: **ドメインモデル設計** - User エンティティとルート集約の責務定義
 
-- [ ] GithubActions + JUnit + Dcker を用いた CI/CD による自動テストの構築
-  - [ ]https://zenn.dev/omiai_techblog/articles/af4f9cde388310を参考にして自動テスト構築
+##### 🧪 認証システムのテスト実装（TDD：テストファースト）
+
+- [x] **auth-test-001**: **[TDD-Red]** Email 値オブジェクトの失敗テスト作成（形式バリデーション） ✅
+- [x] **auth-test-002**: **[TDD-Green]** Email 値オブジェクトの実装（形式バリデーション） ✅
+- [x] **auth-test-003**: **[TDD-Red]** Password 値オブジェクトの失敗テスト作成（強度チェック、ハッシュ化） ✅
+- [x] **auth-test-004**: **[TDD-Green]** Password 値オブジェクトの実装（強度チェック、ハッシュ化ロジック） ✅
+- [x] **auth-test-005**: **[TDD-Red]** PasswordService の失敗テスト作成（ハッシュ化、照合） ✅ _PasswordHash クラスに統合_
+- [x] **auth-test-006**: **[TDD-Green]** PasswordService の実装（ハッシュ化、照合） ✅ _PasswordHash クラスに統合_
+
+##### 🏗️ 認証ドメインモデルの実装（Domain Layer）
+
+- [x] **auth-domain-001**: **User 集約ルート**の実装 - ID、email、username、password の管理とビジネスルール ✅
+- [x] **auth-domain-002**: **ドメイン例外**の定義 - DuplicateEmailException、InvalidPasswordException、WeakPasswordException ✅
+- [x] **auth-domain-003**: **UserService**（ドメインサービス）の実装 - 重複チェックとユーザー生成ロジック ✅ _User 集約に統合_
+
+##### 認証インフラ層の実装 (Infrastructure Layer)
+
+- [ ] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）
+- [ ] **auth-infra-002**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
+- [ ] **auth-infra-003**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）
+- [ ] **auth-infra-004**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装
+
+##### 認証アプリケーション層の実装 (Application Layer)
+
+- [ ] **auth-app-001**: 認証アプリケーション層の実装 - RegisterUserCommand（DTO）の実装
+- [ ] **auth-app-002**: 認証アプリケーション層の実装 - RegisterUserUseCase（@Service）の実装
+- [ ] **auth-app-003**: 認証アプリケーション層の実装 - LoginCommand（DTO）の実装
+- [ ] **auth-app-004**: 認証アプリケーション層の実装 - LoginUseCase（@Service、JWT 生成）の実装
+- [ ] **auth-app-005**: 認証アプリケーション層の実装 - ChangePasswordCommand（DTO）の実装
+- [ ] **auth-app-006**: 認証アプリケーション層の実装 - ChangePasswordUseCase（@Service）の実装
+
+##### 認証 Web 層の実装 (Presentation Layer)
+
+- [ ] **auth-web-001**: 認証 Web 層の実装 - AuthController（@RestController）の基本構造作成
+- [ ] **auth-web-002**: 認証 Web 層の実装 - ユーザー登録エンドポイント（POST /api/auth/register）の実装
+- [ ] **auth-web-003**: 認証 Web 層の実装 - ログインエンドポイント（POST /api/auth/login）の実装
+- [ ] **auth-web-004**: 認証 Web 層の実装 - ログアウトエンドポイント（POST /api/auth/logout）の実装
+
+##### JWT 認証システムの実装
+
+- [ ] **jwt-infra-001**: JWT 認証インフラの実装 - JwtService（@Service）の基本実装（生成、検証、クレーム抽出）
+- [ ] **jwt-infra-002**: JWT 認証インフラの実装 - JwtAuthenticationFilter（@Component）の実装
+- [ ] **jwt-infra-003**: JWT 認証インフラの実装 - TokenBlacklistService（@Service）の実装（Redis 使用想定）
+- [ ] **jwt-infra-004**: JWT 認証インフラの実装 - RefreshTokenService（@Service）の実装（7 日間有効期限）
+- [ ] **jwt-web-001**: JWT 認証 Web 層の実装 - トークン更新エンドポイント（POST /api/auth/refresh）の実装
+
+##### 認証システム設定
+
+- [ ] **auth-config-001**: 認証設定の実装 - SecurityConfig の JWT フィルター設定
+- [ ] **auth-config-002**: 認証設定の実装 - CORS 設定の更新（認証エンドポイント対応）
+- [ ] **auth-config-003**: 認証設定の実装 - application.properties へ JWT 設定追加（秘密鍵、有効期限）
+
+##### ユーザープロフィール機能の実装
+
+- [ ] **profile-domain-001**: プロフィールドメインモデルの設計 - UserProfile エンティティの実装（基本情報）
+- [ ] **profile-domain-002**: プロフィールドメインモデルの設計 - NutritionGoals 値オブジェクトの実装（calorie、protein、fat、net_carbs）
+- [ ] **profile-domain-003**: プロフィールドメインモデルの設計 - NutritionGoalsValidator の実装（最小値・最大値チェック）
+
+##### プロフィールアプリケーション層
+
+- [ ] **profile-app-001**: プロフィールアプリケーション層の実装 - GetUserProfileQuery/UseCase の実装
+- [ ] **profile-app-002**: プロフィールアプリケーション層の実装 - UpdateUserProfileCommand/UseCase の実装
+- [ ] **profile-app-003**: プロフィールアプリケーション層の実装 - SetNutritionGoalsCommand/UseCase の実装
+- [ ] **profile-app-004**: プロフィールアプリケーション層の実装 - GetNutritionGoalsQuery/UseCase の実装
+
+##### プロフィール Web 層
+
+- [ ] **profile-web-001**: プロフィール Web 層の実装 - UserController（@RestController）の実装
+- [ ] **profile-web-002**: プロフィール Web 層の実装 - プロフィール取得エンドポイント（GET /api/users/profile）の実装
+- [ ] **profile-web-003**: プロフィール Web 層の実装 - プロフィール更新エンドポイント（PUT /api/users/profile）の実装
+- [ ] **profile-web-004**: プロフィール Web 層の実装 - 栄養目標取得エンドポイント（GET /api/users/goals）の実装
+- [ ] **profile-web-005**: プロフィール Web 層の実装 - 栄養目標設定エンドポイント（PUT /api/users/goals）の実装
+- [ ] **profile-web-006**: プロフィール Web 層の実装 - パスワード変更エンドポイント（PUT /api/users/password）の実装
+
+##### 🧪 JUnit 統合テスト・E2E テスト（TDD 後フェーズ）
+
+- [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL
+- [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserUseCase の統合テスト（正常系・重複エラー・バリデーション）
+- [ ] **auth-test-009**: **[JUnit 統合]** LoginUseCase の統合テスト（正常系・認証失敗）
+- [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン API）
+- [ ] **auth-test-011**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
+- [ ] **auth-test-012**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス）
+
+##### プロフィールシステムのテスト実装
+
+- [ ] **profile-test-001**: プロフィールシステムのテスト - NutritionGoals 値オブジェクトのユニットテスト
+- [ ] **profile-test-002**: プロフィールシステムのテスト - プロフィール関連 UseCase のユニットテスト
+- [ ] **profile-test-003**: プロフィールシステムのテスト - UserController の統合テスト（認証済みユーザー）
+- [ ] **profile-test-004**: プロフィールシステムのテスト - セキュリティテスト（他ユーザーのプロフィールアクセス拒否）
+
+##### 🧪 JUnit テストインフラ基盤構築（最優先）
+
+- [ ] **test-infra-001**: **JUnit5+Testcontainers 基盤** - PostgreSQL コンテナ設定と AbstractIntegrationTest クラス作成
+- [ ] **test-infra-002**: **テストデータ管理** - JUnit での TestDataFactory 作成（ユビキタス言語使用）
+- [ ] **test-infra-003**: **MockMvc 統合テスト基盤** - SpringBootTest と MockMvc の共通設定クラス
+- [ ] **test-infra-004**: **JUnit 実行設定** - Maven Surefire プラグインとテストプロファイル設定
+
+##### 🚀 JUnit 重視の CI/CD 構築
+
+- [ ] **cicd-001**: **GitHub Actions JUnit CI** - .github/workflows/ci.yml で JUnit5+Testcontainers テスト実行
+- [ ] **cicd-002**: **JUnit カバレッジ重視** - JaCoCo 設定とバックエンドカバレッジ 70%以上の確保
+- [ ] **cicd-003**: **Pull Request 自動テスト** - PR 時に JUnit ユニット・統合テスト必須実行
+- [ ] **cicd-004**: **フロントエンド軽量テスト** - 最小限の Vitest 実行（JUnit がメイン）
 
 ### 🥩 **Phase 3: 食材管理システム (MVP)** - 未着手
 
@@ -325,20 +337,52 @@
 
 #### 未着手タスク ⏳
 
-- [ ] 食材データベース
-  - [ ] 食材情報の管理
-  - [ ] 栄養成分データの管理（マクロ中心）
-  - [ ] カテゴリ分類システム（親子包含）
-  - [ ] タグ付与（複数タグ: 例 乳製品/低糖質/低価格）
-  - [ ] DB: foods.tags TEXT[] 追加 + GIN インデックス作成
-- [ ] 食材検索機能
-  - [ ] キーワード検索（部分一致）
-  - [ ] カテゴリ検索（親=タグで子カテゴリ包含）
-  - [ ] 複数タグ検索（AND）
-  - [ ] 栄養成分での絞り込み（拡張）
-  - [ ] お気に入り機能（拡張）
+##### 🏗️ 食材管理 DDD コンテキスト設計（最優先）
 
-### �� **Phase 4: 栄養計算エンジン (MVP)** - 未着手
+- [ ] **food-context-001**: **境界づけられたコンテキスト**の定義 - FoodCatalog コンテキストと他コンテキストとの境界
+- [ ] **food-context-002**: **集約設計** - Food 集約と Category 集約の境界と不変条件（栄養成分整合性、カテゴリ階層等）
+- [ ] **food-context-003**: **ユビキタス言語**の策定 - net_carbs、nutrition_per_100g 等の用語統一
+
+##### 🧪 食材システム TDD テスト（テストファースト）
+
+- [ ] **food-test-001**: **[TDD-Red]** NutritionInfo 値オブジェクトの失敗テスト作成（net_carbs 計算、バリデーション）
+- [ ] **food-test-002**: **[TDD-Green]** NutritionInfo 値オブジェクトの実装（net_carbs = carbohydrates - fiber）
+- [ ] **food-test-003**: **[TDD-Red]** FoodSearchService の失敗テスト作成（キーワード・タグ検索ロジック）
+- [ ] **food-test-004**: **[TDD-Green]** FoodSearchService の実装（検索ロジック）
+
+##### 🏗️ 食材ドメインモデルの実装（Domain Layer）
+
+- [ ] **food-domain-001**: **Food 集約ルート**の実装 - ID、名前、カテゴリ、栄養成分とビジネスルール
+- [ ] **food-domain-002**: **FoodCategory 集約**の実装 - 階層構造とカテゴリ管理ロジック
+- [ ] **food-domain-003**: **FoodTag 値オブジェクト**の実装 - 複数タグ管理と検索最適化
+
+##### 食材インフラ層の実装 (Infrastructure Layer)
+
+- [ ] **food-infra-001**: 食材インフラ層の実装 - FoodRepository インターフェース定義
+- [ ] **food-infra-002**: 食材インフラ層の実装 - JPA FoodRepositoryImpl の実装（キーワード検索、カテゴリ検索）
+- [ ] **food-infra-003**: 食材インフラ層の実装 - FoodEntity（JPA）の実装（tags 配列対応、GIN インデックス）
+- [ ] **food-infra-004**: 食材インフラ層の実装 - CategoryRepository の実装（階層構造クエリ）
+
+##### 食材アプリケーション層の実装 (Application Layer)
+
+- [ ] **food-app-001**: 食材アプリケーション層の実装 - SearchFoodsQuery/UseCase の実装
+- [ ] **food-app-002**: 食材アプリケーション層の実装 - GetFoodsByCategoryQuery/UseCase の実装
+- [ ] **food-app-003**: 食材アプリケーション層の実装 - GetFoodsByTagsQuery/UseCase の実装
+
+##### 食材 Web 層の実装 (Presentation Layer)
+
+- [ ] **food-web-001**: 食材 Web 層の実装 - FoodController（@RestController）の実装
+- [ ] **food-web-002**: 食材 Web 層の実装 - 食材検索エンドポイント（GET /api/foods?keyword=...）の実装
+- [ ] **food-web-003**: 食材 Web 層の実装 - カテゴリ別検索エンドポイント（GET /api/foods?category=...）の実装
+- [ ] **food-web-004**: 食材 Web 層の実装 - タグ検索エンドポイント（GET /api/foods?tags=...）の実装
+
+##### 🧪 食材システム JUnit 統合テスト
+
+- [ ] **food-test-005**: **[JUnit 統合]** FoodRepository の統合テスト - @DataJpaTest + PostgreSQL 検索クエリ
+- [ ] **food-test-006**: **[JUnit 統合]** FoodSearchService の統合テスト（キーワード・カテゴリ・タグ検索）
+- [ ] **food-test-007**: **[SpringBootTest]** FoodController の MockMvc テスト（各種検索 API）
+
+### 🧮 **Phase 4: 栄養計算エンジン (MVP)** - 未着手
 
 **優先度**: 高  
 **予想完了日**: 2025 年 1 月下旬  
@@ -346,21 +390,80 @@
 
 #### 未着手タスク ⏳
 
-- [ ] 基本計算機能（アプリ側）
-  - [ ] マクロ 4 種の集計: calories/protein/fat/net_carbs
-  - [ ] net_carbs = carbohydrates - fiber
-  - [ ] 目標値との比較（達成率算出）
-- [ ] API（MVP）
-  - [ ] 食事記録 API: GET/POST/PUT/DELETE `/api/meals`
-  - [ ] サマリー API: GET `/api/summary?date=YYYY-MM-DD`
-  - [ ] 目標 API: GET/PUT `/api/users/goals`
-  - [ ] パスワード変更 API: PUT `/api/users/password`
-- [ ] 食事記録機能
-  - [ ] 食事の記録・編集（g 単位のみ）
-  - [ ] 栄養成分の集計（total_nutrition に 4 種保持）
-  - [ ] 食事テンプレート機能（拡張）
+##### 🏗️ 食事記録 DDD コンテキスト設計（最優先）
 
-### �� **Phase 5: 進捗追跡・分析** - 未着手
+- [ ] **meal-context-001**: **境界づけられたコンテキスト**の定義 - MealTracking コンテキストと FoodCatalog との境界
+- [ ] **meal-context-002**: **集約設計** - Meal 集約の不変条件（daily_totals 整合性、net_carbs 精度等）
+- [ ] **meal-context-003**: **ユビキタス言語**の策定 - meal_records、daily_totals、achievement_rate 等の用語統一
+
+##### 🧪 栄養計算 TDD テスト（最重要：テストファースト）
+
+- [ ] **meal-test-001**: **[TDD-Red]** NutritionCalculatorService の失敗テスト作成（net_carbs = carbs - fiber）
+- [ ] **meal-test-002**: **[TDD-Green]** NutritionCalculatorService の実装（net_carbs 計算ロジック）
+- [ ] **meal-test-003**: **[TDD-Red]** MealAggregationService の失敗テスト作成（食事全体の栄養集計）
+- [ ] **meal-test-004**: **[TDD-Green]** MealAggregationService の実装（栄養集計ロジック）
+- [ ] **meal-test-005**: **[TDD-Red]** Quantity 値オブジェクトの失敗テスト作成（g 単位、バリデーション）
+- [ ] **meal-test-006**: **[TDD-Green]** Quantity 値オブジェクトの実装（g 単位、バリデーション）
+
+##### 🏗️ 食事記録ドメインモデルの実装（Domain Layer）
+
+- [ ] **meal-domain-001**: **Meal 集約ルート**の実装 - 日付、食事タイプ、栄養集計とビジネスルール
+- [ ] **meal-domain-002**: **MealItem 集約要素**の実装 - 食材、量、栄養計算の整合性保証
+- [ ] **meal-domain-003**: **MealType 列挙型**の実装 - 朝食、昼食、夕食、間食の定義
+
+##### 食事記録インフラ層の実装 (Infrastructure Layer)
+
+- [ ] **meal-infra-001**: 食事記録インフラ層の実装 - MealRepository インターフェース定義
+- [ ] **meal-infra-002**: 食事記録インフラ層の実装 - JPA MealRepositoryImpl の実装
+- [ ] **meal-infra-003**: 食事記録インフラ層の実装 - MealEntity、MealItemEntity（JPA）の実装
+
+##### 食事記録アプリケーション層の実装 (Application Layer)
+
+- [ ] **meal-app-001**: 食事記録アプリケーション層の実装 - CreateMealCommand/UseCase の実装
+- [ ] **meal-app-002**: 食事記録アプリケーション層の実装 - UpdateMealCommand/UseCase の実装
+- [ ] **meal-app-003**: 食事記録アプリケーション層の実装 - DeleteMealCommand/UseCase の実装
+- [ ] **meal-app-004**: 食事記録アプリケーション層の実装 - GetMealsByDateQuery/UseCase の実装
+- [ ] **meal-app-005**: 食事記録アプリケーション層の実装 - AddMealItemCommand/UseCase の実装
+- [ ] **meal-app-006**: 食事記録アプリケーション層の実装 - UpdateMealItemCommand/UseCase の実装
+
+##### 食事記録 Web 層の実装 (Presentation Layer)
+
+- [ ] **meal-web-001**: 食事記録 Web 層の実装 - MealController（@RestController）の実装
+- [ ] **meal-web-002**: 食事記録 Web 層の実装 - 食事記録作成エンドポイント（POST /api/meals）の実装
+- [ ] **meal-web-003**: 食事記録 Web 層の実装 - 食事記録取得エンドポイント（GET /api/meals?date=...）の実装
+- [ ] **meal-web-004**: 食事記録 Web 層の実装 - 食事記録更新エンドポイント（PUT /api/meals/{id}）の実装
+- [ ] **meal-web-005**: 食事記録 Web 層の実装 - 食事記録削除エンドポイント（DELETE /api/meals/{id}）の実装
+
+##### 食事記録システムのテスト実装
+
+- [ ] **meal-test-001**: 食事記録システムのテスト - NutritionCalculatorService のユニットテスト（net_carbs 計算）
+- [ ] **meal-test-002**: 食事記録システムのテスト - MealAggregationService のユニットテスト（栄養集計）
+- [ ] **meal-test-003**: 食事記録システムのテスト - Meal 関連 UseCase のユニットテスト
+- [ ] **meal-test-004**: 食事記録システムのテスト - MealController の統合テスト（CRUD 操作）
+
+##### サマリー・分析機能の実装
+
+- [ ] **summary-domain-001**: サマリードメインモデルの設計 - DailySummary エンティティの実装（日別栄養集計）
+- [ ] **summary-domain-002**: サマリードメインモデルの設計 - AchievementRate 値オブジェクトの実装（目標達成率計算）
+- [ ] **summary-domain-003**: サマリードメインサービスの設計 - SummaryCalculationService の実装
+
+##### サマリーアプリケーション層
+
+- [ ] **summary-app-001**: サマリーアプリケーション層の実装 - GetDailySummaryQuery/UseCase の実装
+- [ ] **summary-app-002**: サマリーアプリケーション層の実装 - GetWeeklySummaryQuery/UseCase の実装（拡張）
+
+##### サマリー Web 層
+
+- [ ] **summary-web-001**: サマリー Web 層の実装 - SummaryController（@RestController）の実装
+- [ ] **summary-web-002**: サマリー Web 層の実装 - 日別サマリーエンドポイント（GET /api/summary?date=...）の実装
+
+##### サマリーシステムのテスト実装
+
+- [ ] **summary-test-001**: サマリーシステムのテスト - AchievementRate 値オブジェクトのユニットテスト
+- [ ] **summary-test-002**: サマリーシステムのテスト - SummaryCalculationService のユニットテスト
+- [ ] **summary-test-003**: サマリーシステムのテスト - SummaryController の統合テスト
+
+### 📊 **Phase 5: 進捗追跡・分析** - 未着手
 
 **優先度**: 中  
 **予想完了日**: 2025 年 2 月上旬  
@@ -368,14 +471,21 @@
 
 #### 未着手タスク ⏳
 
-- [ ] ダッシュボード
-  - [ ] 栄養摂取状況の可視化（週/月は拡張）
-  - [ ] 目標達成率の表示
-  - [ ] トレンド分析（拡張）
-- [ ] レポート機能
-  - [ ] 日別・週別・月別レポート
-  - [ ] 栄養成分別分析
-  - [ ] 進捗データのエクスポート
+##### ダッシュボード機能の実装
+
+- [ ] **dashboard-web-001**: ダッシュボード Web 層の実装 - DashboardController（@RestController）の実装
+- [ ] **dashboard-web-002**: ダッシュボード Web 層の実装 - ダッシュボードデータエンドポイント（GET /api/dashboard）の実装
+- [ ] **dashboard-app-001**: ダッシュボードアプリケーション層の実装 - GetDashboardDataQuery/UseCase の実装
+
+##### レポート機能の実装
+
+- [ ] **reports-domain-001**: レポートドメインモデルの設計 - NutritionReport エンティティの実装
+- [ ] **reports-app-001**: レポートアプリケーション層の実装 - GenerateDailyReportQuery/UseCase の実装
+- [ ] **reports-app-002**: レポートアプリケーション層の実装 - GenerateWeeklyReportQuery/UseCase の実装
+- [ ] **reports-app-003**: レポートアプリケーション層の実装 - ExportReportDataQuery/UseCase の実装
+- [ ] **reports-web-001**: レポート Web 層の実装 - ReportController（@RestController）の実装
+- [ ] **reports-web-002**: レポート Web 層の実装 - レポート生成エンドポイント（GET /api/reports?type=...&period=...）の実装
+- [ ] **reports-web-003**: レポート Web 層の実装 - データエクスポートエンドポイント（GET /api/reports/export）の実装
 
 ### 🎨 **Phase 6: UI/UX 改善** - 未着手
 
@@ -515,6 +625,35 @@
 
 ---
 
-**最終更新**: 2025 年 8 月 14 日  
+**最終更新**: 2025 年 8 月 17 日  
 **更新者**: 開発チーム  
-**次回更新予定**: 2025 年 8 月 15 日（Phase 1/2 進捗確認）
+**次回更新予定**: 2025 年 8 月 18 日（Phase 2 認証システム実装開始）
+
+## 📋 **細分化されたタスク概要**
+
+### 🔍 **DDD・TDD 強化タスク総数**
+
+- **Phase 2 (認証・ユーザー管理)**: 54 タスク（DDD+TDD 重視）
+- **Phase 3 (食材管理)**: 24 タスク（DDD+TDD 重視）
+- **Phase 4 (栄養計算・食事記録・サマリー)**: 30 タスク（TDD 最重要）
+- **Phase 5 (進捗追跡・分析)**: 7 タスク
+- **総計**: **115 タスク** (DDD・TDD 強化完了)
+
+### 📊 **DDD・TDD 視点タスク分類**
+
+- **🏗️ DDD コンテキスト設計**: 9 タスク（最優先）
+- **🧪 TDD ユニットテスト**: 18 タスク（テストファースト）
+- **🧪 JUnit 統合テスト**: 21 タスク（JUnit 重視）
+- **🏗️ ドメイン層**: 15 タスク（ビジネスロジック中心）
+- **🔧 インフラ層**: 15 タスク
+- **⚙️ アプリケーション層**: 24 タスク
+- **🌐 Web 層**: 24 タスク
+- **🚀 CI/CD**: 4 タスク（JUnit 重視）
+
+### 🎯 **DDD・TDD 実装方針**
+
+- **🥇 DDD 最優先**: 境界づけられたコンテキスト → 集約設計 → ドメインモデル
+- **🧪 TDD 必須**: Red-Green-Refactor サイクル（特に栄養計算）
+- **🔧 JUnit 重視**: バックエンド JUnit5+Testcontainers、フロントエンド軽量
+- **📏 テスト粒度**: ユニットテスト 70%以上、統合テスト主要シナリオ網羅
+- **🗣️ ユビキタス言語**: net_carbs、meal_records、achievement_rate 等統一

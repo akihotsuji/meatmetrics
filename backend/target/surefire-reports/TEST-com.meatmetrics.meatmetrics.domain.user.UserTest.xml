@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.meatmetrics.meatmetrics.MeatmetricsApplicationTests" time="33.987" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.meatmetrics.meatmetrics.domain.user.UserTest" time="4.706" tests="19" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -8,10 +8,8 @@
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://adoptium.net/"/>
     <property name="user.timezone" value="Etc/UTC"/>
-    <property name="org.jboss.logging.provider" value="slf4j"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="21"/>
-    <property name="APPLICATION_NAME" value="meatmetrics"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/opt/java/openjdk/lib"/>
@@ -30,10 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
-    <property name="java.awt.headless" value="true"/>
     <property name="surefire.real.class.path" value="/app/target/surefire/surefirebooter-20250827161447650_3.jar"/>
-    <property name="polyglot.engine.WarnInterpreterOnly" value="false"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.8+9-LTS"/>
     <property name="user.name" value="root"/>
@@ -47,13 +42,10 @@
     <property name="localRepository" value="/root/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="21.0.8"/>
     <property name="user.dir" value="/app"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="2753"/>
-    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
@@ -62,69 +54,24 @@
     <property name="java.vm.version" value="21.0.8+9-LTS"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
-    <property name="LOGGED_APPLICATION_NAME" value="[meatmetrics] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.meatmetrics.meatmetrics.MeatmetricsApplicationTests" time="2.366">
-    <system-out><![CDATA[16:14:59.556 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.MeatmetricsApplicationTests]: MeatmetricsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-16:15:00.868 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.MeatmetricsApplicationTests
-16:15:02.184 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v3.5.4)
-
-2025-08-27T16:15:03.971Z  INFO 2753 --- [meatmetrics] [           main] c.m.m.MeatmetricsApplicationTests        : Starting MeatmetricsApplicationTests using Java 21.0.8 with PID 2753 (started by root in /app)
-2025-08-27T16:15:03.975Z DEBUG 2753 --- [meatmetrics] [           main] c.m.m.MeatmetricsApplicationTests        : Running with Spring Boot v3.5.4, Spring v6.2.9
-2025-08-27T16:15:03.976Z  INFO 2753 --- [meatmetrics] [           main] c.m.m.MeatmetricsApplicationTests        : The following 1 profile is active: "dev"
-2025-08-27T16:15:04.178Z DEBUG 2753 --- [meatmetrics] [           main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@8a62297
-2025-08-27T16:15:09.521Z  INFO 2753 --- [meatmetrics] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-08-27T16:15:09.965Z  INFO 2753 --- [meatmetrics] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 334 ms. Found 0 JPA repository interfaces.
-2025-08-27T16:15:15.172Z  INFO 2753 --- [meatmetrics] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-08-27T16:15:16.803Z  INFO 2753 --- [meatmetrics] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@35e74e08
-2025-08-27T16:15:16.829Z  INFO 2753 --- [meatmetrics] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-08-27T16:15:17.020Z  INFO 2753 --- [meatmetrics] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://postgres:5432/meatmetrics (PostgreSQL 16.9)
-2025-08-27T16:15:17.722Z  INFO 2753 --- [meatmetrics] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 14 migrations (execution time 00:00.508s)
-2025-08-27T16:15:17.776Z  INFO 2753 --- [meatmetrics] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 014
-2025-08-27T16:15:17.783Z  INFO 2753 --- [meatmetrics] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
-2025-08-27T16:15:18.568Z  INFO 2753 --- [meatmetrics] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-08-27T16:15:19.213Z  INFO 2753 --- [meatmetrics] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
-2025-08-27T16:15:19.482Z  INFO 2753 --- [meatmetrics] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-08-27T16:15:22.230Z  INFO 2753 --- [meatmetrics] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-08-27T16:15:22.678Z  WARN 2753 --- [meatmetrics] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-08-27T16:15:22.803Z  INFO 2753 --- [meatmetrics] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 16.9
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-08-27T16:15:25.657Z  INFO 2753 --- [meatmetrics] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-08-27T16:15:25.718Z  INFO 2753 --- [meatmetrics] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-08-27T16:15:26.890Z DEBUG 2753 --- [meatmetrics] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 4 mappings in 'requestMappingHandlerMapping'
-2025-08-27T16:15:27.748Z DEBUG 2753 --- [meatmetrics] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-08-27T16:15:27.822Z  WARN 2753 --- [meatmetrics] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 1d70c3de-e4a1-4212-92aa-ad54df22c425
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2025-08-27T16:15:27.892Z  INFO 2753 --- [meatmetrics] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-08-27T16:15:28.504Z DEBUG 2753 --- [meatmetrics] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
-2025-08-27T16:15:29.417Z DEBUG 2753 --- [meatmetrics] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-08-27T16:15:29.813Z DEBUG 2753 --- [meatmetrics] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-08-27T16:15:30.438Z  INFO 2753 --- [meatmetrics] [           main] c.m.m.MeatmetricsApplicationTests        : Started MeatmetricsApplicationTests in 28.343 seconds (process running for 42.54)
-]]></system-out>
-    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.6/byte-buddy-agent-1.17.6.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
-  </testcase>
+  <testcase name="shouldRejectNullUsername" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.325"/>
+  <testcase name="shouldRejectNullPasswordHash" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.004"/>
+  <testcase name="shouldRejectNullEmail" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.231"/>
+  <testcase name="shouldDeactivateExistingGoalWhenSettingNew" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.26"/>
+  <testcase name="shouldNotLoginWithIncorrectPassword" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.361"/>
+  <testcase name="shouldCreateUserUsingFactoryMethod" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.173"/>
+  <testcase name="shouldNotBeEqualForDifferentEmails" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.347"/>
+  <testcase name="shouldSetNewGoal" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.16"/>
+  <testcase name="shouldChangePasswordWithCorrectOldPassword" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.776"/>
+  <testcase name="shouldThrowExceptionForMultipleActiveGoals" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.134"/>
+  <testcase name="shouldThrowExceptionForDuplicateUsername" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.122"/>
+  <testcase name="shouldCreateValidUser" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.111"/>
+  <testcase name="shouldReturnEmptyOptionalWhenNoActiveGoal" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.109"/>
+  <testcase name="shouldNotChangePasswordWithIncorrectOldPassword" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.325"/>
+  <testcase name="shouldUpdateProfile" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.121"/>
+  <testcase name="shouldGetAllGoalsInDescendingOrder" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.138"/>
+  <testcase name="shouldLoginWithCorrectPassword" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.299"/>
+  <testcase name="shouldBeEqualForSameEmail" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.444"/>
+  <testcase name="shouldThrowExceptionForDuplicateEmail" classname="com.meatmetrics.meatmetrics.domain.user.UserTest" time="0.236"/>
 </testsuite>

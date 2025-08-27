@@ -4,3 +4,16 @@
 /app/src/main/java/com/meatmetrics/meatmetrics/api/error/ErrorResponse.java
 /app/src/main/java/com/meatmetrics/meatmetrics/api/error/GlobalExceptionHandler.java
 /app/src/main/java/com/meatmetrics/meatmetrics/config/SecurityConfig.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/Email.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/PasswordHash.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/User.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/UserGoal.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/Username.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/DomainException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/DuplicateEmailException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/DuplicateUsernameException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/InvalidEmailException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/InvalidGoalValueException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/InvalidUsernameException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/MultipleActiveGoalsException.java
+/app/src/main/java/com/meatmetrics/meatmetrics/domain/user/exception/WeakPasswordException.java

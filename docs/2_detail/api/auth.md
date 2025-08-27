@@ -1,14 +1,16 @@
 # Auth API（MVP）
 
+Auth/User コンテキストの認証機能を提供する API。ユーザー登録・ログイン・JWT 管理を担う。
+
 - ベース: `/api/auth`
-- 認証: 不要
+- 認証: 不要（認証自体を提供する API）
 
 ## エンドポイント
 
-- POST `/register`
-- POST `/login`
-- POST `/logout`
-- POST `/refresh`
+- POST `/register` - User Registration（ユーザー登録）
+- POST `/login` - User Login（ユーザーログイン）
+- POST `/logout` - User Logout（ユーザーログアウト）
+- POST `/refresh` - JWT Token 更新
 
 ## スキーマ
 
@@ -21,7 +23,7 @@
 - Register Response
 
 ```json
-{ "userId": 1 }
+{ "user_id": 1 }
 ```
 
 - Login Request

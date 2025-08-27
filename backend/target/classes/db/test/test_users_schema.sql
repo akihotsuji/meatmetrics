@@ -38,10 +38,10 @@ WHERE tablename = 'users'
 ORDER BY indexname;
 
 -- 4. バリデーションテスト（正常系）
--- 正常なユーザー作成テスト
+-- 正常なユーザー作成テスト（基本情報のみ）
 BEGIN;
-INSERT INTO users (email, username, password_hash, calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g)
-VALUES ('validation_test@example.com', 'validuser', 'hashedpassword123', 2000, 150.00, 120.00, 20.00);
+INSERT INTO users (email, username, password_hash)
+VALUES ('validation_test@example.com', 'validuser', 'hashedpassword123');
 
 SELECT 'Test 1 PASSED: 正常なユーザー作成' as test_result;
 ROLLBACK;
@@ -63,11 +63,11 @@ VALUES ('test1@example.com', 'duplicateuser', 'hashedpassword123');
 -- この操作は重複エラーになるはず
 ROLLBACK;
 
--- 7. データ型制約テスト
--- 栄養目標の境界値テスト
+-- 7. 文字列長制約テスト
+-- ユーザー名長さの境界値テスト
 BEGIN;
-INSERT INTO users (email, username, password_hash, calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g)
-VALUES ('boundary_test@example.com', 'boundaryuser', 'hashedpassword123', 10001, 1001.00, 1001.00, 1001.00);
+INSERT INTO users (email, username, password_hash)
+VALUES ('boundary_test@example.com', 'ab', 'hashedpassword123');  -- 短すぎるユーザー名
 -- この操作は制約違反でエラーになるはず
 ROLLBACK;
 

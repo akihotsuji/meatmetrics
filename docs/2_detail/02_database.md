@@ -12,19 +12,29 @@ MVP で必要な最小スキーマと方針。詳細は `database_design.md` を
 ## 2. 主要テーブル（要約）
 
 ```sql
--- users（実装版: 栄養目標を直接格納）
+-- users（実装版: 基本情報のみ）
 CREATE TABLE IF NOT EXISTS users (
   id BIGSERIAL PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,
   username VARCHAR(100) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- user_goals（実装版: 栄養目標を分離）
+CREATE TABLE IF NOT EXISTS user_goals (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  daily_calorie_goal INTEGER CHECK (daily_calorie_goal BETWEEN 800 AND 5000),
+  protein_goal_g DECIMAL(6,2) CHECK (protein_goal_g BETWEEN 50 AND 500),
+  fat_goal_g DECIMAL(6,2) CHECK (fat_goal_g BETWEEN 30 AND 400),
+  net_carbs_goal_g DECIMAL(6,2) CHECK (net_carbs_goal_g BETWEEN 0 AND 150),
+  effective_date DATE DEFAULT CURRENT_DATE,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  -- 栄養目標（usersテーブル内に格納）
-  calorie_goal INTEGER DEFAULT 2000,
-  protein_goal_g DECIMAL(6,2) DEFAULT 150.00,
-  fat_goal_g DECIMAL(6,2) DEFAULT 120.00,
-  net_carbs_goal_g DECIMAL(6,2) DEFAULT 20.00
+  UNIQUE(user_id, effective_date)
 );
 
 -- foods（実装版: 栄養成分とタグ）
