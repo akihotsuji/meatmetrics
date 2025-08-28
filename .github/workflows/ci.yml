@@ -20,7 +20,7 @@ on:
 # グローバル環境変数
 env:
   JAVA_VERSION: "17"
-  NODE_VERSION: "18"
+  NODE_VERSION: "22"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Xmx1024m"
 
 jobs:
@@ -189,7 +189,7 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js 18
+      - name: 🟢 Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
