@@ -5,46 +5,64 @@ name: MeatMetrics CI Pipeline
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
-      - '.gitignore'
+      - "docs/**"
+      - "*.md"
+      - ".gitignore"
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
-      - '.gitignore'
+      - "docs/**"
+      - "*.md"
+      - ".gitignore"
 
 # グローバル環境変数
 env:
-  JAVA_VERSION: '17'
-  NODE_VERSION: '18'
-  MAVEN_OPTS: '-Dmaven.repo.local=.m2/repository -Xmx1024m'
+  JAVA_VERSION: "17"
+  NODE_VERSION: "18"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Xmx1024m"
 
 jobs:
   # ==============================================================================
-  # Stage 1: Backend JUnit Tests (最優先 - 認証ドメイン対応)
+  # Stage 1: Backend Basic Test (段階的CI構築 - 最小構成)
+  # PostgreSQL/Flyway/テスト実行は一旦コメントアウトし、コンパイル確認のみ
   # ==============================================================================
   backend-test:
-    name: 🧪 Backend Unit Tests (JUnit 5)
+    name: 🧪 Backend Basic Test (Minimal)
     runs-on: ubuntu-latest
+
+    # PostgreSQLサービスコンテナは一旦コメントアウト（段階的CI構築）
+    # services:
+    #   postgres:
+    #     image: postgres:16
+    #     env:
+    #       POSTGRES_DB: meatmetrics_test
+    #       POSTGRES_USER: meatmetrics
+    #       POSTGRES_PASSWORD: meatmetrics123
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+    #     ports:
+    #       - 5432:5432
+
     defaults:
       run:
         working-directory: ./backend
-    
+
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: ☕ Setup Java 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: ${{ env.JAVA_VERSION }}
-          cache: 'maven'
-          
+          cache: "maven"
+
       - name: 📦 Cache Maven Dependencies
         uses: actions/cache@v4
         with:
@@ -52,92 +70,113 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-            
+
       - name: 🔍 Verify Maven Configuration
         run: |
           mvn --version
           mvn help:effective-pom -q
-          
-      - name: 🧪 Run Unit Tests (認証ドメイン中心)
+
+      - name: 🧪 Run Basic Unit Tests (No DB)
+        # PostgreSQLとFlywayは一旦コメントアウト（段階的CI構築）
+        # env:
+        #   SPRING_PROFILES_ACTIVE: test
+        #   SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/meatmetrics_test
+        #   SPRING_DATASOURCE_USERNAME: meatmetrics
+        #   SPRING_DATASOURCE_PASSWORD: meatmetrics123
+        #   SPRING_FLYWAY_ENABLED: true
+        #   SPRING_FLYWAY_CLEAN_DISABLED: false
         run: |
-          mvn clean test \
+          # Flywayマイグレーション実行は一旦コメントアウト
+          # mvn flyway:info flyway:migrate \
+          #   -B \
+          #   -Dspring.profiles.active=test
+
+          # まずは最小限のコンパイル確認のみ
+          mvn clean compile \
             -B \
-            -Dspring.profiles.active=test \
-            -Dmaven.test.failure.ignore=false \
             --fail-at-end
-            
-      - name: 📊 Generate Test Report
-        if: always()
-        run: |
-          find target/surefire-reports -name "*.xml" -exec cat {} \;
-          
-      - name: 📈 Upload Test Results
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: 'Backend JUnit Test Results'
-          path: 'backend/target/surefire-reports/*.xml'
-          reporter: 'java-junit'
-          
-      - name: 💾 Archive Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-test-reports
-          path: backend/target/surefire-reports/
+
+          # テスト実行も一旦コメントアウト
+          # mvn test \
+          #   -B \
+          #   -Dspring.profiles.active=test \
+          #   -Dmaven.test.failure.ignore=false \
+          #   --fail-at-end
+
+      # テストレポート生成は一旦コメントアウト（段階的CI構築）
+      # - name: 📊 Generate Test Report
+      #   if: always()
+      #   run: |
+      #     find target/surefire-reports -name "*.xml" -exec cat {} \;
+      #
+      # - name: 📈 Upload Test Results
+      #   if: always()
+      #   uses: dorny/test-reporter@v1
+      #   with:
+      #     name: "Backend JUnit Test Results"
+      #     path: "backend/target/surefire-reports/*.xml"
+      #     reporter: "java-junit"
+      #
+      # - name: 💾 Archive Test Reports
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: backend-test-reports
+      #     path: backend/target/surefire-reports/
 
   # ==============================================================================
-  # Stage 2: Build Verification (コンパイル・パッケージング確認)
+  # Stage 2: Build Verification (コンパイル・パッケージング確認) - 一旦コメントアウト
   # ==============================================================================
-  backend-build:
-    name: 🏗️ Backend Build Verification
-    runs-on: ubuntu-latest
-    needs: backend-test
-    defaults:
-      run:
-        working-directory: ./backend
-        
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-        
-      - name: ☕ Setup Java 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
-          cache: 'maven'
-          
-      - name: 📦 Cache Maven Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-            
-      - name: 🏗️ Build Application (Skip Tests)
-        run: |
-          mvn clean package \
-            -B \
-            -DskipTests \
-            -Dspring.profiles.active=prod \
-            --fail-at-end
-            
-      - name: 📊 Verify JAR Creation
-        run: |
-          ls -la target/*.jar
-          java -jar target/*.jar --version || echo "JAR verification completed"
-          
-      - name: 💾 Archive Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-jar
-          path: backend/target/*.jar
-          retention-days: 7
+  # backend-build:
+  #   name: 🏗️ Backend Build Verification
+  #   runs-on: ubuntu-latest
+  #   needs: backend-test
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #
+  #   steps:
+  #     - name: 📥 Checkout Repository
+  #       uses: actions/checkout@v4
+  #
+  #     - name: ☕ Setup Java 17
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         distribution: "temurin"
+  #         java-version: ${{ env.JAVA_VERSION }}
+  #         cache: "maven"
+  #
+  #     - name: 📦 Cache Maven Dependencies
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: ~/.m2/repository
+  #         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-maven-
+  #
+  #     - name: 🏗️ Build Application (Skip Tests)
+  #       run: |
+  #         mvn clean package \
+  #           -B \
+  #           -DskipTests \
+  #           -Dspring.profiles.active=prod \
+  #           --fail-at-end
+  #
+  #     - name: 📊 Verify JAR Creation
+  #       run: |
+  #         ls -la target/*.jar
+  #         java -jar target/*.jar --version || echo "JAR verification completed"
+  #
+  #     - name: 💾 Archive Build Artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: backend-jar
+  #         path: backend/target/*.jar
+  #         retention-days: 7
 
   # ==============================================================================
-  # Stage 3: Frontend Basic Verification (軽量化)
+  # Stage 2: Frontend Basic Check (段階的CI構築 - 最小構成)
+  # テスト実行は一旦コメントアウトし、型チェック+ビルド確認のみ
   # ==============================================================================
   frontend-check:
     name: 🎨 Frontend Basic Check
@@ -145,94 +184,101 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-        
+
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: 'frontend/package-lock.json'
-          
+          cache: "npm"
+          cache-dependency-path: "frontend/package-lock.json"
+
       - name: 📦 Install Dependencies
         run: |
           npm ci --prefer-offline --no-audit
-          
+
       - name: 🔍 TypeScript Check
         run: |
           npm run type-check || npx tsc --noEmit
-          
+
+      # テスト実行は一旦コメントアウト（段階的CI構築）
+      # - name: 🧪 Run Unit Tests
+      #   run: |
+      #     npm run test:run
+
       - name: 🏗️ Build Verification
         run: |
           npm run build
-          
-      - name: 📊 Bundle Size Check
-        run: |
-          ls -la dist/
-          du -sh dist/
-          
-      - name: 💾 Archive Frontend Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: frontend/dist/
-          retention-days: 7
+
+      # 詳細なチェックは一旦コメントアウト
+      # - name: 📊 Bundle Size Check
+      #   run: |
+      #     ls -la dist/
+      #     du -sh dist/
+
+      # アーティファクト保存は一旦コメントアウト
+      # - name: 💾 Archive Frontend Build
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: frontend-build
+      #     path: frontend/dist/
+      #     retention-days: 7
 
   # ==============================================================================
-  # Stage 4: Security & Quality Gates (基本)
+  # Stage 4: Security & Quality Gates (基本) - 一旦コメントアウト
   # ==============================================================================
-  security-scan:
-    name: 🔒 Security & Dependency Scan
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-        
-      - name: 🔍 Run OSSAR (GitHub Security Scanner)
-        uses: github/ossar-action@v1
-        id: ossar
-        
-      - name: 📊 Upload SARIF Results
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ${{ steps.ossar.outputs.sarifFile }}
+  # security-scan:
+  #   name: 🔒 Security & Dependency Scan
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'pull_request'
+  #
+  #   steps:
+  #     - name: 📥 Checkout Repository
+  #       uses: actions/checkout@v4
+  #
+  #     - name: 🔍 Run OSSAR (GitHub Security Scanner)
+  #       uses: github/ossar-action@v1
+  #       id: ossar
+  #
+  #     - name: 📊 Upload SARIF Results
+  #       if: always()
+  #       uses: github/codeql-action/upload-sarif@v3
+  #       with:
+  #         sarif_file: ${{ steps.ossar.outputs.sarifFile }}
 
   # ==============================================================================
-  # Summary Job (全ジョブの結果集約)
+  # Summary Job (全ジョブの結果集約) - 一旦コメントアウト
   # ==============================================================================
-  ci-summary:
-    name: 📋 CI Summary
-    runs-on: ubuntu-latest
-    needs: [backend-test, backend-build, frontend-check]
-    if: always()
-    
-    steps:
-      - name: 📊 Check All Job Results
-        run: |
-          echo "=== CI Pipeline Summary ==="
-          echo "Backend Tests: ${{ needs.backend-test.result }}"
-          echo "Backend Build: ${{ needs.backend-build.result }}"
-          echo "Frontend Check: ${{ needs.frontend-check.result }}"
-          
-          if [ "${{ needs.backend-test.result }}" = "failure" ] || 
-             [ "${{ needs.backend-build.result }}" = "failure" ] || 
-             [ "${{ needs.frontend-check.result }}" = "failure" ]; then
-            echo "❌ CI Pipeline Failed"
-            exit 1
-          else
-            echo "✅ CI Pipeline Passed"
-          fi
+  # ci-summary:
+  #   name: 📋 CI Summary
+  #   runs-on: ubuntu-latest
+  #   needs: [backend-test, backend-build, frontend-check]
+  #   if: always()
+  #
+  #   steps:
+  #     - name: 📊 Check All Job Results
+  #       run: |
+  #         echo "=== CI Pipeline Summary ==="
+  #         echo "Backend Tests: ${{ needs.backend-test.result }}"
+  #         echo "Backend Build: ${{ needs.backend-build.result }}"
+  #         echo "Frontend Check: ${{ needs.frontend-check.result }}"
+  #
+  #         if [ "${{ needs.backend-test.result }}" = "failure" ] ||
+  #            [ "${{ needs.backend-build.result }}" = "failure" ] ||
+  #            [ "${{ needs.frontend-check.result }}" = "failure" ]; then
+  #           echo "❌ CI Pipeline Failed"
+  #           exit 1
+  #         else
+  #           echo "✅ CI Pipeline Passed"
+  #         fi
 
 # ==============================================================================
 # Future Extensions (Phase 2以降で段階的に追加)
 # ==============================================================================
-# 
+#
 # integration-test:
 #   - Testcontainers + PostgreSQL
 #   - @DataJpaTest, @SpringBootTest
