@@ -25,11 +25,11 @@ env:
 
 jobs:
   # ==============================================================================
-  # Stage 1: Backend Basic Test (段階的CI構築 - 最小構成)
-  # PostgreSQL/Flyway/テスト実行は一旦コメントアウトし、コンパイル確認のみ
+  # Stage 1: Backend Domain Tests (段階的CI構築 - ユニットテストのみ)
+  # PostgreSQL/Flyway統合テストは一旦コメントアウト、ドメインテストのみ実行
   # ==============================================================================
   backend-test:
-    name: 🧪 Backend Basic Test (Minimal)
+    name: 🧪 Backend Domain Unit Tests
     runs-on: ubuntu-latest
 
     # PostgreSQLサービスコンテナは一旦コメントアウト（段階的CI構築）
@@ -76,27 +76,16 @@ jobs:
           mvn --version
           mvn help:effective-pom -q
 
-      - name: 🧪 Run Basic Unit Tests (No DB)
-        # PostgreSQLとFlywayは一旦コメントアウト（段階的CI構築）
-        # env:
-        #   SPRING_PROFILES_ACTIVE: test
-        #   SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/meatmetrics_test
-        #   SPRING_DATASOURCE_USERNAME: meatmetrics
-        #   SPRING_DATASOURCE_PASSWORD: meatmetrics123
-        #   SPRING_FLYWAY_ENABLED: true
-        #   SPRING_FLYWAY_CLEAN_DISABLED: false
+      - name: 🧪 Run Domain Unit Tests (No DB Required)
         run: |
-          # Flywayマイグレーション実行は一旦コメントアウト
-          # mvn flyway:info flyway:migrate \
-          #   -B \
-          #   -Dspring.profiles.active=test
-
-          # まずは最小限のコンパイル確認のみ
-          mvn clean compile \
+          # まずは純粋なドメインテスト（データベース不要）のみ実行
+          mvn clean test \
             -B \
+            -Dtest="com.meatmetrics.meatmetrics.domain.**.*Test" \
+            -DfailIfNoTests=false \
             --fail-at-end
 
-          # テスト実行も一旦コメントアウト
+          # PostgreSQL統合テストは一旦コメントアウト（段階的CI構築）
           # mvn test \
           #   -B \
           #   -Dspring.profiles.active=test \
