@@ -1,11 +1,27 @@
 {
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.gradle.enabled": false,
+  "java.import.maven.enabled": true,
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.format.settings.url": ".vscode/java-formatter.xml",
-  "[java]": {
-    "editor.insertSpaces": true
-  },
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "css.lint.unknownAtRules": "ignore"
+  "java.configuration.maven.userSettings": null,
+  "java.maven.downloadSources": true,
+  "java.maven.downloadJavadoc": false,
+  "java.sourceLevel": "17",
+  "java.test.defaultConfig": "default",
+  "java.test.config": [
+    {
+      "name": "default",
+      "workingDirectory": "${workspaceFolder}/backend"
+    }
+  ],
+  "java.project.sourcePaths": [
+    "backend/src/main/java",
+    "backend/src/test/java"
+  ],
+  "java.project.outputPath": "backend/target/classes",
+  "java.project.referencedLibraries": ["backend/target/dependency/*.jar"],
+  "files.exclude": {
+    "**/target": true,
+    "**/node_modules": true
+  }
 }

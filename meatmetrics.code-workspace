@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "backend",
+      "path": "./backend"
+    },
+    {
+      "name": "frontend",
+      "path": "./frontend"
+    },
+    {
+      "name": "docs",
+      "path": "./docs"
+    },
+    {
+      "name": "infrastructure",
+      "path": "./infrastructure"
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.maven.enabled": true,
+    "java.test.defaultConfig": "default",
+    "java.compile.nullAnalysis.mode": "disabled"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "type": "java",
+      "name": "Debug EmailTest",
+      "request": "launch",
+      "mainClass": "com.meatmetrics.meatmetrics.domain.user.EmailTest",
+      "projectName": "meatmetrics",
+      "cwd": "${workspaceFolder}/backend"
+    }
+  ]
+}
