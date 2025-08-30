@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.meatmetrics.meatmetrics.domain.user.UserRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.84 s -- in com.meatmetrics.meatmetrics.domain.user.UserRepositoryTest

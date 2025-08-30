@@ -1,4 +1,4 @@
-package com.meatmetrics.meatmetrics.domain.user;
+package com.meatmetrics.meatmetrics.domain.user.aggregate;
 
 import com.meatmetrics.meatmetrics.domain.user.exception.InvalidGoalValueException;
 

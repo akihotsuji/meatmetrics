@@ -1,4 +1,4 @@
-package com.meatmetrics.meatmetrics.domain.user;
+package com.meatmetrics.meatmetrics.domain.user.valueobject;
 
 import com.meatmetrics.meatmetrics.domain.user.exception.InvalidUsernameException;
 

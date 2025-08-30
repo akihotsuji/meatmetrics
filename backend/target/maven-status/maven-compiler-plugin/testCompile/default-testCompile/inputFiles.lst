@@ -1,6 +1,10 @@
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\domain\user\EmailTest.java
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\domain\user\PasswordHashTest.java
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\domain\user\UserGoalTest.java
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\domain\user\UsernameTest.java
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\domain\user\UserTest.java
-C:\Users\81906\Desktop\MeatMetrics\meatmetrics\backend\src\test\java\com\meatmetrics\meatmetrics\MeatmetricsApplicationTests.java
+/app/src/test/java/com/meatmetrics/meatmetrics/MeatmetricsApplicationTests.java
+/app/src/test/java/com/meatmetrics/meatmetrics/PostgreSQLTestBase.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/EmailTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/PasswordHashTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UserGoalTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UserRepositoryTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UserTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UsernameTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/infrastructure/persistence/user/UserRepositoryJpaImplContainerIntegrationTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/infrastructure/persistence/user/UserRepositoryJpaImplIntegrationTest.java

@@ -2,7 +2,7 @@
 
 ## 概要
 
-MeatMetrics プロジェクトの Docker 環境を構築するための詳細な手順書です。開発環境と本番環境の両方に対応しています。
+MeatMetrics プロジェクトの Docker 環境を構築するための詳細な手順書です。**Docker 内での完全な開発環境**を提供し、ローカルのソフトウェアインストールを最小限に抑えます。
 
 ## 前提条件
 
@@ -11,12 +11,20 @@ MeatMetrics プロジェクトの Docker 環境を構築するための詳細な
 - Docker Desktop (Windows/Mac) または Docker Engine (Linux)
 - Docker Compose v2.0 以上
 - Git
+- **※Maven、Node.js、PostgreSQL 等は不要（すべて Docker 内で実行）**
 
 ### システム要件
 
 - メモリ: 最低 4GB、推奨 8GB 以上
 - ディスク容量: 最低 10GB、推奨 20GB 以上
 - CPU: 2 コア以上
+
+## 🎯 開発環境の特徴
+
+- **完全コンテナ化**: Maven、Node.js、PostgreSQL すべて Docker 内で実行
+- **ホットリロード対応**: ソースコード変更の即座反映
+- **ポート統一**: ホスト側で統一されたポート番号でアクセス
+- **データ永続化**: コンテナ再起動時もデータベースデータが保持
 
 ## ディレクトリ構造（実体）
 
@@ -346,22 +354,73 @@ networks:
     driver: bridge
 ```
 
-## 5. 環境構築手順
+## 5. 開発環境の構築・運用手順
 
-### 5.1 開発環境の起動
+### 5.1 初回セットアップ
 
 ```bash
-# 1. ディレクトリ移動
+# 1. プロジェクトルートに移動
+cd /path/to/meatmetrics
+
+# 2. 開発環境ディレクトリに移動
 cd infrastructure/docker/dev
 
-# 2. 開発環境の起動
-docker compose up -d --build
+# 3. 初回ビルド&起動（時間がかかります）
+docker compose up --build
 
-# 3. ログの確認
+# 4. バックグラウンド起動する場合
+docker compose up -d --build
+```
+
+### 5.2 日常の開発フロー
+
+```bash
+# 開発開始
+cd infrastructure/docker/dev
+docker compose up -d
+
+# 開発終了
+docker compose down
+
+# サービス状態確認
+docker compose ps
+
+# リアルタイムログ確認
 docker compose logs -f
 
-# 4. 各サービスの状態確認
-docker compose ps
+# 特定サービスのログ確認
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f postgres
+```
+
+### 5.3 アクセス URL
+
+開発環境起動後、以下の URL でアクセスできます：
+
+| サービス             | URL                   | 説明                           |
+| -------------------- | --------------------- | ------------------------------ |
+| **フロントエンド**   | http://localhost:5173 | React 開発サーバー             |
+| **バックエンド API** | http://localhost:8081 | Spring Boot API                |
+| **PostgreSQL**       | localhost:15432       | データベース（IDE 等から接続） |
+
+### 5.4 リビルドが必要なケース
+
+以下の変更を行った場合はリビルドが必要です：
+
+```bash
+# Dockerfileやpackage.json、pom.xmlを変更した場合
+docker compose down
+docker compose up --build
+
+# または特定サービスのみリビルド
+docker compose build backend
+docker compose up -d backend
+
+# 完全クリーンビルド（キャッシュも削除）
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 ```
 
 ### 5.2 本番環境の起動
@@ -411,40 +470,163 @@ docker compose logs backend
 docker compose logs -f nginx
 ```
 
+## 6. Docker 開発環境での作業方法
+
+### 6.1 コンテナ内でのコマンド実行
+
+```bash
+# バックエンドコンテナ内でMavenコマンドを実行
+docker compose exec backend mvn test
+docker compose exec backend mvn spring-boot:run
+
+# フロントエンドコンテナ内でnpmコマンドを実行
+docker compose exec frontend npm test
+docker compose exec frontend npm run lint
+
+# PostgreSQLコンテナ内でpsqlコマンドを実行
+docker compose exec postgres psql -U meatmetrics -d meatmetrics
+```
+
+### 6.2 コンテナ内でのシェルアクセス
+
+```bash
+# バックエンドコンテナ内でシェルを起動
+docker compose exec backend bash
+
+# フロントエンドコンテナ内でシェルを起動
+docker compose exec frontend sh
+
+# PostgreSQLコンテナ内でシェルを起動
+docker compose exec postgres bash
+```
+
+### 6.3 ファイル変更の反映
+
+開発環境では以下のディレクトリがマウントされており、変更は即座に反映されます：
+
+```yaml
+# backend/src/ 配下の変更
+- Spring Boot DevToolsによる自動再起動
+- Java, properties, SQL ファイルの変更検知
+
+# frontend/src/ 配下の変更
+- Vite HMR（Hot Module Replacement）による即座更新
+- TypeScript, CSS, React コンポーネントの変更検知
+```
+
+### 6.4 ポート設定の確認
+
+現在の実際のポート設定：
+
+```yaml
+# docker-compose.yml 実際の設定
+services:
+  postgres:
+    ports:
+      - "15432:5432" # ホスト:15432 → コンテナ:5432
+
+  backend:
+    ports:
+      - "8081:8080" # ホスト:8081 → コンテナ:8080
+    environment:
+      SERVER_PORT: 8080 # コンテナ内のSpring Bootポート
+
+  frontend:
+    ports:
+      - "5173:5173" # ホスト:5173 → コンテナ:5173
+```
+
 ## 7. トラブルシューティング
 
 ### 7.1 よくある問題と解決方法
 
-#### ポート競合
+#### 1. ポート競合エラー
 
 ```bash
-# 使用中のポート確認
-netstat -an | findstr :80
-netstat -an | findstr :8080
+# 使用中のポート確認（Windows）
+netstat -an | findstr :8081
+netstat -an | findstr :5173
+netstat -an | findstr :15432
 
-# 競合するプロセスの停止
+# 使用中のポート確認（Mac/Linux）
+lsof -i :8081
+lsof -i :5173
+lsof -i :15432
+
+# 競合するプロセスの停止（Windows）
 taskkill /F /PID <PID>
+
+# 競合するプロセスの停止（Mac/Linux）
+kill -9 <PID>
 ```
 
-#### ボリュームの問題
+#### 2. データベース接続エラー
+
+```bash
+# PostgreSQLコンテナの状態確認
+docker compose ps postgres
+
+# PostgreSQLのログ確認
+docker compose logs postgres
+
+# データベース接続テスト
+docker compose exec postgres psql -U meatmetrics -d meatmetrics -c "SELECT version();"
+```
+
+#### 3. Spring Boot 起動失敗
+
+```bash
+# バックエンドのログ確認
+docker compose logs backend
+
+# Mavenキャッシュクリア
+docker compose exec backend mvn clean
+
+# バックエンドの再ビルド
+docker compose build --no-cache backend
+docker compose up -d backend
+```
+
+#### 4. ボリュームの問題
 
 ```bash
 # ボリュームの詳細確認
-docker volume inspect postgres16_data
+docker volume inspect dev_postgres16_data
+docker volume inspect dev_maven_cache
 
 # ボリュームの削除（注意：データが失われます）
-docker volume rm postgres16_data
+docker compose down
+docker volume rm dev_postgres16_data
+
+# 完全リセット
+docker compose down -v  # ボリュームも削除
+docker compose up --build
 ```
 
-#### ネットワークの問題
+#### 5. ネットワークの問題
 
 ```bash
 # ネットワークの詳細確認
-docker network inspect meatmetrics_meatmetrics-network
+docker network inspect dev_meatmetrics-network
 
 # ネットワークの再作成
-docker-compose -f docker-compose.dev.yml down
-docker-compose -f docker-compose.dev.yml up -d
+docker compose down
+docker compose up -d
+```
+
+#### 6. キャッシュの問題
+
+```bash
+# Dockerイメージキャッシュクリア
+docker system prune -f
+
+# ビルドキャッシュクリア
+docker builder prune -f
+
+# 完全クリーンアップ
+docker compose down -v
+docker system prune -a -f
+docker compose up --build
 ```
 
 ### 7.2 デバッグ用コマンド
@@ -518,8 +700,143 @@ networks:
     internal: true
 ```
 
+## 8. 開発効率を上げる Tips
+
+### 8.1 便利なエイリアス設定
+
+```bash
+# ~/.bashrc または ~/.zshrc に追加
+alias dcup='docker compose up -d'
+alias dcdown='docker compose down'
+alias dcbuild='docker compose build'
+alias dclogs='docker compose logs -f'
+alias dcps='docker compose ps'
+
+# MeatMetrics専用エイリアス
+alias mmdev='cd /path/to/meatmetrics/infrastructure/docker/dev'
+alias mmup='mmdev && dcup'
+alias mmdown='mmdev && dcdown'
+alias mmrebuild='mmdev && dcdown && dcbuild && dcup'
+```
+
+### 8.2 IDE 設定のコツ
+
+#### データベース接続設定
+
+```
+Host: localhost
+Port: 15432
+Database: meatmetrics
+Username: meatmetrics
+Password: meatmetrics123
+```
+
+#### デバッグポート設定
+
+```yaml
+# デバッグ用にポートを追加する場合
+backend:
+  ports:
+    - "8081:8080"
+    - "5005:5005" # デバッグポート
+  environment:
+    JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+```
+
+### 8.3 パフォーマンス改善
+
+```bash
+# Docker Desktop設定推奨値
+- Memory: 6GB以上
+- CPU: 4コア以上
+- Disk Image Size: 100GB以上
+
+# WSL2使用時（Windows）
+# .wslconfig ファイル設定
+[wsl2]
+memory=6GB
+processors=4
+```
+
+### 8.4 よく使うコマンド集
+
+```bash
+# 全体状況の確認
+docker compose ps
+docker compose top
+
+# リソース使用量確認
+docker stats
+
+# ログのフィルタリング
+docker compose logs backend | grep ERROR
+docker compose logs frontend | grep WARN
+
+# 特定時間のログ確認
+docker compose logs --since="2024-01-01T10:00:00" backend
+
+# コンテナ内のプロセス確認
+docker compose exec backend ps aux
+docker compose exec frontend ps aux
+
+# ファイルの確認
+docker compose exec backend ls -la /app
+docker compose exec frontend ls -la /app
+
+# 環境変数の確認
+docker compose exec backend env
+docker compose exec frontend env
+```
+
+### 8.5 開発ワークフローの例
+
+```bash
+# 1. 朝の開発開始
+mmup && dclogs
+
+# 2. フィーチャー開発中
+# コードを編集（自動でホットリロード）
+# 必要に応じてテスト実行
+docker compose exec backend mvn test
+docker compose exec frontend npm test
+
+# 3. 依存関係追加時
+docker compose exec backend mvn dependency:tree
+docker compose exec frontend npm install new-package
+# 必要に応じてリビルド
+dcbuild backend
+
+# 4. データベース操作
+docker compose exec postgres psql -U meatmetrics -d meatmetrics
+
+# 5. 開発終了
+mmdown
+```
+
+## 9. 本番環境との差異
+
+### 9.1 開発環境特有の設定
+
+- **ボリュームマウント**: ソースコードの変更を即座反映
+- **開発ツール有効**: Spring Boot DevTools, Vite HMR
+- **デバッグログ有効**: 詳細なログ出力
+- **外部ポート公開**: 各サービスへの直接アクセス
+
+### 9.2 本番環境での変更点
+
+- **ビルド済み成果物**: ソースコードはコンテナ内にコピー
+- **最適化設定**: プロダクション用の設定値
+- **Nginx 使用**: リバースプロキシ経由でのアクセス
+- **セキュリティ強化**: 最小限のポートのみ公開
+
 ---
 
-**最終更新**: 2025 年 8 月 11 日  
+**最終更新**: 2025 年 8 月 28 日  
 **更新者**: 開発チーム  
 **次回更新予定**: 環境構築完了後
+
+## 🔗 関連ドキュメント
+
+- [Docker 環境アーキテクチャ](./architecture.md)
+- [デプロイ・運用手順](./deployment.md)
+- [CI/CD 設定ガイド](../2_detail/11_ci_cd.md)

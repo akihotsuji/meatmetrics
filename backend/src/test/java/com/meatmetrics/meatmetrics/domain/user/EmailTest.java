@@ -1,5 +1,6 @@
 package com.meatmetrics.meatmetrics.domain.user;
 
+import com.meatmetrics.meatmetrics.domain.user.valueobject.Email;
 import com.meatmetrics.meatmetrics.domain.user.exception.InvalidEmailException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

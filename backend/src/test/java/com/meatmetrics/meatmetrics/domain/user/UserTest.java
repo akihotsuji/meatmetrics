@@ -1,5 +1,10 @@
 package com.meatmetrics.meatmetrics.domain.user;
 
+import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
+import com.meatmetrics.meatmetrics.domain.user.aggregate.UserGoal;
+import com.meatmetrics.meatmetrics.domain.user.valueobject.Email;
+import com.meatmetrics.meatmetrics.domain.user.valueobject.Username;
+import com.meatmetrics.meatmetrics.domain.user.valueobject.PasswordHash;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateEmailException;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateUsernameException;
 import com.meatmetrics.meatmetrics.domain.user.exception.MultipleActiveGoalsException;

@@ -210,13 +210,13 @@
 - [ ] 監視・バックアップ手順の doc 追記（DB バックアップ、ボリュームバックアップ）
 - [ ] `.env` の管理方針明確化（本番は Secrets 管理を前提）
 
-### 🔐 **Phase 2: 認証・ユーザー管理 (MVP)** - 未着手
+### 🔐 **Phase 2: 認証・ユーザー管理 (MVP)** - 進行中
 
 **優先度**: 高  
 **予想完了日**: 2025 年 1 月上旬  
 **担当者**: 開発チーム
 
-#### 未着手タスク ⏳
+#### 進行中タスク 🔄
 
 ##### 🏗️ DDD 境界づけられたコンテキストの設計（最優先）
 
@@ -242,10 +242,11 @@
 
 ##### 認証インフラ層の実装 (Infrastructure Layer)
 
-- [ ] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）
-- [ ] **auth-infra-002**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
-- [ ] **auth-infra-003**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）
-- [ ] **auth-infra-004**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装
+- [x] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）✅ **完了 2024-12-21**
+- [x] **auth-infra-002**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）✅ **完了 2024-12-21**
+- [ ] **auth-infra-003**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装 🔄 **進行中**
+- [ ] **auth-infra-004**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
+- [ ] **auth-infra-005**: 認証インフラ層の実装 - 統合テスト（JUnit + Testcontainers）
 
 ##### 認証アプリケーション層の実装 (Application Layer)
 
@@ -301,7 +302,7 @@
 
 ##### 🧪 JUnit 統合テスト・E2E テスト（TDD 後フェーズ）
 
-- [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL
+- [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL 🔄 **今日実装予定**
 - [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserUseCase の統合テスト（正常系・重複エラー・バリデーション）
 - [ ] **auth-test-009**: **[JUnit 統合]** LoginUseCase の統合テスト（正常系・認証失敗）
 - [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン API）

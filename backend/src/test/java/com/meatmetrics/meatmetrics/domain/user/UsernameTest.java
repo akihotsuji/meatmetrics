@@ -1,5 +1,6 @@
 package com.meatmetrics.meatmetrics.domain.user;
 
+import com.meatmetrics.meatmetrics.domain.user.valueobject.Username;
 import com.meatmetrics.meatmetrics.domain.user.exception.InvalidUsernameException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
