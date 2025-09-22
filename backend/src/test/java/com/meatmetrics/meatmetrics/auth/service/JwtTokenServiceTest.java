@@ -45,7 +45,7 @@ class JwtTokenServiceTest {
             1L,
             new Email("test@example.com"),
             new Username("testuser"),
-            new PasswordHash("encodedPassword"),
+            new PasswordHash("TestPass123"),  // パスワード強度要件を満たす強いパスワード
             new java.util.ArrayList<>(),
             java.time.Instant.now(),
             java.time.Instant.now()

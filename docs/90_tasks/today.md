@@ -175,17 +175,17 @@
 
 #### ✅ Task 5-1: Command バリデーションテスト (40 分)
 
-- [ ] **RegisterUserCommandTest.java**:
-  - [ ] 正常ケーステスト
-  - [ ] email 形式エラーテスト
-  - [ ] パスワード長さエラーテスト
-  - [ ] username 形式エラーテスト
-- [ ] **LoginCommandTest.java**:
-  - [ ] 正常ケーステスト
-  - [ ] email/password 必須チェックテスト
-- [ ] **ChangePasswordCommandTest.java**:
-  - [ ] 正常ケーステスト
-  - [ ] 新旧パスワード同一エラーテスト
+- [x] **RegisterUserCommandTest.java**:
+  - [x] 正常ケーステスト
+  - [x] email 形式エラーテスト
+  - [x] パスワード長さエラーテスト
+  - [x] username 形式エラーテスト
+- [x] **LoginCommandTest.java**:
+  - [x] 正常ケーステスト
+  - [x] email/password 必須チェックテスト
+- [x] **ChangePasswordCommandTest.java**:
+  - [x] 正常ケーステスト
+  - [x] 新旧パスワード同一エラーテスト
 
 #### ✅ Task 5-2: Service ロジックテスト (80 分)
 

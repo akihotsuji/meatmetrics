@@ -57,7 +57,7 @@ public class UserMapper {
             entity.getId(),
             new Email(entity.getEmail()),
             new Username(entity.getUsername()),
-            new PasswordHash(entity.getPasswordHash()),
+            PasswordHash.fromHash(entity.getPasswordHash()),
             new ArrayList<>(), // UserGoalは別途取得
             entity.getCreatedAt(),
             entity.getUpdatedAt()

@@ -1,5 +1,12 @@
 /app/src/test/java/com/meatmetrics/meatmetrics/MeatmetricsApplicationTests.java
 /app/src/test/java/com/meatmetrics/meatmetrics/PostgreSQLTestBase.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/command/ChangePasswordCommandTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/command/LoginCommandTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/command/RegisterUserCommandTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/service/ChangePasswordServiceTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/service/JwtTokenServiceTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/service/LoginServiceTest.java
+/app/src/test/java/com/meatmetrics/meatmetrics/auth/service/RegisterUserServiceTest.java
 /app/src/test/java/com/meatmetrics/meatmetrics/domain/user/EmailTest.java
 /app/src/test/java/com/meatmetrics/meatmetrics/domain/user/PasswordHashTest.java
 /app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UserGoalTest.java
@@ -7,4 +14,3 @@
 /app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UserTest.java
 /app/src/test/java/com/meatmetrics/meatmetrics/domain/user/UsernameTest.java
 /app/src/test/java/com/meatmetrics/meatmetrics/infrastructure/persistence/user/UserRepositoryJpaImplContainerIntegrationTest.java
-/app/src/test/java/com/meatmetrics/meatmetrics/infrastructure/persistence/user/UserRepositoryJpaImplIntegrationTest.java

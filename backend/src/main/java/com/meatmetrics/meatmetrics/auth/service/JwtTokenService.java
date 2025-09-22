@@ -55,6 +55,7 @@ public class JwtTokenService {
                 .subject(user.getId().toString())              // JWTの主体（ユーザーID）を設定
                 .claim("email", user.getEmail().getValue())    // カスタムクレーム：メールアドレス
                 .claim("username", user.getUsername().getValue()) // カスタムクレーム：ユーザー名
+                .id(java.util.UUID.randomUUID().toString())     // 一意識別子を付与して同一時刻発行でも差異を保証
                 .issuedAt(now)                                 // 発行日時（iat）
                 .expiration(expiryDate)                        // 有効期限（exp）
                 .signWith(getSigningKey())                     // HMAC-SHA256で署名
