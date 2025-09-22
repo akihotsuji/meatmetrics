@@ -7,9 +7,9 @@ services:
       dockerfile: ./postgres/Dockerfile
     container_name: meatmetrics-postgres
     environment:
-      POSTGRES_DB: meatmetrics
-      POSTGRES_USER: meatmetrics
-      POSTGRES_PASSWORD: meatmetrics123
+      POSTGRES_DB: ${POSTGRES_DB:-meatmetrics}
+      POSTGRES_USER: ${POSTGRES_USER:-meatmetrics}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-meatmetrics123}
     volumes:
       - postgres16_data:/var/lib/postgresql/data
       - ../init:/docker-entrypoint-initdb.d
@@ -24,10 +24,16 @@ services:
       context: ../../../backend
       dockerfile: ../backend/Dockerfile
     environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/meatmetrics
-      SPRING_DATASOURCE_USERNAME: meatmetrics
-      SPRING_DATASOURCE_PASSWORD: meatmetrics123
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-meatmetrics}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-meatmetrics}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-meatmetrics123}
+      # JWT設定（.envファイルから読み込み）
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_ACCESS_TOKEN_EXPIRATION_MS: ${JWT_ACCESS_TOKEN_EXPIRATION_MS:-3600000}
+      JWT_REFRESH_TOKEN_EXPIRATION_MS: ${JWT_REFRESH_TOKEN_EXPIRATION_MS:-604800000}
+      # サーバー設定
+      SERVER_PORT: ${SERVER_PORT:-8080}
     depends_on:
       - postgres
     networks:

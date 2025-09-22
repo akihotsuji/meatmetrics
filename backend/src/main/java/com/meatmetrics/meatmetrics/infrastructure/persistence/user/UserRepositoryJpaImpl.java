@@ -92,6 +92,18 @@ public class UserRepositoryJpaImpl implements UserRepository {
                 .map(userMapper::toDomain);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findById(Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("UserId cannot be null");
+        }
+
+        // Username値オブジェクトから値を取得
+        return userJpaRepository.findById(userId)
+                .map(userMapper::toDomain);
+    }
+
     /**
      * User集約を永続化
      * 

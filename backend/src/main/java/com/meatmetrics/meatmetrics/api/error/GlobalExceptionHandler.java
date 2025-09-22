@@ -20,6 +20,11 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.NoSuchElementException;
 
+import com.meatmetrics.meatmetrics.auth.exception.AuthenticationException;
+import com.meatmetrics.meatmetrics.domain.user.exception.DomainException;
+import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateEmailException;
+import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateUsernameException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -33,50 +38,77 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadRequest(Exception exception, HttpServletRequest request) {
         log.warn("Bad request: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getClass().getSimpleName());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(body(request, "リクエストが不正です。", ApiErrorCode.BAD_REQUEST));
+            .body(body(request, "リクエストが不正です。", ApiErrorCode.BAD_REQUEST));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handleMethodNotAllowed(HttpServletRequest request) {
         log.warn("Method not allowed: {} {}", request.getMethod(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
-                .body(body(request, "許可されていないメソッドです。", ApiErrorCode.METHOD_NOT_ALLOWED));
+            .body(body(request, "許可されていないメソッドです。", ApiErrorCode.METHOD_NOT_ALLOWED));
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorResponse> handleValidation(Exception exception, HttpServletRequest request) {
         log.warn("Validation error: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getClass().getSimpleName());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(body(request, "入力値が不正です。", ApiErrorCode.VALIDATION_ERROR));
+        .body(body(request, "入力値が不正です。", ApiErrorCode.VALIDATION_ERROR));
     }
-
+    
+    /**
+     * その他のドメイン例外のハンドリング
+     */
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<ErrorResponse> handleDomainException(DomainException exception, HttpServletRequest request) {
+        log.warn("Domain rule violation: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(body(request, exception.getMessage(), ApiErrorCode.VALIDATION_ERROR));
+    }
+    
     @ExceptionHandler({NoSuchElementException.class})
     public ResponseEntity<ErrorResponse> handleNotFound(NoSuchElementException exception, HttpServletRequest request) {
         log.warn("Not found: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(body(request, "指定されたリソースが見つかりません。", ApiErrorCode.NOT_FOUND));
+            .body(body(request, "指定されたリソースが見つかりません。", ApiErrorCode.NOT_FOUND));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleConflict(DataIntegrityViolationException exception, HttpServletRequest request) {
         log.warn("Conflict: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getClass().getSimpleName());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(body(request, "リソースの整合性制約に違反しました。", ApiErrorCode.CONFLICT));
+            .body(body(request, "リソースの整合性制約に違反しました。", ApiErrorCode.CONFLICT));
+    }
+    
+    @ExceptionHandler({DuplicateEmailException.class, DuplicateUsernameException.class})
+    public ResponseEntity<ErrorResponse> handleDuplicateUser(DomainException exception, HttpServletRequest request) {
+        log.warn("Duplicate user registration: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(body(request, exception.getMessage(), ApiErrorCode.CONFLICT));
     }
 
     @ExceptionHandler({SQLException.class, DataAccessException.class})
     public ResponseEntity<ErrorResponse> handleDbError(HttpServletRequest request) {
         log.error("Database error: {} {}", request.getMethod(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(body(request, "データベース処理でエラーが発生しました。", ApiErrorCode.DB_ERROR));
+            .body(body(request, "データベース処理でエラーが発生しました。", ApiErrorCode.DB_ERROR));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAnyException(Exception exception, HttpServletRequest request) {
         log.error("Unhandled exception: {} {} - {}", request.getMethod(), request.getRequestURI(), exception.getClass().getSimpleName());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(body(request, "サーバー内部でエラーが発生しました。", ApiErrorCode.INTERNAL_ERROR));
+            .body(body(request, "サーバー内部でエラーが発生しました。", ApiErrorCode.INTERNAL_ERROR));
     }
+
+    // GlobalExceptionHandler に追加
+    @ExceptionHandler(com.meatmetrics.meatmetrics.auth.exception.AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuth(AuthenticationException ex, HttpServletRequest request) {
+        log.warn("Authentication failed: {} {} - {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(body(request, "認証に失敗しました。", ApiErrorCode.UNAUTHORIZED));
+    }
+
+
 }
 
 

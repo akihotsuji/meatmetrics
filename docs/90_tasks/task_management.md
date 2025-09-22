@@ -244,18 +244,18 @@
 
 - [x] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）✅ **完了 2024-12-21**
 - [x] **auth-infra-002**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）✅ **完了 2024-12-21**
-- [ ] **auth-infra-003**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装 🔄 **進行中**
-- [ ] **auth-infra-004**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
-- [ ] **auth-infra-005**: 認証インフラ層の実装 - 統合テスト（JUnit + Testcontainers）
+- [x] **auth-infra-003**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装 🔄 **進行中**
+- [x] **auth-infra-004**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
+- [x] **auth-infra-005**: 認証インフラ層の実装 - 統合テスト（JUnit）
 
 ##### 認証アプリケーション層の実装 (Application Layer)
 
-- [ ] **auth-app-001**: 認証アプリケーション層の実装 - RegisterUserCommand（DTO）の実装
-- [ ] **auth-app-002**: 認証アプリケーション層の実装 - RegisterUserUseCase（@Service）の実装
-- [ ] **auth-app-003**: 認証アプリケーション層の実装 - LoginCommand（DTO）の実装
-- [ ] **auth-app-004**: 認証アプリケーション層の実装 - LoginUseCase（@Service、JWT 生成）の実装
-- [ ] **auth-app-005**: 認証アプリケーション層の実装 - ChangePasswordCommand（DTO）の実装
-- [ ] **auth-app-006**: 認証アプリケーション層の実装 - ChangePasswordUseCase（@Service）の実装
+- [x] **auth-app-001**: 認証アプリケーション層の実装 - RegisterUserCommand（DTO）の実装
+- [x] **auth-app-002**: 認証アプリケーション層の実装 - RegisterUserService（@Service）の実装
+- [x] **auth-app-003**: 認証アプリケーション層の実装 - LoginCommand（DTO）の実装
+- [x] **auth-app-004**: 認証アプリケーション層の実装 - LoginService（@Service、JWT 生成）の実装
+- [x] **auth-app-005**: 認証アプリケーション層の実装 - ChangePasswordCommand（DTO）の実装
+- [x] **auth-app-006**: 認証アプリケーション層の実装 - ChangePasswordService（@Service）の実装
 
 ##### 認証 Web 層の実装 (Presentation Layer)
 
@@ -286,10 +286,10 @@
 
 ##### プロフィールアプリケーション層
 
-- [ ] **profile-app-001**: プロフィールアプリケーション層の実装 - GetUserProfileQuery/UseCase の実装
-- [ ] **profile-app-002**: プロフィールアプリケーション層の実装 - UpdateUserProfileCommand/UseCase の実装
-- [ ] **profile-app-003**: プロフィールアプリケーション層の実装 - SetNutritionGoalsCommand/UseCase の実装
-- [ ] **profile-app-004**: プロフィールアプリケーション層の実装 - GetNutritionGoalsQuery/UseCase の実装
+- [ ] **profile-app-001**: プロフィールアプリケーション層の実装 - GetUserProfileQueryService の実装
+- [ ] **profile-app-002**: プロフィールアプリケーション層の実装 - UpdateUserProfileService の実装
+- [ ] **profile-app-003**: プロフィールアプリケーション層の実装 - SetNutritionGoalsService の実装
+- [ ] **profile-app-004**: プロフィールアプリケーション層の実装 - GetNutritionGoalsQueryService の実装
 
 ##### プロフィール Web 層
 
@@ -303,8 +303,8 @@
 ##### 🧪 JUnit 統合テスト・E2E テスト（TDD 後フェーズ）
 
 - [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL 🔄 **今日実装予定**
-- [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserUseCase の統合テスト（正常系・重複エラー・バリデーション）
-- [ ] **auth-test-009**: **[JUnit 統合]** LoginUseCase の統合テスト（正常系・認証失敗）
+- [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserService の統合テスト（正常系・重複エラー・バリデーション）
+- [ ] **auth-test-009**: **[JUnit 統合]** LoginService の統合テスト（正常系・認証失敗）
 - [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン API）
 - [ ] **auth-test-011**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
 - [ ] **auth-test-012**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス）
@@ -312,7 +312,7 @@
 ##### プロフィールシステムのテスト実装
 
 - [ ] **profile-test-001**: プロフィールシステムのテスト - NutritionGoals 値オブジェクトのユニットテスト
-- [ ] **profile-test-002**: プロフィールシステムのテスト - プロフィール関連 UseCase のユニットテスト
+- [ ] **profile-test-002**: プロフィールシステムのテスト - プロフィール関連 Service のユニットテスト
 - [ ] **profile-test-003**: プロフィールシステムのテスト - UserController の統合テスト（認証済みユーザー）
 - [ ] **profile-test-004**: プロフィールシステムのテスト - セキュリティテスト（他ユーザーのプロフィールアクセス拒否）
 
@@ -370,9 +370,9 @@
 
 ##### 食材アプリケーション層の実装 (Application Layer)
 
-- [ ] **food-app-001**: 食材アプリケーション層の実装 - SearchFoodsQuery/UseCase の実装
-- [ ] **food-app-002**: 食材アプリケーション層の実装 - GetFoodsByCategoryQuery/UseCase の実装
-- [ ] **food-app-003**: 食材アプリケーション層の実装 - GetFoodsByTagsQuery/UseCase の実装
+- [ ] **food-app-001**: 食材アプリケーション層の実装 - SearchFoodsQueryService の実装
+- [ ] **food-app-002**: 食材アプリケーション層の実装 - GetFoodsByCategoryQueryService の実装
+- [ ] **food-app-003**: 食材アプリケーション層の実装 - GetFoodsByTagsQueryService の実装
 
 ##### 食材 Web 層の実装 (Presentation Layer)
 
@@ -430,12 +430,12 @@
 
 ##### 食事記録アプリケーション層の実装 (Application Layer)
 
-- [ ] **meal-app-001**: 食事記録アプリケーション層の実装 - CreateMealCommand/UseCase の実装
-- [ ] **meal-app-002**: 食事記録アプリケーション層の実装 - UpdateMealCommand/UseCase の実装
-- [ ] **meal-app-003**: 食事記録アプリケーション層の実装 - DeleteMealCommand/UseCase の実装
-- [ ] **meal-app-004**: 食事記録アプリケーション層の実装 - GetMealsByDateQuery/UseCase の実装
-- [ ] **meal-app-005**: 食事記録アプリケーション層の実装 - AddMealItemCommand/UseCase の実装
-- [ ] **meal-app-006**: 食事記録アプリケーション層の実装 - UpdateMealItemCommand/UseCase の実装
+- [ ] **meal-app-001**: 食事記録アプリケーション層の実装 - CreateMealService の実装
+- [ ] **meal-app-002**: 食事記録アプリケーション層の実装 - UpdateMealService の実装
+- [ ] **meal-app-003**: 食事記録アプリケーション層の実装 - DeleteMealService の実装
+- [ ] **meal-app-004**: 食事記録アプリケーション層の実装 - GetMealsByDateQueryService の実装
+- [ ] **meal-app-005**: 食事記録アプリケーション層の実装 - AddMealItemService の実装
+- [ ] **meal-app-006**: 食事記録アプリケーション層の実装 - UpdateMealItemService の実装
 
 ##### 食事記録 Web 層の実装 (Presentation Layer)
 
@@ -449,7 +449,7 @@
 
 - [ ] **meal-test-001**: 食事記録システムのテスト - NutritionCalculatorService のユニットテスト（net_carbs 計算）
 - [ ] **meal-test-002**: 食事記録システムのテスト - MealAggregationService のユニットテスト（栄養集計）
-- [ ] **meal-test-003**: 食事記録システムのテスト - Meal 関連 UseCase のユニットテスト
+- [ ] **meal-test-003**: 食事記録システムのテスト - Meal 関連 Service のユニットテスト
 - [ ] **meal-test-004**: 食事記録システムのテスト - MealController の統合テスト（CRUD 操作）
 
 ##### サマリー・分析機能の実装
@@ -460,8 +460,8 @@
 
 ##### サマリーアプリケーション層
 
-- [ ] **summary-app-001**: サマリーアプリケーション層の実装 - GetDailySummaryQuery/UseCase の実装
-- [ ] **summary-app-002**: サマリーアプリケーション層の実装 - GetWeeklySummaryQuery/UseCase の実装（拡張）
+- [ ] **summary-app-001**: サマリーアプリケーション層の実装 - GetDailySummaryQueryService の実装
+- [ ] **summary-app-002**: サマリーアプリケーション層の実装 - GetWeeklySummaryQueryService の実装（拡張）
 
 ##### サマリー Web 層
 
@@ -493,14 +493,14 @@
 
 - [ ] **dashboard-web-001**: ダッシュボード Web 層の実装 - DashboardController（@RestController）の実装
 - [ ] **dashboard-web-002**: ダッシュボード Web 層の実装 - ダッシュボードデータエンドポイント（GET /api/dashboard）の実装
-- [ ] **dashboard-app-001**: ダッシュボードアプリケーション層の実装 - GetDashboardDataQuery/UseCase の実装
+- [ ] **dashboard-app-001**: ダッシュボードアプリケーション層の実装 - GetDashboardDataQueryService の実装
 
 ##### レポート機能の実装
 
 - [ ] **reports-domain-001**: レポートドメインモデルの設計 - NutritionReport エンティティの実装
-- [ ] **reports-app-001**: レポートアプリケーション層の実装 - GenerateDailyReportQuery/UseCase の実装
-- [ ] **reports-app-002**: レポートアプリケーション層の実装 - GenerateWeeklyReportQuery/UseCase の実装
-- [ ] **reports-app-003**: レポートアプリケーション層の実装 - ExportReportDataQuery/UseCase の実装
+- [ ] **reports-app-001**: レポートアプリケーション層の実装 - GenerateDailyReportQueryService の実装
+- [ ] **reports-app-002**: レポートアプリケーション層の実装 - GenerateWeeklyReportQueryService の実装
+- [ ] **reports-app-003**: レポートアプリケーション層の実装 - ExportReportDataQueryService の実装
 - [ ] **reports-web-001**: レポート Web 層の実装 - ReportController（@RestController）の実装
 - [ ] **reports-web-002**: レポート Web 層の実装 - レポート生成エンドポイント（GET /api/reports?type=...&period=...）の実装
 - [ ] **reports-web-003**: レポート Web 層の実装 - データエクスポートエンドポイント（GET /api/reports/export）の実装
@@ -701,7 +701,7 @@
 - **🧪 JUnit 統合テスト**: 21 タスク（JUnit 重視）
 - **🏗️ ドメイン層**: 15 タスク（ビジネスロジック中心）
 - **🔧 インフラ層**: 15 タスク
-- **⚙️ アプリケーション層**: 24 タスク
+- **⚙️ アプリケーション層（Service）**: 24 タスク
 - **🌐 Web 層**: 24 タスク
 - **🚀 CI/CD 基盤**: 8 タスク（段階的構築）
 - **🚀 専門 CI/CD**: 26 タスク（機能別品質・デプロイ・監視）

@@ -56,6 +56,15 @@ public interface UserRepository {
     Optional<User> findByUsername(Username username);
 
     /**
+     * ユーザーIDでユーザーを検索
+     * 
+     * @param userId 検索対象のuserId
+     * @return 見つかったユーザー、存在しない場合は{@code Optional.empty()}
+     * @throws IllegalArgumentException userId がnullの場合
+     */
+    Optional<User> findById(Long userId);
+
+    /**
      * ユーザーを保存（新規作成・更新）
      * 
      * <p>User集約全体の整合性を保持して永続化します。</p>

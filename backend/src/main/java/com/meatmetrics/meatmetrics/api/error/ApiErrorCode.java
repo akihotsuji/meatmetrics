@@ -7,7 +7,8 @@ public enum ApiErrorCode {
     METHOD_NOT_ALLOWED,
     CONFLICT,
     DB_ERROR,
-    INTERNAL_ERROR
+    INTERNAL_ERROR,
+    UNAUTHORIZED
 }
 
 
