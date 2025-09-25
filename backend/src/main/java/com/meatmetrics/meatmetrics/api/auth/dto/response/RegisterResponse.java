@@ -1,4 +1,4 @@
-package com.meatmetrics.meatmetrics.auth.dto;
+package com.meatmetrics.meatmetrics.api.auth.dto.response;
 
 import java.time.LocalDateTime;
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
@@ -13,7 +13,7 @@ import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
  * @author MeatMetrics Development Team
  * @since 1.0.0
  */
-public class UserRegisteredResult {
+public class RegisterResponse {
     
     /** ユーザーID */
     private Long userId;
@@ -28,7 +28,7 @@ public class UserRegisteredResult {
     private LocalDateTime createdAt;
     
     /** デフォルトコンストラクタ（Jackson用） */
-    public UserRegisteredResult() {}
+    public RegisterResponse() {}
     
     /**
      * 全項目指定コンストラクタ
@@ -38,7 +38,7 @@ public class UserRegisteredResult {
      * @param username ユーザー名
      * @param createdAt 登録日時
      */
-    public UserRegisteredResult(Long userId, String email, String username, LocalDateTime createdAt) {
+    public RegisterResponse(Long userId, String email, String username, LocalDateTime createdAt) {
         this.userId = userId;
         this.email = email;
         this.username = username;
@@ -49,10 +49,10 @@ public class UserRegisteredResult {
      * UserドメインオブジェクトからDTOを生成するファクトリメソッド
      * 
      * @param user Userドメインオブジェクト
-     * @return UserRegisteredResult DTO
+     * @return RegisterResponse DTO
      */
-    public static UserRegisteredResult from(User user) {
-        return new UserRegisteredResult(
+    public static RegisterResponse from(User user) {
+        return new RegisterResponse(
             user.getId(),
             user.getEmail().getValue(),
             user.getUsername().getValue(),

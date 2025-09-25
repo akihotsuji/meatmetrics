@@ -3,7 +3,7 @@ package com.meatmetrics.meatmetrics.auth.service;
 import org.springframework.stereotype.Service;
 
 import com.meatmetrics.meatmetrics.auth.command.LoginCommand;
-import com.meatmetrics.meatmetrics.auth.dto.LoginResult;
+import com.meatmetrics.meatmetrics.api.auth.dto.response.LoginResponse;
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
 import com.meatmetrics.meatmetrics.domain.user.repository.UserRepository;
 import com.meatmetrics.meatmetrics.domain.user.valueobject.Email;
@@ -55,7 +55,7 @@ public class LoginService {
      * @throws AuthenticationException 認証失敗時
      */
     // public LoginResult login(LoginCommand command) { ... }
-    public LoginResult login(LoginCommand command){
+    public LoginResponse login(LoginCommand command){
         // ステップ1: バリデーション済みのコマンドから値オブジェクトに変換
         Email email = command.toEmail();
         String plainPassword = command.getPassword();
@@ -75,33 +75,7 @@ public class LoginService {
         long expirationSeconds  = jwtTokenService.getAccessTokenExpirationSeconds();
 
         // ステップ5: レスポンス用DTOを生成（LoginResultクラスのstaticメソッドであるfrom()内部で生成されたインスタンスを返却）
-        return LoginResult.from(user, accessToken, refreshToken, expirationSeconds);
+        return LoginResponse.from(user, accessToken, refreshToken, expirationSeconds);
     }
     
-    /**
-     * トークン再発行
-     * 
-     * @param refreshToken リフレッシュトークン
-     * @return 新しいアクセストークン
-     * @throws AuthenticationException 認証失敗時
-     */
-    public LoginResult refreshToken(String refreshToken){
-         // リフレッシュトークンの検証とユーザーID抽出
-         if (!jwtTokenService.validateToken(refreshToken)){
-            throw new AuthenticationException("認証に失敗しました");
-         }
-
-         Long userId = jwtTokenService.extractUserId(refreshToken);
-
-         // ユーザー存在確認（削除されたユーザーの古いトークン対策）
-         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new AuthenticationException("認証に失敗しました"));
-
-         // 新しいアクセストークンを発行
-         String accessToken = jwtTokenService.generateAccessToken(user);
-         Long expiresIn = jwtTokenService.getAccessTokenExpirationSeconds();
-
-         // リフレッシュトークンはそのまま返却（ローテーションは拡張で実装）
-         return LoginResult.from(user, accessToken, refreshToken, expiresIn);
-    }
 }

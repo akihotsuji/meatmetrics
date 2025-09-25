@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meatmetrics.meatmetrics.auth.command.RegisterUserCommand;
-import com.meatmetrics.meatmetrics.auth.dto.UserRegisteredResult;
+import com.meatmetrics.meatmetrics.api.auth.dto.response.RegisterResponse;
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateEmailException;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateUsernameException;
@@ -56,7 +56,7 @@ public class RegisterUserService {
      * @throws DuplicateUsernameException ユーザー名が既に存在する場合
      * @throws WeakPasswordException パスワードが強度要件を満たさない場合
      */
-    public UserRegisteredResult register(RegisterUserCommand command){
+    public RegisterResponse register(RegisterUserCommand command){
         // 1. コマンドからドメイン値オブジェクトに変換
         Email email = command.toEmail();
         Username username = command.toUsername();
@@ -83,6 +83,6 @@ public class RegisterUserService {
         User savedUser = userRepository.save(newUser);
         
         // 7. ドメインモデルをDTOに変換してレスポンス用に準備
-        return UserRegisteredResult.from(savedUser);
+        return RegisterResponse.from(savedUser);
     }
 }

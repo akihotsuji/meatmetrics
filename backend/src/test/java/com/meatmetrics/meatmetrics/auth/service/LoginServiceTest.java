@@ -2,7 +2,7 @@ package com.meatmetrics.meatmetrics.auth.service;
 
 import com.meatmetrics.meatmetrics.PostgreSQLTestBase;
 import com.meatmetrics.meatmetrics.auth.command.LoginCommand;
-import com.meatmetrics.meatmetrics.auth.dto.LoginResult;
+import com.meatmetrics.meatmetrics.api.auth.dto.response.LoginResponse;
 import com.meatmetrics.meatmetrics.auth.exception.AuthenticationException;
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
 import com.meatmetrics.meatmetrics.domain.user.repository.UserRepository;
@@ -70,12 +70,12 @@ class LoginServiceTest extends PostgreSQLTestBase {
 
     @Test
     @DisplayName("正常ログインケース")
-    void login_ValidCredentials_ShouldReturnLoginResult() {
+    void login_ValidCredentials_ShouldReturnLoginResponse() {
         // Arrange
         LoginCommand command = new LoginCommand(TEST_EMAIL, TEST_PASSWORD);
 
         // Act
-        LoginResult result = loginService.login(command);
+        LoginResponse result = loginService.login(command);
 
         // Assert
         assertThat(result).isNotNull();
@@ -123,7 +123,7 @@ class LoginServiceTest extends PostgreSQLTestBase {
         LoginCommand command = new LoginCommand(TEST_EMAIL, TEST_PASSWORD);
 
         // Act
-        LoginResult result = loginService.login(command);
+        LoginResponse result = loginService.login(command);
 
         // Assert
         // アクセストークンの検証
@@ -148,7 +148,7 @@ class LoginServiceTest extends PostgreSQLTestBase {
         LoginCommand command = new LoginCommand(TEST_EMAIL, TEST_PASSWORD);
 
         // Act
-        LoginResult result = loginService.login(command);
+        LoginResponse result = loginService.login(command);
 
         // Assert
         // DBのユーザー情報が変更されていないことを確認
@@ -162,45 +162,6 @@ class LoginServiceTest extends PostgreSQLTestBase {
         assertThat(jwtUserId).isEqualTo(userAfterLogin.getId());
     }
 
-    @Test
-    @DisplayName("トークン再発行機能のテスト")
-    void refreshToken_ValidRefreshToken_ShouldReturnNewAccessToken() {
-        // Arrange
-        LoginCommand command = new LoginCommand(TEST_EMAIL, TEST_PASSWORD);
-        LoginResult initialLogin = loginService.login(command);
-        String refreshToken = initialLogin.getRefreshToken();
-
-        // Act
-        LoginResult refreshResult = loginService.refreshToken(refreshToken);
-
-        // Assert
-        assertThat(refreshResult).isNotNull();
-        assertThat(refreshResult.getAccessToken()).isNotNull();
-        assertThat(refreshResult.getAccessToken()).isNotEmpty();
-        assertThat(refreshResult.getRefreshToken()).isEqualTo(refreshToken); // リフレッシュトークンは同じ
-        
-        // 新しいアクセストークンが有効
-        assertThat(jwtTokenService.validateToken(refreshResult.getAccessToken())).isTrue();
-        Long newTokenUserId = jwtTokenService.extractUserId(refreshResult.getAccessToken());
-        assertThat(newTokenUserId).isEqualTo(testUser.getId());
-        
-        // 新旧のアクセストークンは異なる（時刻が違うため）
-        assertThat(refreshResult.getAccessToken()).isNotEqualTo(initialLogin.getAccessToken());
-    }
-
-    @Test
-    @DisplayName("無効なリフレッシュトークンで認証エラー")
-    void refreshToken_InvalidRefreshToken_ShouldThrowAuthenticationException() {
-        // Arrange
-        String invalidRefreshToken = "invalid.refresh.token";
-
-        // Act & Assert
-        assertThatThrownBy(() -> {
-            loginService.refreshToken(invalidRefreshToken);
-        })
-        .isInstanceOf(AuthenticationException.class)
-        .hasMessage("認証に失敗しました");
-    }
 
     @Test
     @DisplayName("空のパスワードで認証エラー")

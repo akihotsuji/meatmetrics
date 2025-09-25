@@ -28,7 +28,9 @@ public class SecurityConfig {
 			.cors(cors -> cors.disable())
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/api/health", "/api/health/db").permitAll()
-				.requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+				.requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/refresh").permitAll()
+				.requestMatchers("/api/auth/logout", "/api/auth/change-password").authenticated()
+				.requestMatchers("/api/users/**").authenticated()
 				.anyRequest().authenticated()
 			)
 			.sessionManagement(session -> session

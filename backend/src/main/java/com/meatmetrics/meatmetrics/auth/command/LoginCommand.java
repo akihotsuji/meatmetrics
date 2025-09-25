@@ -2,23 +2,20 @@ package com.meatmetrics.meatmetrics.auth.command;
 
 import com.meatmetrics.meatmetrics.domain.user.valueobject.Email;
 
-import jakarta.validation.constraints.*;
-
 /**
  * ユーザーログインのためのコマンドオブジェクト
+ * 
+ * <p>Request層でバリデーション済みのデータを受け取る、型安全な引数パック。</p>
+ * <p>ビジネスロジック実行のために必要最小限の情報を保持する。</p>
  * 
  * @author MeatMetrics Development Team
  * @since 1.0.0
  */
 public class LoginCommand {
-    /** メールアドレス（必須、有効なメール形式） */
-    @NotNull(message = "メールアドレスは必須です")
-    @jakarta.validation.constraints.Email(message = "有効なメールアドレスを入力してください")
+    /** メールアドレス（バリデーション済み） */
     private String email;
 
-    /** パスワード（必須、空白不可） */
-    @NotNull(message = "パスワードは必須です")
-    @NotBlank(message = "パスワードは空白のみでは入力できません")
+    /** パスワード（バリデーション済み） */
     private String password;
 
     /** デフォルトコンストラクタ */

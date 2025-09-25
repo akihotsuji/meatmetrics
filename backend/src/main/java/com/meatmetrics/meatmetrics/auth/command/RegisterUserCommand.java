@@ -2,31 +2,25 @@ package com.meatmetrics.meatmetrics.auth.command;
 
 import com.meatmetrics.meatmetrics.domain.user.valueobject.Email;
 import com.meatmetrics.meatmetrics.domain.user.valueobject.Username;
-import jakarta.validation.constraints.*;
 
 /**
  * ユーザー登録のためのコマンドオブジェクト
+ * 
+ * <p>Request層でバリデーション済みのデータを受け取る、型安全な引数パック。</p>
+ * <p>ビジネスロジック実行のために必要最小限の情報を保持する。</p>
  * 
  * @author MeatMetrics Development Team
  * @since 1.0.0
  */
 public class RegisterUserCommand {
     
-    /** メールアドレス（必須、有効なメール形式、255文字以内） */
-    @NotNull(message = "メールアドレスは必須です")
-    @jakarta.validation.constraints.Email(message = "有効なメールアドレスを入力してください")
-    @Size(max = 255, message = "メールアドレスは255文字以内で入力してください")
+    /** メールアドレス（バリデーション済み） */
     private String email;
     
-    /** パスワード（必須、8文字以上100文字以内） */
-    @NotNull(message = "パスワードは必須です")
-    @Size(min = 8, max = 100, message = "パスワードは8文字以上100文字以内で入力してください")
+    /** パスワード（バリデーション済み） */
     private String password;
     
-    /** ユーザー名（必須、3文字以上50文字以内、英数字・_・-のみ） */
-    @NotNull(message = "ユーザー名は必須です")
-    @Size(min = 3, max = 50, message = "ユーザー名は3文字以上50文字以内で入力してください")
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "ユーザー名には英数字、アンダースコア、ハイフンのみ使用できます")
+    /** ユーザー名（バリデーション済み） */
     private String username;
     
     /** デフォルトコンストラクタ */

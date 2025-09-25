@@ -28,94 +28,94 @@
 
 #### 完了済みタスク ✅
 
-- [x] 技術スタック定義 (`technologystack.md`)
-- [x] ディレクトリ構造設計 (`directorystructure.md`)
-- [x] DDD 設計思想・実装ルール定義（ルール分離完了）
-  - [x] `global.mdc` のスリム化（全体運用ルールへ集約）
-  - [x] `ddd.mdc` / `tdd.mdc` の新設
-  - [x] API 個別設計ドキュメント雛形の整備（`docs/2_detail/api/*.md`）
-  - [x] テスト運用ガイドの整備（`docs/2_detail/testing/README.md`）
-  - [x] インフラ設計書の整備（`docs/2_detail/10_infrastructure.md`）
-  - [x] CI/CD 設計書の整備（`docs/2_detail/11_ci_cd.md`)
-- [x] アプリケーション要件定義 (`docs/requirements.md`)
-- [x] 機能仕様書作成 (`docs/detail/feature_specifications.md`)
-- [x] データベース設計書作成 (`docs/detail/database_design.md`)
-- [x] リリースタスク一覧作成 (`task.md`)
+- [×] 技術スタック定義 (`technologystack.md`)
+- [×] ディレクトリ構造設計 (`directorystructure.md`)
+- [×] DDD 設計思想・実装ルール定義（ルール分離完了）
+  - [×] `global.mdc` のスリム化（全体運用ルールへ集約）
+  - [×] `ddd.mdc` / `tdd.mdc` の新設
+  - [×] API 個別設計ドキュメント雛形の整備（`docs/2_detail/api/*.md`）
+  - [×] テスト運用ガイドの整備（`docs/2_detail/testing/README.md`）
+  - [×] インフラ設計書の整備（`docs/2_detail/10_infrastructure.md`）
+  - [×] CI/CD 設計書の整備（`docs/2_detail/11_ci_cd.md`)
+- [×] アプリケーション要件定義 (`docs/requirements.md`)
+- [×] 機能仕様書作成 (`docs/detail/feature_specifications.md`)
+- [×] データベース設計書作成 (`docs/detail/database_design.md`)
+- [×] リリースタスク一覧作成 (`task.md`)
 
 ##### インフラ（Docker）
 
-- [x] Docker 構成の dev/prod 分離（`infrastructure/docker/dev|prod/docker-compose.yml`）
-- [x] PostgreSQL を Dockerfile 化し dev/prod でビルド切替（`infrastructure/docker/postgres/`）
-- [x] 本番では DB ポート非公開、開発のみ `15432:5432` 公開に統一
-- [x] ルート `infrastructure/docker/docker-compose.yml` を廃止
-- [x] 手順書・記事の更新（`docs/docker/*.md`, `docs/99.Qiita/Dockerによる開発環境コンテナ化.md`）
+- [×] Docker 構成の dev/prod 分離（`infrastructure/docker/dev|prod/docker-compose.yml`）
+- [×] PostgreSQL を Dockerfile 化し dev/prod でビルド切替（`infrastructure/docker/postgres/`）
+- [×] 本番では DB ポート非公開、開発のみ `15432:5432` 公開に統一
+- [×] ルート `infrastructure/docker/docker-compose.yml` を廃止
+- [×] 手順書・記事の更新（`docs/docker/*.md`, `docs/99.Qiita/Dockerによる開発環境コンテナ化.md`）
 
 #### 完了済みタスク ✅
 
-- [x] 開発環境の構築
-  - [x] Java 17 + Spring Boot 環境
-  - [x] Node.js + React 環境
-  - [x] PostgreSQL + Docker 環境
-  - [x] IDE・ツール設定
+- [×] 開発環境の構築
+  - [×] Java 17 + Spring Boot 環境
+  - [×] Node.js + React 環境
+  - [×] PostgreSQL + Docker 環境
+  - [×] IDE・ツール設定
 
 #### 進行中タスク ��
 
 - [ ] プロジェクト構造構築
-  - [x] バックエンド基盤
-  - [x] 共通エラーハンドリングの実装
-  - [x] `@ControllerAdvice` と `@ExceptionHandler` の雛形作成
-  - [x] API 共通エラーレスポンスの定義（timestamp, path, message, code）
-  - [x] エラーコードの整理（`ApiErrorCode`）
-  - [x] 代表例外のマッピング
-    - [x] `MethodArgumentNotValidException` → 400 `VALIDATION_ERROR`
-    - [x] `ConstraintViolationException` → 400 `VALIDATION_ERROR`
-    - [x] `HttpMessageNotReadableException` → 400 `BAD_REQUEST`
-    - [x] `MissingServletRequestParameterException` → 400 `BAD_REQUEST`
-    - [x] `HttpRequestMethodNotSupportedException` → 405 `METHOD_NOT_ALLOWED`
-    - [x] `NoSuchElementException` → 404 `NOT_FOUND`
-    - [x] `DataIntegrityViolationException` → 409 `CONFLICT`
-    - [x] `SQLException`/`DataAccessException` → 500 `DB_ERROR`
-    - [x] `Exception` → 500 `INTERNAL_ERROR`
-  - [x] ログ出力方針（WARN/ERROR、スタックトレースはレスポンス非掲載）
-  - [x] 簡易動作確認（`GET /api/health?fail=true` で 500 と共通形式を返す）
-- [x] CORS（dev）/ セキュリティヘッダー設定
-  - [x] Vite プロキシで `/api` をバックエンドへ転送
-  - [x] Spring Security によるセキュリティヘッダー管理
-- [x] Spring Security 基盤導入
-  - [x] Spring Security 依存関係追加
-  - [x] 基本セキュリティ設定（SecurityConfig）
-  - [x] 開発環境用プロファイル設定（application-dev.properties）
-  - [x] パスワードエンコーダー（BCryptPasswordEncoder）
+  - [×] バックエンド基盤
+  - [×] 共通エラーハンドリングの実装
+  - [×] `@ControllerAdvice` と `@ExceptionHandler` の雛形作成
+  - [×] API 共通エラーレスポンスの定義（timestamp, path, message, code）
+  - [×] エラーコードの整理（`ApiErrorCode`）
+  - [×] 代表例外のマッピング
+    - [×] `MethodArgumentNotValidException` → 400 `VALIDATION_ERROR`
+    - [×] `ConstraintViolationException` → 400 `VALIDATION_ERROR`
+    - [×] `HttpMessageNotReadableException` → 400 `BAD_REQUEST`
+    - [×] `MissingServletRequestParameterException` → 400 `BAD_REQUEST`
+    - [×] `HttpRequestMethodNotSupportedException` → 405 `METHOD_NOT_ALLOWED`
+    - [×] `NoSuchElementException` → 404 `NOT_FOUND`
+    - [×] `DataIntegrityViolationException` → 409 `CONFLICT`
+    - [×] `SQLException`/`DataAccessException` → 500 `DB_ERROR`
+    - [×] `Exception` → 500 `INTERNAL_ERROR`
+  - [×] ログ出力方針（WARN/ERROR、スタックトレースはレスポンス非掲載）
+  - [×] 簡易動作確認（`GET /api/health?fail=true` で 500 と共通形式を返す）
+- [×] CORS（dev）/ セキュリティヘッダー設定
+  - [×] Vite プロキシで `/api` をバックエンドへ転送
+  - [×] Spring Security によるセキュリティヘッダー管理
+- [×] Spring Security 基盤導入
+  - [×] Spring Security 依存関係追加
+  - [×] 基本セキュリティ設定（SecurityConfig）
+  - [×] 開発環境用プロファイル設定（application-dev.properties）
+  - [×] パスワードエンコーダー（BCryptPasswordEncoder）
   - [ ] フロントエンド基盤
     - [ ] React アプリケーションの起動確認
-      - [x] 事前準備・環境確認
-        - [x] Node.js のバージョン確認（`node --version`）
-        - [x] npm のバージョン確認（`npm --version`）
-        - [x] プロジェクトディレクトリでの作業確認
-        - [x] `package.json` の存在確認
-        - [x] `node_modules` の存在確認（既にインストール済み）
-      - [x] 依存関係の確認・インストール
-        - [x] `npm install` の実行（既に完了）
-        - [x] インストールエラーの有無確認（エラーなし）
-        - [x] 警告メッセージの確認・対応（警告なし）
-      - [x] `npm run dev` での起動とホットリロード確認
-        - [x] `npm run dev` コマンドの実行
-        - [x] 起動メッセージの確認
-        - [x] ポート番号の確認（localhost:5173）
-        - [x] 起動エラーの有無確認（エラーなし）
-      - [x] 開発サーバー（localhost:5173）での動作確認
-        - [x] ブラウザで `http://localhost:5173` にアクセス
-        - [x] ページの表示確認
-        - [x] コンソールエラーの確認
-        - [x] ネットワークタブでのリクエスト状況確認
-      - [x] ホットリロード機能テスト
-        - [x] ソースコードの一部変更（例：タイトルテキスト）
-        - [x] ブラウザでの自動更新確認
-        - [x] 変更反映の速度確認
-      - [x] 問題発生時の対応
-        - [x] エラーログの収集・分析
-        - [x] 一般的なトラブルシューティング手順の実行
-        - [x] 必要に応じた設定ファイルの確認・修正
+      - [×] 事前準備・環境確認
+        - [×] Node.js のバージョン確認（`node --version`）
+        - [×] npm のバージョン確認（`npm --version`）
+        - [×] プロジェクトディレクトリでの作業確認
+        - [×] `package.json` の存在確認
+        - [×] `node_modules` の存在確認（既にインストール済み）
+      - [×] 依存関係の確認・インストール
+        - [×] `npm install` の実行（既に完了）
+        - [×] インストールエラーの有無確認（エラーなし）
+        - [×] 警告メッセージの確認・対応（警告なし）
+      - [×] `npm run dev` での起動とホットリロード確認
+        - [×] `npm run dev` コマンドの実行
+        - [×] 起動メッセージの確認
+        - [×] ポート番号の確認（localhost:5173）
+        - [×] 起動エラーの有無確認（エラーなし）
+      - [×] 開発サーバー（localhost:5173）での動作確認
+        - [×] ブラウザで `http://localhost:5173` にアクセス
+        - [×] ページの表示確認
+        - [×] コンソールエラーの確認
+        - [×] ネットワークタブでのリクエスト状況確認
+      - [×] ホットリロード機能テスト
+        - [×] ソースコードの一部変更（例：タイトルテキスト）
+        - [×] ブラウザでの自動更新確認
+        - [×] 変更反映の速度確認
+      - [×] 問題発生時の対応
+        - [×] エラーログの収集・分析
+        - [×] 一般的なトラブルシューティング手順の実行
+        - [×] 必要に応じた設定ファイルの確認・修正
     - [ ] 基本的なルーティング設定
       - [ ] React Router の導入と設定
       - [ ] ホームページ（`/`）の作成
@@ -125,84 +125,84 @@
       - [ ] ヘッダー・フッターの作成
       - [ ] ボタン・フォーム・カード等の基本 UI コンポーネント
       - [ ] レスポンシブデザインの基本対応
-    - [x] CSS フレームワークの導入・設定 ✅ **2025-08-17 完了**
-      - [x] Tailwind CSS の導入と設定 ✅ **完了**
-        - [x] Tailwind CSS パッケージのインストール（tailwindcss, autoprefixer, postcss）
-        - [x] Tailwind 設定ファイル（tailwind.config.js）の作成（MeatMetrics 専用テーマ設定済み）
-        - [x] PostCSS 設定ファイル（postcss.config.js）の作成
-        - [x] Vite 設定での Tailwind 統合確認（postcss.config.js 明示的指定）
-        - [x] 既存の index.css の削除・置換（App.css も削除）
-        - [x] Tailwind のベースレイヤーの適用（@tailwind base/components/utilities）
-        - [x] Docker 環境でのパッケージインストール・動作確認
-      - [x] shadcn/ui の導入と設定
-        - [x] shadcn/ui CLI のインストール
-        - [x] components.json の設定
-        - [x] 基本 UI コンポーネントの導入（Button, Input, Card 等）
-        - [x] カスタムテーマの設定（MeatMetrics 用カラーパレット）
-      - [x] グローバルスタイルの整備
-        - [x] Tailwind カスタムスタイルの作成
-        - [x] レスポンシブデザインの基本設定
-        - [x] ダークモード・ライトモードの設定
-        - [x] フォント設定（日本語対応）
-    - [x] 開発環境の整備
-      - [x] ESLint・Prettier の設定確認
-      - [x] TypeScript の型定義ファイル整備
-      - [x] 環境変数の設定（API エンドポイント等）
+    - [×] CSS フレームワークの導入・設定 ✅ **2025-08-17 完了**
+      - [×] Tailwind CSS の導入と設定 ✅ **完了**
+        - [×] Tailwind CSS パッケージのインストール（tailwindcss, autoprefixer, postcss）
+        - [×] Tailwind 設定ファイル（tailwind.config.js）の作成（MeatMetrics 専用テーマ設定済み）
+        - [×] PostCSS 設定ファイル（postcss.config.js）の作成
+        - [×] Vite 設定での Tailwind 統合確認（postcss.config.js 明示的指定）
+        - [×] 既存の index.css の削除・置換（App.css も削除）
+        - [×] Tailwind のベースレイヤーの適用（@tailwind base/components/utilities）
+        - [×] Docker 環境でのパッケージインストール・動作確認
+      - [×] shadcn/ui の導入と設定
+        - [×] shadcn/ui CLI のインストール
+        - [×] components.json の設定
+        - [×] 基本 UI コンポーネントの導入（Button, Input, Card 等）
+        - [×] カスタムテーマの設定（MeatMetrics 用カラーパレット）
+      - [×] グローバルスタイルの整備
+        - [×] Tailwind カスタムスタイルの作成
+        - [×] レスポンシブデザインの基本設定
+        - [×] ダークモード・ライトモードの設定
+        - [×] フォント設定（日本語対応）
+    - [×] 開発環境の整備
+      - [×] ESLint・Prettier の設定確認
+      - [×] TypeScript の型定義ファイル整備
+      - [×] 環境変数の設定（API エンドポイント等）
 - [ ] データベース設計・構築
-  - [x] データベーススキーマ作成
-    - [x] ユーザーテーブル（users）の設計
-      - [x] 基本情報（id, email, username, password_hash, created_at, updated_at）
-      - [x] 栄養目標（calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g）
-      - [x] インデックス設計（email の unique, username の unique）
-    - [x] 食材テーブル（foods）の設計
-      - [x] 基本情報（id, name, category_id, created_at, updated_at）
-      - [x] 栄養成分（calories_per_100g, protein_g_per_100g, fat_g_per_100g, carbohydrates_g_per_100g, fiber_g_per_100g）
-      - [x] タグ管理（tags TEXT[] 配列、GIN インデックス）
-      - [x] インデックス設計（name の全文検索、category_id, tags）
-    - [x] カテゴリテーブル（categories）の設計
-      - [x] 階層構造（id, name, parent_id, level, created_at）
-      - [x] インデックス設計（parent_id, level）
-    - [x] 食事記録テーブル（meals）の設計
-      - [x] 基本情報（id, user_id, meal_date, meal_type, created_at, updated_at）
-      - [x] 栄養集計（total_calories, total_protein_g, total_fat_g, total_net_carbs_g）
-      - [x] インデックス設計（user_id, meal_date, meal_type）
-    - [x] 食事詳細テーブル（meal_items）の設計
-      - [x] 基本情報（id, meal_id, food_id, quantity_g, created_at, updated_at）
-      - [x] 栄養成分キャッシュ（item_calories, item_protein_g, item_fat_g, item_net_carbs_g）
-      - [x] 自動計算トリガー（食材 × 摂取量 → 栄養成分、meal_items→meals 集計）
-      - [x] インデックス設計（meal_id, food_id, 複合インデックス）
-  - [x] 初期データ投入
-    - [x] カテゴリデータの作成
-      - [x] 主要食材カテゴリ（肉類、魚類、卵・乳製品、野菜、調味料等）
-      - [x] 階層構造の設定（親子関係）
-    - [x] 食材データの作成
-      - [x] 代表的な食材 50-100 件の登録
-      - [x] 栄養成分データの設定（標準栄養成分表ベース）
-      - [x] タグの付与（低糖質、高タンパク、低価格等）
-    - [x] テストユーザーの作成
-      - [x] 開発用アカウントの作成
-      - [x] サンプルデータの設定（食事記録含む）
-  - [x] マイグレーション設定
-    - [x] Flyway の導入と設定（既存マイグレーションファイル V001-V010 活用）
-      - [x] 依存関係の追加（pom.xml）
-      - [x] 設定ファイルの更新（application.properties, application-dev.properties）
-      - [x] 既存マイグレーションファイルの検証と調整
-    - [x] 初期スキーマのマイグレーションファイル作成（完了済み）
-      - [x] V001\_\_create_users_table.sql（ユーザーテーブル）
-      - [x] V002\_\_insert_test_users.sql（テストユーザー）
-      - [x] V003\_\_create_foods_table.sql（食材テーブル）
-      - [x] V004\_\_insert_initial_foods.sql（初期食材データ）
-      - [x] V005\_\_create_categories_table.sql（カテゴリテーブル）
-      - [x] V006\_\_insert_initial_categories.sql（初期カテゴリデータ）
-      - [x] V007\_\_add_foods_category_constraint.sql（外部キー制約）
-      - [x] V008\_\_create_meals_table.sql（食事テーブル）
-      - [x] V009\_\_create_meal_items_table.sql（食事項目テーブル）
-      - [x] V010\_\_insert_sample_meals.sql（サンプル食事データ）
-    - [x] マイグレーション実行と動作確認
-      - [x] 開発環境（Docker）での初回実行確認
-      - [x] flyway_schema_history テーブル確認
-      - [x] 全テーブル・制約・インデックス作成確認
-      - [x] アプリケーション統合テスト実行
+  - [×] データベーススキーマ作成
+    - [×] ユーザーテーブル（users）の設計
+      - [×] 基本情報（id, email, username, password_hash, created_at, updated_at）
+      - [×] 栄養目標（calorie_goal, protein_goal_g, fat_goal_g, net_carbs_goal_g）
+      - [×] インデックス設計（email の unique, username の unique）
+    - [×] 食材テーブル（foods）の設計
+      - [×] 基本情報（id, name, category_id, created_at, updated_at）
+      - [×] 栄養成分（calories_per_100g, protein_g_per_100g, fat_g_per_100g, carbohydrates_g_per_100g, fiber_g_per_100g）
+      - [×] タグ管理（tags TEXT[] 配列、GIN インデックス）
+      - [×] インデックス設計（name の全文検索、category_id, tags）
+    - [×] カテゴリテーブル（categories）の設計
+      - [×] 階層構造（id, name, parent_id, level, created_at）
+      - [×] インデックス設計（parent_id, level）
+    - [×] 食事記録テーブル（meals）の設計
+      - [×] 基本情報（id, user_id, meal_date, meal_type, created_at, updated_at）
+      - [×] 栄養集計（total_calories, total_protein_g, total_fat_g, total_net_carbs_g）
+      - [×] インデックス設計（user_id, meal_date, meal_type）
+    - [×] 食事詳細テーブル（meal_items）の設計
+      - [×] 基本情報（id, meal_id, food_id, quantity_g, created_at, updated_at）
+      - [×] 栄養成分キャッシュ（item_calories, item_protein_g, item_fat_g, item_net_carbs_g）
+      - [×] 自動計算トリガー（食材 × 摂取量 → 栄養成分、meal_items→meals 集計）
+      - [×] インデックス設計（meal_id, food_id, 複合インデックス）
+  - [×] 初期データ投入
+    - [×] カテゴリデータの作成
+      - [×] 主要食材カテゴリ（肉類、魚類、卵・乳製品、野菜、調味料等）
+      - [×] 階層構造の設定（親子関係）
+    - [×] 食材データの作成
+      - [×] 代表的な食材 50-100 件の登録
+      - [×] 栄養成分データの設定（標準栄養成分表ベース）
+      - [×] タグの付与（低糖質、高タンパク、低価格等）
+    - [×] テストユーザーの作成
+      - [×] 開発用アカウントの作成
+      - [×] サンプルデータの設定（食事記録含む）
+  - [×] マイグレーション設定
+    - [×] Flyway の導入と設定（既存マイグレーションファイル V001-V010 活用）
+      - [×] 依存関係の追加（pom.xml）
+      - [×] 設定ファイルの更新（application.properties, application-dev.properties）
+      - [×] 既存マイグレーションファイルの検証と調整
+    - [×] 初期スキーマのマイグレーションファイル作成（完了済み）
+      - [×] V001\_\_create_users_table.sql（ユーザーテーブル）
+      - [×] V002\_\_insert_test_users.sql（テストユーザー）
+      - [×] V003\_\_create_foods_table.sql（食材テーブル）
+      - [×] V004\_\_insert_initial_foods.sql（初期食材データ）
+      - [×] V005\_\_create_categories_table.sql（カテゴリテーブル）
+      - [×] V006\_\_insert_initial_categories.sql（初期カテゴリデータ）
+      - [×] V007\_\_add_foods_category_constraint.sql（外部キー制約）
+      - [×] V008\_\_create_meals_table.sql（食事テーブル）
+      - [×] V009\_\_create_meal_items_table.sql（食事項目テーブル）
+      - [×] V010\_\_insert_sample_meals.sql（サンプル食事データ）
+    - [×] マイグレーション実行と動作確認
+      - [×] 開発環境（Docker）での初回実行確認
+      - [×] flyway_schema_history テーブル確認
+      - [×] 全テーブル・制約・インデックス作成確認
+      - [×] アプリケーション統合テスト実行
 
 ##### インフラ（フォローアップ）
 
@@ -220,57 +220,84 @@
 
 ##### 🏗️ DDD 境界づけられたコンテキストの設計（最優先）
 
-- [x] **auth-context-001**: **境界づけられたコンテキスト**の定義 - Auth/User コンテキストの境界とユビキタス言語の策定 ✅
-- [x] **auth-db-migration**: **UserGoal 分離対応**の DB マイグレーション - V011-V014 のマイグレーションファイル作成完了 ✅
-- [x] **auth-context-002**: **集約設計** - User 集約の不変条件とビジネスルールの定義（email 重複禁止、パスワード強度等） ✅
-- [x] **auth-context-003**: **ドメインモデル設計** - User エンティティとルート集約の責務定義
+- [×] **auth-context-001**: **境界づけられたコンテキスト**の定義 - Auth/User コンテキストの境界とユビキタス言語の策定
+- [×] **auth-db-migration**: **UserGoal 分離対応**の DB マイグレーション - V011-V014 のマイグレーションファイル作成完了
+- [×] **auth-context-002**: **集約設計** - User 集約の不変条件とビジネスルールの定義（email 重複禁止、パスワード強度等）
+- [×] **auth-context-003**: **ドメインモデル設計** - User エンティティとルート集約の責務定義
 
 ##### 🧪 認証システムのテスト実装（TDD：テストファースト）
 
-- [x] **auth-test-001**: **[TDD-Red]** Email 値オブジェクトの失敗テスト作成（形式バリデーション） ✅
-- [x] **auth-test-002**: **[TDD-Green]** Email 値オブジェクトの実装（形式バリデーション） ✅
-- [x] **auth-test-003**: **[TDD-Red]** Password 値オブジェクトの失敗テスト作成（強度チェック、ハッシュ化） ✅
-- [x] **auth-test-004**: **[TDD-Green]** Password 値オブジェクトの実装（強度チェック、ハッシュ化ロジック） ✅
-- [x] **auth-test-005**: **[TDD-Red]** PasswordService の失敗テスト作成（ハッシュ化、照合） ✅ _PasswordHash クラスに統合_
-- [x] **auth-test-006**: **[TDD-Green]** PasswordService の実装（ハッシュ化、照合） ✅ _PasswordHash クラスに統合_
+- [×] **auth-test-001**: **[TDD-Red]** Email 値オブジェクトの失敗テスト作成（形式バリデーション）
+- [×] **auth-test-002**: **[TDD-Green]** Email 値オブジェクトの実装（形式バリデーション）
+- [×] **auth-test-003**: **[TDD-Red]** Password 値オブジェクトの失敗テスト作成（強度チェック、ハッシュ化）
+- [×] **auth-test-004**: **[TDD-Green]** Password 値オブジェクトの実装（強度チェック、ハッシュ化ロジック）
+- [×] **auth-test-005**: **[TDD-Red]** PasswordService の失敗テスト作成（ハッシュ化、照合） _PasswordHash クラスに統合_
+- [×] **auth-test-006**: **[TDD-Green]** PasswordService の実装（ハッシュ化、照合） _PasswordHash クラスに統合_
 
 ##### 🏗️ 認証ドメインモデルの実装（Domain Layer）
 
-- [x] **auth-domain-001**: **User 集約ルート**の実装 - ID、email、username、password の管理とビジネスルール ✅
-- [x] **auth-domain-002**: **ドメイン例外**の定義 - DuplicateEmailException、InvalidPasswordException、WeakPasswordException ✅
-- [x] **auth-domain-003**: **UserService**（ドメインサービス）の実装 - 重複チェックとユーザー生成ロジック ✅ _User 集約に統合_
+- [×] **auth-domain-001**: **User 集約ルート**の実装 - ID、email、username、password の管理とビジネスルール
+- [×] **auth-domain-002**: **ドメイン例外**の定義 - DuplicateEmailException、InvalidPasswordException、WeakPasswordException
+- [×] **auth-domain-003**: **UserService**（ドメインサービス）の実装 - 重複チェックとユーザー生成ロジック _User 集約に統合_
 
 ##### 認証インフラ層の実装 (Infrastructure Layer)
 
-- [x] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）✅ **完了 2024-12-21**
-- [x] **auth-infra-002**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）✅ **完了 2024-12-21**
-- [x] **auth-infra-003**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装 🔄 **進行中**
-- [x] **auth-infra-004**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
-- [x] **auth-infra-005**: 認証インフラ層の実装 - 統合テスト（JUnit）
+- [×] **auth-infra-001**: 認証インフラ層の実装 - UserRepository インターフェース定義（findByEmail、findByUsername、save）
+- [×] **auth-infra-002**: 認証インフラ層の実装 - UserEntity（JPA）の実装（@Entity、@Table、制約設定）
+- [×] **auth-infra-003**: 認証インフラ層の実装 - UserMapper（Entity ↔ Domain）の実装 🔄 **進行中**
+- [×] **auth-infra-004**: 認証インフラ層の実装 - JPA UserRepositoryImpl の実装（@Repository）
+- [×] **auth-infra-005**: 認証インフラ層の実装 - 統合テスト（JUnit）
 
 ##### 認証アプリケーション層の実装 (Application Layer)
 
-- [x] **auth-app-001**: 認証アプリケーション層の実装 - RegisterUserCommand（DTO）の実装
-- [x] **auth-app-002**: 認証アプリケーション層の実装 - RegisterUserService（@Service）の実装
-- [x] **auth-app-003**: 認証アプリケーション層の実装 - LoginCommand（DTO）の実装
-- [x] **auth-app-004**: 認証アプリケーション層の実装 - LoginService（@Service、JWT 生成）の実装
-- [x] **auth-app-005**: 認証アプリケーション層の実装 - ChangePasswordCommand（DTO）の実装
-- [x] **auth-app-006**: 認証アプリケーション層の実装 - ChangePasswordService（@Service）の実装
+- [×] **auth-app-001**: 認証アプリケーション層の実装 - RegisterUserCommand（DTO）の実装
+- [×] **auth-app-002**: 認証アプリケーション層の実装 - RegisterUserService（@Service）の実装
+- [×] **auth-app-003**: 認証アプリケーション層の実装 - LoginCommand（DTO）の実装
+- [×] **auth-app-004**: 認証アプリケーション層の実装 - LoginService（@Service、JWT 生成）の実装
+- [×] **auth-app-005**: 認証アプリケーション層の実装 - ChangePasswordCommand（DTO）の実装
+- [×] **auth-app-006**: 認証アプリケーション層の実装 - ChangePasswordService（@Service）の実装
 
 ##### 認証 Web 層の実装 (Presentation Layer)
 
-- [ ] **auth-web-001**: 認証 Web 層の実装 - AuthController（@RestController）の基本構造作成
-- [ ] **auth-web-002**: 認証 Web 層の実装 - ユーザー登録エンドポイント（POST /api/auth/register）の実装
-- [ ] **auth-web-003**: 認証 Web 層の実装 - ログインエンドポイント（POST /api/auth/login）の実装
-- [ ] **auth-web-004**: 認証 Web 層の実装 - ログアウトエンドポイント（POST /api/auth/logout）の実装
+- [×] **auth-web-001**: 認証 Web 層の実装 - AuthController（@RestController）の基本構造作成 ✅ **完了 2025-09-22**
+- [×] **auth-web-002**: 認証 Web 層の実装 - ユーザー登録エンドポイント（POST /api/auth/register）の実装 ✅ **完了 2025-09-25**
+- [×] **auth-web-003**: 認証 Web 層の実装 - ログインエンドポイント（POST /api/auth/login）の実装 ✅ **完了 2025-09-25**
+- [×] **auth-web-004**: 認証 Web 層の実装 - ログアウトエンドポイント（POST /api/auth/logout）の実装 ✅ **完了 2025-09-24**
+- [×] **auth-web-005**: 認証 Web 層の実装 - トークン更新エンドポイント（POST /api/auth/refresh）の実装 ✅ **完了 2025-09-25**
+- [×] **auth-web-006**: 認証 Web 層の実装 - パスワード変更エンドポイント（POST /api/auth/change-password）の実装 ✅ **完了 2025-09-25**
 
-##### JWT 認証システムの実装
+##### Web 層共通基盤の実装
+
+- [×] **api-common-001**: API 共通レスポンス - ApiResponse<T>クラスの実装 ✅ **完了 2025-09-22**
+- [×] **auth-security-001**: SecurityConfig 更新 - 新エンドポイントの許可設定追加 ✅ **完了 2025-09-22**
+- [×] **proxy-design-001**: プロキシ設計確認 - Vite/Nginx 設定による CORS 回避確認、バックエンド CORS 無効化 ✅ **完了 2025-09-22**
+
+**注記**: CORS 設定はプロキシで解決（開発: Vite、本番: Nginx）。バックエンドでの CORS 設定は不要
+
+##### ユーザー目標ドメインモデルの実装（Domain Layer）- MVP 基本機能
+
+- [ ] **user-domain-001**: ユーザー目標ドメインモデルの実装 - UserGoals 値オブジェクトの実装（calorie、protein_g、fat_g、net_carbs_g）
+- [ ] **user-domain-002**: ユーザー目標ドメインモデルの実装 - UserGoals バリデーションロジックの実装（正の値チェック）
+
+##### ユーザー目標アプリケーション層の実装（Application Layer）- MVP 基本機能
+
+- [ ] **user-app-001**: ユーザー目標アプリケーション層の実装 - GetUserGoalsQueryService の実装（目標取得、デフォルト値対応）
+- [ ] **user-app-002**: ユーザー目標アプリケーション層の実装 - UpdateUserGoalsService の実装（目標更新、バリデーション）
+
+##### ユーザー目標 Web 層の実装（Presentation Layer）- MVP 基本機能
+
+- [ ] **user-web-001**: ユーザー目標 Web 層の実装 - UserController（@RestController）の基本構造作成
+- [ ] **user-web-002**: ユーザー目標 Web 層の実装 - ユーザー目標取得エンドポイント（GET /api/users/goals）の実装
+- [ ] **user-web-003**: ユーザー目標 Web 層の実装 - ユーザー目標更新エンドポイント（PUT /api/users/goals）の実装
+
+**注記**: パスワード変更は auth-web-006 で Auth コンテキストに実装済み（認証操作のため）
+
+##### JWT 認証システムの実装（Auth コンテキスト拡張）
 
 - [ ] **jwt-infra-001**: JWT 認証インフラの実装 - JwtService（@Service）の基本実装（生成、検証、クレーム抽出）
 - [ ] **jwt-infra-002**: JWT 認証インフラの実装 - JwtAuthenticationFilter（@Component）の実装
 - [ ] **jwt-infra-003**: JWT 認証インフラの実装 - TokenBlacklistService（@Service）の実装（Redis 使用想定）
 - [ ] **jwt-infra-004**: JWT 認証インフラの実装 - RefreshTokenService（@Service）の実装（7 日間有効期限）
-- [ ] **jwt-web-001**: JWT 認証 Web 層の実装 - トークン更新エンドポイント（POST /api/auth/refresh）の実装
 
 ##### 認証システム設定
 
@@ -278,43 +305,22 @@
 - [ ] **auth-config-002**: 認証設定の実装 - CORS 設定の更新（認証エンドポイント対応）
 - [ ] **auth-config-003**: 認証設定の実装 - application.properties へ JWT 設定追加（秘密鍵、有効期限）
 
-##### ユーザープロフィール機能の実装
-
-- [ ] **profile-domain-001**: プロフィールドメインモデルの設計 - UserProfile エンティティの実装（基本情報）
-- [ ] **profile-domain-002**: プロフィールドメインモデルの設計 - NutritionGoals 値オブジェクトの実装（calorie、protein、fat、net_carbs）
-- [ ] **profile-domain-003**: プロフィールドメインモデルの設計 - NutritionGoalsValidator の実装（最小値・最大値チェック）
-
-##### プロフィールアプリケーション層
-
-- [ ] **profile-app-001**: プロフィールアプリケーション層の実装 - GetUserProfileQueryService の実装
-- [ ] **profile-app-002**: プロフィールアプリケーション層の実装 - UpdateUserProfileService の実装
-- [ ] **profile-app-003**: プロフィールアプリケーション層の実装 - SetNutritionGoalsService の実装
-- [ ] **profile-app-004**: プロフィールアプリケーション層の実装 - GetNutritionGoalsQueryService の実装
-
-##### プロフィール Web 層
-
-- [ ] **profile-web-001**: プロフィール Web 層の実装 - UserController（@RestController）の実装
-- [ ] **profile-web-002**: プロフィール Web 層の実装 - プロフィール取得エンドポイント（GET /api/users/profile）の実装
-- [ ] **profile-web-003**: プロフィール Web 層の実装 - プロフィール更新エンドポイント（PUT /api/users/profile）の実装
-- [ ] **profile-web-004**: プロフィール Web 層の実装 - 栄養目標取得エンドポイント（GET /api/users/goals）の実装
-- [ ] **profile-web-005**: プロフィール Web 層の実装 - 栄養目標設定エンドポイント（PUT /api/users/goals）の実装
-- [ ] **profile-web-006**: プロフィール Web 層の実装 - パスワード変更エンドポイント（PUT /api/users/password）の実装
-
 ##### 🧪 JUnit 統合テスト・E2E テスト（TDD 後フェーズ）
 
 - [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL 🔄 **今日実装予定**
 - [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserService の統合テスト（正常系・重複エラー・バリデーション）
 - [ ] **auth-test-009**: **[JUnit 統合]** LoginService の統合テスト（正常系・認証失敗）
-- [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン API）
-- [ ] **auth-test-011**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
-- [ ] **auth-test-012**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス）
+- [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン・ログアウト・トークン更新・パスワード変更 API）
+- [ ] **user-test-001**: **[SpringBootTest]** UserController の MockMvc テスト（ユーザー目標 API - GET/PUT /goals）
+- [ ] **auth-test-012**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
+- [ ] **auth-test-013**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス → ログアウト）
 
-##### プロフィールシステムのテスト実装
+##### ユーザー目標システムのテスト実装（MVP 基本機能）
 
-- [ ] **profile-test-001**: プロフィールシステムのテスト - NutritionGoals 値オブジェクトのユニットテスト
-- [ ] **profile-test-002**: プロフィールシステムのテスト - プロフィール関連 Service のユニットテスト
-- [ ] **profile-test-003**: プロフィールシステムのテスト - UserController の統合テスト（認証済みユーザー）
-- [ ] **profile-test-004**: プロフィールシステムのテスト - セキュリティテスト（他ユーザーのプロフィールアクセス拒否）
+- [ ] **user-test-002**: ユーザー目標システムのテスト - UserGoals 値オブジェクトのユニットテスト（バリデーション、デフォルト値）
+- [ ] **user-test-003**: ユーザー目標システムのテスト - GetUserGoalsQueryService のユニットテスト
+- [ ] **user-test-004**: ユーザー目標システムのテスト - UpdateUserGoalsService のユニットテスト
+- [ ] **user-test-005**: ユーザー目標システムのテスト - セキュリティテスト（認証必須、ユーザー分離）
 
 ##### 🧪 JUnit テストインフラ基盤構築（最優先）
 
@@ -325,8 +331,8 @@
 
 ##### 🚀 段階的 CI/CD 構築（現在進行中）
 
-- [x] **cicd-base-001**: **CI 基盤構築** - GitHub Actions 最小構成でドメインテスト実行（Node.js 22, Java 17）✅
-- [x] **cicd-base-002**: **フロントエンド基本 CI** - TypeScript 型チェック + ビルド確認（テスト実行は段階的追加）✅
+- [×] **cicd-base-001**: **CI 基盤構築** - GitHub Actions 最小構成でドメインテスト実行（Node.js 22, Java 17）✅
+- [×] **cicd-base-002**: **フロントエンド基本 CI** - TypeScript 型チェック + ビルド確認（テスト実行は段階的追加）✅
 - [ ] **cicd-001**: **バックエンド統合テスト追加** - PostgreSQL サービスコンテナ + Testcontainers でドメインテスト拡張
 - [ ] **cicd-002**: **アプリケーション統合テスト** - @SpringBootTest による認証・API エンドポイントテスト
 - [ ] **cicd-003**: **JUnit カバレッジ重視** - JaCoCo 設定とバックエンドカバレッジ 70%以上の確保
@@ -676,15 +682,15 @@
 
 ---
 
-**最終更新**: 2025 年 8 月 17 日  
+**最終更新**: 2025 年 9 月 22 日  
 **更新者**: 開発チーム  
-**次回更新予定**: 2025 年 8 月 18 日（Phase 2 認証システム実装開始）
+**次回更新予定**: 2025 年 9 月 23 日（Phase 2 認証・ユーザー Web 層実装完了）
 
 ## 📋 **細分化されたタスク概要**
 
 ### 🔍 **DDD・TDD・CI/CD 強化タスク総数**
 
-- **Phase 2 (認証・ユーザー管理)**: 60 タスク（DDD+TDD+CI/CD 重視）
+- **Phase 2 (認証・ユーザー管理)**: 65 タスク（DDD+TDD+CI/CD 重視、プロキシ設計確認済み）
 - **Phase 3 (食材管理)**: 27 タスク（DDD+TDD+検索 CI 重視）
 - **Phase 4 (栄養計算・食事記録・サマリー)**: 34 タスク（TDD+精度 CI 最重要）
 - **Phase 5 (進捗追跡・分析)**: 7 タスク
@@ -692,7 +698,7 @@
 - **Phase 7 (品質保証)**: +5 タスク（品質ゲート CI/CD）
 - **Phase 8 (本番環境)**: +6 タスク（デプロイメント CI/CD）
 - **Phase 9 (リリース)**: +5 タスク（運用監視 CI/CD）
-- **総計**: **149 タスク** (DDD・TDD・CI/CD 統合完了)
+- **総計**: **149 タスク** (DDD・TDD・CI/CD 統合完了、プロキシ設計確認済み)
 
 ### 📊 **DDD・TDD・CI/CD 統合分類**
 
@@ -702,7 +708,7 @@
 - **🏗️ ドメイン層**: 15 タスク（ビジネスロジック中心）
 - **🔧 インフラ層**: 15 タスク
 - **⚙️ アプリケーション層（Service）**: 24 タスク
-- **🌐 Web 層**: 24 タスク
+- **🌐 Web 層**: 27 タスク（認証 6+ユーザー 3+共通基盤 3+その他）
 - **🚀 CI/CD 基盤**: 8 タスク（段階的構築）
 - **🚀 専門 CI/CD**: 26 タスク（機能別品質・デプロイ・監視）
 

@@ -1,4 +1,4 @@
-package com.meatmetrics.meatmetrics.auth.dto;
+package com.meatmetrics.meatmetrics.api.auth.dto.response;
 
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
 
@@ -11,7 +11,7 @@ import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
  * @author MeatMetrics Development Team
  * @since 1.0.0
  */
-public class LoginResult {
+public class LoginResponse {
     
     /** アクセストークン（JWT） */
     private String accessToken;
@@ -26,7 +26,7 @@ public class LoginResult {
     private String refreshToken;
     
     /** デフォルトコンストラクタ（Jackson用） */
-    public LoginResult() {}
+    public LoginResponse() {}
     
     /**
      * 全項目指定コンストラクタ
@@ -35,7 +35,7 @@ public class LoginResult {
      * @param expiresIn トークン有効期限（秒）
      * @param refreshToken リフレッシュトークン
      */
-    public LoginResult(String accessToken, Long expiresIn, String refreshToken){
+    public LoginResponse(String accessToken, Long expiresIn, String refreshToken){
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.refreshToken = refreshToken;
@@ -48,10 +48,10 @@ public class LoginResult {
      * @param accessToken 生成されたアクセストークン（JWT）
      * @param refreshToken 生成されたリフレッシュトークン
      * @param expirationSeconds アクセストークン有効期限（秒）
-     * @return LoginResult DTO
+     * @return LoginResponse DTO
      */
-    public static LoginResult from(User user, String accessToken, String refreshToken, Long expirationSeconds) {
-        return new LoginResult(
+    public static LoginResponse from(User user, String accessToken, String refreshToken, Long expirationSeconds) {
+        return new LoginResponse(
             accessToken,
             expirationSeconds,
             refreshToken

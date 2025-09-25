@@ -2,7 +2,7 @@ package com.meatmetrics.meatmetrics.auth.service;
 
 import com.meatmetrics.meatmetrics.PostgreSQLTestBase;
 import com.meatmetrics.meatmetrics.auth.command.RegisterUserCommand;
-import com.meatmetrics.meatmetrics.auth.dto.UserRegisteredResult;
+import com.meatmetrics.meatmetrics.api.auth.dto.response.RegisterResponse;
 import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateEmailException;
 import com.meatmetrics.meatmetrics.domain.user.exception.DuplicateUsernameException;
@@ -71,7 +71,7 @@ class RegisterUserServiceTest extends PostgreSQLTestBase {
         );
 
         // Act
-        UserRegisteredResult result = registerUserService.register(command);
+        RegisterResponse result = registerUserService.register(command);
 
         // Assert
         assertThat(result).isNotNull();
@@ -150,7 +150,7 @@ class RegisterUserServiceTest extends PostgreSQLTestBase {
         );
 
         // Act
-        UserRegisteredResult result = registerUserService.register(command);
+        RegisterResponse result = registerUserService.register(command);
 
         // Assert
         User savedUser = userRepository.findById(result.getUserId()).orElseThrow();
@@ -201,7 +201,7 @@ class RegisterUserServiceTest extends PostgreSQLTestBase {
         );
 
         // Act
-        UserRegisteredResult result = registerUserService.register(command);
+        RegisterResponse result = registerUserService.register(command);
 
         // Assert
         // emailで検索可能

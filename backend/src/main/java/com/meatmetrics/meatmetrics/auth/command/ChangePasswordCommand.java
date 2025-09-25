@@ -1,22 +1,20 @@
 package com.meatmetrics.meatmetrics.auth.command;
 
-import com.meatmetrics.meatmetrics.auth.validation.DifferentPasswords;
-
-import jakarta.validation.constraints.*;
 
 /**
- * パスワード変更リクエストを表すコマンドクラス.
+ * パスワード変更のためのコマンドクラス
  * 
- * 現在のパスワードと新しいパスワードを含み、
- * {@link DifferentPasswords}バリデーションにより新旧パスワードの異同を検証します。
+ * <p>Request層でバリデーション済みのデータを受け取る、型安全な引数パック。</p>
+ * <p>ビジネスロジック実行のために必要最小限の情報を保持する。</p>
+ * 
+ * @author MeatMetrics Development Team
+ * @since 1.0.0
  */
-@DifferentPasswords
 public class ChangePasswordCommand {
-    @NotNull(message = "現在のパスワードは必須です")
-    @NotBlank(message = "現在のパスワードは空白のみでは入力できません")
+    /** 現在のパスワード（バリデーション済み） */
     private String currentPassword;
-    @NotNull(message = "新しいパスワードは必須です")
-    @Size(min = 8, max = 100, message = "新しいパスワードは8文字以上100文字以内で入力してください")
+    
+    /** 新しいパスワード（バリデーション済み） */
     private String newPassword;
 
     /**
@@ -63,7 +61,7 @@ public class ChangePasswordCommand {
      * 
      * @param newPassword 新しいパスワード
      */
-    void setNewPassword(String newPassword) { 
+    void setNewPassword(String newPassword) {
         this.newPassword = newPassword; 
     }
 
