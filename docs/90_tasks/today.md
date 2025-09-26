@@ -6,10 +6,10 @@
 
 **実装対象**: 7 つのエンドポイント（認証 5 つ + ユーザー目標 2 つ）
 
-- 認証 API: 登録・ログイン・ログアウト・トークン更新・パスワード変更
-- ユーザー目標 API: 目標取得・目標更新（MVP 基本機能のみ）
-  **作業時間見積**: 6-7 時間  
-  **完了目標**: 今日中に Web 層の完全実装
+- 認証 API: 登録・ログイン・ログアウト・トークン更新・パスワード変更（完了済み）
+- ユーザー目標 API: 目標取得・目標更新（MVP 基本機能、Auth 構成準拠の詳細設計）
+  **作業時間見積**: 8-9 時間（詳細クラス設計込み）  
+  **完了目標**: 今日中に User 目標機能の完全実装（Domain→Application→Web 層）
 
 ---
 
@@ -161,69 +161,206 @@
   - [×] 未認証時: `401 Unauthorized`
 - [×] **将来拡張**: トークンブラックリスト機能
 
-### 🔐 **Phase 3.5: ユーザー目標機能実装** (90 分) - DDD 実装順序
+### 🔐 **Phase 3.5: ユーザー目標機能実装** (180 分) - DDD 実装順序（Auth 構成準拠）
 
-#### ⏭️ Task 3-5: UserGoals ドメインモデル実装 (25 分)
+#### ⏭️ Task 3-5: UserGoals ドメインモデル実装 (45 分)
 
-- [ ] **値オブジェクト作成**: `UserGoals.java`
-- [ ] **基本構造**:
+##### Subtask 3-5-1: UserGoals 値オブジェクトの基本構造作成 (15 分)
+
+- [ ] **ファイル作成**: `com.meatmetrics.meatmetrics.user.domain.UserGoals`
+- [ ] **基本クラス構造実装**:
   ```java
   public class UserGoals {
-      private final Integer calorie;
-      private final Integer proteinG;
-      private final Integer fatG;
-      private final Integer netCarbsG;
+      private final Integer calorie;       // カロリー目標値
+      private final Integer proteinG;      // タンパク質目標値(g)
+      private final Integer fatG;          // 脂質目標値(g)
+      private final Integer netCarbsG;     // 糖質目標値(g)
   ```
-- [ ] **バリデーションロジック**:
-  - [ ] 正の値のみ許可（calorie > 0, protein_g > 0, etc.）
-  - [ ] デフォルト値の定義（未設定時）
-- [ ] **不変性保証**: 値オブジェクトとして設計
+- [ ] **不変性保証**: final フィールド、setter なし
+- [ ] **解説**: 値オブジェクトパターンでユーザーの栄養目標を表現。DDD の値オブジェクトとして同一性ではなく等価性を重視
 
-#### ⏭️ Task 3-6: ユーザー目標アプリケーション層実装 (35 分)
+##### Subtask 3-5-2: UserGoals コンストラクタとバリデーション実装 (15 分)
 
-- [ ] **GetUserGoalsQueryService 作成**:
+- [ ] **バリデーション付きコンストラクタ**:
   ```java
-  @Service
-  public class GetUserGoalsQueryService {
-      // ユーザーID → UserGoals取得（デフォルト値対応）
-  }
+  public UserGoals(Integer calorie, Integer proteinG, Integer fatG, Integer netCarbsG) {
+      this.calorie = validatePositive(calorie, "calorie");
+      this.proteinG = validatePositive(proteinG, "proteinG");
+      // 正の値チェック、null チェック
   ```
-- [ ] **UpdateUserGoalsService 作成**:
+- [ ] **private バリデーションメソッド**: `validatePositive()`
+- [ ] **例外処理**: `IllegalArgumentException` で不正値を拒否
+- [ ] **解説**: ドメインルール（栄養目標は正の値）をコンストラクタで強制。不正な状態のオブジェクト生成を防止
+
+##### Subtask 3-5-3: UserGoals デフォルト値とファクトリーメソッド (15 分)
+
+- [ ] **デフォルト値定数定義**:
   ```java
-  @Service
-  public class UpdateUserGoalsService {
-      // UserGoals更新、バリデーション実行
-  }
+  private static final Integer DEFAULT_CALORIE = 2000;
+  private static final Integer DEFAULT_PROTEIN_G = 120;
+  private static final Integer DEFAULT_FAT_G = 60;
+  private static final Integer DEFAULT_NET_CARBS_G = 20;  // ケトジェニック前提
   ```
-- [ ] **実装ポイント**:
-  - [ ] UserRepository との連携
-  - [ ] ドメインロジックの適用
-  - [ ] 例外処理
+- [ ] **ファクトリーメソッド**: `createDefault()`, `createWithDefaults()`
+- [ ] **equals/hashCode/toString メソッド**（値オブジェクトの等価性実装）
+- [ ] **解説**: 未設定ユーザーにも適切なデフォルト値を提供。ケトジェニック食事法に適したデフォルト設定
 
-#### ⏭️ Task 3-7: ユーザー目標 Web 層実装 (30 分)
+#### ⏭️ Task 3-6: ユーザー目標アプリケーション層実装 (75 分)
 
-- [ ] **UserController 作成**: `UserController.java`
-- [ ] **基本構造**:
+##### Subtask 3-6-1: UpdateUserGoalsCommand 作成 (20 分)
+
+- [ ] **ファイル作成**: `com.meatmetrics.meatmetrics.user.command.UpdateUserGoalsCommand`
+- [ ] **Command 基本構造**:
+  ```java
+  public class UpdateUserGoalsCommand {
+      private Integer calorie;
+      private Integer proteinG;
+      private Integer fatG;
+      private Integer netCarbsG;
+  ```
+- [ ] **toUserGoals() メソッド実装**: Command → Domain オブジェクト変換
+- [ ] **バリデーションロジック**: ドメインルールとの整合性確保
+- [ ] **解説**: アプリケーション層でのコマンドパターン。Web 層からの入力をドメイン操作に変換する責務
+
+##### Subtask 3-6-2: GetUserGoalsQueryService 実装 (25 分)
+
+- [ ] **ファイル作成**: `com.meatmetrics.meatmetrics.user.service.GetUserGoalsQueryService`
+- [ ] **Service アノテーション**: `@Service`, `@Transactional(readOnly = true)`
+- [ ] **依存関係注入**: `UserRepository userRepository`
+- [ ] **getUserGoals メソッド実装**:
+  ```java
+  public UserGoals getUserGoals(Long userId) {
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new UserNotFoundException(userId));
+      // UserエンティティからUserGoals取得、null時はデフォルト値
+  ```
+- [ ] **デフォルト値ハンドリング**: 未設定時の適切なデフォルト値返却
+- [ ] **解説**: クエリ専用サービス（CQRS 軽量版）。読み取り専用トランザクションで性能最適化
+
+##### Subtask 3-6-3: UpdateUserGoalsService 実装 (30 分)
+
+- [ ] **ファイル作成**: `com.meatmetrics.meatmetrics.user.service.UpdateUserGoalsService`
+- [ ] **Service アノテーション**: `@Service`, `@Transactional`
+- [ ] **依存関係注入**: `UserRepository userRepository`
+- [ ] **updateUserGoals メソッド実装**:
+  ```java
+  public void updateUserGoals(Long userId, UpdateUserGoalsCommand command) {
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new UserNotFoundException(userId));
+      UserGoals newGoals = command.toUserGoals();
+      user.updateGoals(newGoals);  // ドメインメソッド呼び出し
+      userRepository.save(user);
+  ```
+- [ ] **ドメインイベント対応準備**（将来拡張用）
+- [ ] **解説**: アプリケーションサービスパターン。ドメインオブジェクトの操作を編成し、永続化を担当
+
+#### ⏭️ Task 3-7: ユーザー目標 Web 層実装 (60 分)
+
+##### Subtask 3-7-1: リクエスト・レスポンス DTO 作成 (20 分)
+
+- [ ] **UpdateUserGoalsRequest 作成**: `com.meatmetrics.meatmetrics.api.user.dto.request.UpdateUserGoalsRequest`
+
+  ```java
+  public class UpdateUserGoalsRequest {
+      @NotNull(message = "カロリー目標は必須です")
+      @Positive(message = "カロリー目標は正の値である必要があります")
+      private Integer calorie;
+
+      @NotNull @Positive private Integer protein_g;    // APIではsnake_case
+      @NotNull @Positive private Integer fat_g;
+      @NotNull @Positive private Integer net_carbs_g;
+  ```
+
+- [ ] **Bean Validation アノテーション**: `@NotNull`, `@Positive`, カスタムメッセージ
+- [ ] **toCommand() メソッド**: Request → Command 変換
+- [ ] **UserGoalsResponse 作成**: `com.meatmetrics.meatmetrics.api.user.dto.response.UserGoalsResponse`
+  ```java
+  public class UserGoalsResponse {
+      private Integer calorie;
+      private Integer protein_g;
+      private Integer fat_g;
+      private Integer net_carbs_g;
+      private LocalDateTime updatedAt;  // 最終更新日時
+  ```
+- [ ] **fromDomain() メソッド**: Domain → Response 変換
+- [ ] **解説**: Web 層での入出力データ変換。ドメインモデルと API 仕様の分離を実現
+
+##### Subtask 3-7-2: UserController 基本構造作成 (20 分)
+
+- [ ] **ファイル作成**: `com.meatmetrics.meatmetrics.api.user.UserController`
+- [ ] **Controller アノテーション**:
   ```java
   @RestController
   @RequestMapping("/api/users")
-  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize("isAuthenticated()")  // 認証必須
+  @Validated  // メソッドレベルバリデーション有効化
   public class UserController {
   ```
-- [ ] **エンドポイント実装**:
-  - [ ] `GET /api/users/goals` - 目標取得
-  - [ ] `PUT /api/users/goals` - 目標更新
+- [ ] **依存関係注入**:
+  ```java
+  private final GetUserGoalsQueryService getUserGoalsQueryService;
+  private final UpdateUserGoalsService updateUserGoalsService;
+  ```
+- [ ] **コンストラクタインジェクション実装**
+- [ ] **Javadoc クラスコメント**: API 概要、認証要件、使用例
+- [ ] **解説**: ユーザー関連機能の Web 層エントリーポイント。認証済みユーザーのみアクセス可能
+
+##### Subtask 3-7-3: 目標取得エンドポイント実装 (10 分)
+
+- [ ] **GET /api/users/goals エンドポイント**:
+  ```java
+  @GetMapping("/goals")
+  public ResponseEntity<ApiResponse<UserGoalsResponse>> getUserGoals(
+      Authentication authentication) {
+      Long userId = extractUserIdFromAuth(authentication);
+      UserGoals goals = getUserGoalsQueryService.getUserGoals(userId);
+      UserGoalsResponse response = UserGoalsResponse.fromDomain(goals);
+      return ResponseEntity.ok(ApiResponse.success("目標を取得しました", response));
+  ```
+- [ ] **認証情報からユーザー ID 抽出**: JWT Principal からユーザー情報取得
 - [ ] **レスポンス例**:
   ```json
   {
-    "calorie": 2000,
-    "protein_g": 150,
-    "fat_g": 120,
-    "net_carbs_g": 20
+    "success": true,
+    "message": "目標を取得しました",
+    "data": {
+      "calorie": 2000,
+      "protein_g": 120,
+      "fat_g": 60,
+      "net_carbs_g": 20,
+      "updated_at": "2025-09-22T10:00:00"
+    }
   }
   ```
+- [ ] **解説**: 認証済みユーザーの栄養目標取得。デフォルト値も適切に返却
 
-**注記**: パスワード変更は AuthController に実装済み（認証操作のため）
+##### Subtask 3-7-4: 目標更新エンドポイント実装 (10 分)
+
+- [ ] **PUT /api/users/goals エンドポイント**:
+  ```java
+  @PutMapping("/goals")
+  public ResponseEntity<ApiResponse<Void>> updateUserGoals(
+      @Valid @RequestBody UpdateUserGoalsRequest request,
+      Authentication authentication) {
+      Long userId = extractUserIdFromAuth(authentication);
+      UpdateUserGoalsCommand command = request.toCommand();
+      updateUserGoalsService.updateUserGoals(userId, command);
+      return ResponseEntity.ok(ApiResponse.success("目標を更新しました"));
+  ```
+- [ ] **@Valid による自動バリデーション**: Bean Validation 実行
+- [ ] **セキュリティ考慮**: 認証ユーザーのデータのみ更新可能
+- [ ] **レスポンス例**:
+  ```json
+  {
+    "success": true,
+    "message": "目標を更新しました",
+    "data": null,
+    "timestamp": "2025-09-22T10:00:00.123"
+  }
+  ```
+- [ ] **解説**: 栄養目標の一括更新。バリデーション失敗時は 400 エラーを自動返却
+
+**注記**: Auth 構成（command/service/dto/exception/validation）に完全準拠した設計
 
 ### 🧪 **Phase 4: Web 層統合テスト実装** (90 分)
 
@@ -271,22 +408,38 @@
   - [ ] 有効なリフレッシュトークンでの更新成功
   - [ ] 無効なトークンでの更新失敗
 
-#### ⏭️ Task 4-5: ユーザー目標 API テスト (30 分)
+#### ⏭️ Task 4-5: ユーザー目標 API テスト (45 分) - Auth 構成準拠
 
-- [ ] **UserControllerTest.java 作成**:
+- [ ] **UserGoalsTest.java 作成**（ドメインテスト）:
+  ```java
+  class UserGoalsTest {
+      // 値オブジェクト、バリデーション、不変性テスト
+  ```
+- [ ] **UpdateUserGoalsRequestTest.java 作成**（Bean Validation テスト）:
+  ```java
+  class UpdateUserGoalsRequestTest {
+      // @NotNull @Positive バリデーションテスト
+  ```
+- [ ] **UserGoalsResponseTest.java 作成**（変換テスト）:
+  ```java
+  class UserGoalsResponseTest {
+      // fromDomain() メソッドテスト
+  ```
+- [ ] **UserControllerTest.java 作成**（MockMvc 統合テスト）:
   ```java
   @WebMvcTest(UserController.class)
   class UserControllerTest {
   ```
 - [ ] **目標取得 API テスト**:
-  - [ ] GET /api/users/goals: 正常ケース（認証済み）
+  - [ ] GET /api/users/goals: 正常ケース（認証済み、デフォルト値）
   - [ ] GET /api/users/goals: 未認証アクセス拒否
 - [ ] **目標更新 API テスト**:
   - [ ] PUT /api/users/goals: 正常ケース（有効な目標値）
-  - [ ] PUT /api/users/goals: バリデーションエラー（負の値等）
+  - [ ] PUT /api/users/goals: バリデーションエラー（負の値、null 等）
   - [ ] PUT /api/users/goals: 未認証アクセス拒否
+  - [ ] PUT /api/users/goals: 他ユーザーデータアクセス拒否
 
-**注記**: パスワード変更テストは AuthController で実装済み
+**注記**: Auth テスト構成（Domain/Request/Response/Controller）準拠
 
 ### ✅ **Phase 5: エラーハンドリング・セキュリティ強化** (45 分)
 
@@ -381,14 +534,20 @@
 
 ## ✅ 完了基準
 
-- [ ] **7 つのエンドポイント実装完了**
+- [ ] **7 つのエンドポイント + 詳細クラス設計実装完了**
   - [×] POST /api/auth/register（認証）
   - [×] POST /api/auth/login（認証）
   - [×] POST /api/auth/refresh（認証）
   - [×] POST /api/auth/logout（認証）
   - [×] POST /api/auth/change-password（認証、AuthController に実装）
-  - [ ] GET /api/users/goals（ユーザー目標取得）
-  - [ ] PUT /api/users/goals（ユーザー目標更新）
+  - [ ] GET /api/users/goals（ユーザー目標取得、詳細クラス設計込み）
+  - [ ] PUT /api/users/goals（ユーザー目標更新、詳細クラス設計込み）
+- [ ] **ユーザー目標詳細クラス実装完了**（Auth 構成準拠）
+  - [ ] UserGoals 値オブジェクト（Domain Layer）
+  - [ ] UpdateUserGoalsCommand（Application Layer）
+  - [ ] GetUserGoalsQueryService、UpdateUserGoalsService（Application Layer）
+  - [ ] UpdateUserGoalsRequest、UserGoalsResponse（Web Layer）
+  - [ ] UserController（Web Layer）
 - [ ] **Web 層統合テスト実装・Pass**（カバレッジ 80%以上）
 - [ ] **エラーハンドリング完備**（統一形式、適切なステータス）
 - [ ] **セキュリティ設定適用**（CORS、ヘッダー、認証）

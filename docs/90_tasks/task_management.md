@@ -276,19 +276,74 @@
 
 ##### ユーザー目標ドメインモデルの実装（Domain Layer）- MVP 基本機能
 
-- [ ] **user-domain-001**: ユーザー目標ドメインモデルの実装 - UserGoals 値オブジェクトの実装（calorie、protein_g、fat_g、net_carbs_g）
-- [ ] **user-domain-002**: ユーザー目標ドメインモデルの実装 - UserGoals バリデーションロジックの実装（正の値チェック）
+- [ ] **user-domain-001**: ユーザー目標ドメインの実装 - UserGoals 値オブジェクトの実装
+  ```java
+  // com.meatmetrics.meatmetrics.user.domain.UserGoals
+  public class UserGoals {
+      private final Integer calorie;
+      private final Integer proteinG;
+      private final Integer fatG;
+      private final Integer netCarbsG;
+  ```
+- [ ] **user-domain-002**: ユーザー目標ドメインの実装 - UserGoalsValidator の実装（正の値チェック、デフォルト値）
 
 ##### ユーザー目標アプリケーション層の実装（Application Layer）- MVP 基本機能
 
-- [ ] **user-app-001**: ユーザー目標アプリケーション層の実装 - GetUserGoalsQueryService の実装（目標取得、デフォルト値対応）
-- [ ] **user-app-002**: ユーザー目標アプリケーション層の実装 - UpdateUserGoalsService の実装（目標更新、バリデーション）
+- [ ] **user-app-001**: ユーザー目標コマンドの実装 - UpdateUserGoalsCommand の実装
+  ```java
+  // com.meatmetrics.meatmetrics.user.command.UpdateUserGoalsCommand
+  public class UpdateUserGoalsCommand {
+      private Integer calorie;
+      private Integer proteinG;
+      private Integer fatG;
+      private Integer netCarbsG;
+  ```
+- [ ] **user-app-002**: ユーザー目標サービスの実装 - GetUserGoalsQueryService の実装（目標取得、デフォルト値対応）
+  ```java
+  // com.meatmetrics.meatmetrics.user.service.GetUserGoalsQueryService
+  @Service
+  public class GetUserGoalsQueryService {
+      public UserGoals getUserGoals(Long userId);
+  ```
+- [ ] **user-app-003**: ユーザー目標サービスの実装 - UpdateUserGoalsService の実装（目標更新、バリデーション）
+  ```java
+  // com.meatmetrics.meatmetrics.user.service.UpdateUserGoalsService
+  @Service
+  public class UpdateUserGoalsService {
+      public void updateUserGoals(Long userId, UpdateUserGoalsCommand command);
+  ```
+- [ ] **user-app-004**: ユーザー目標例外の実装 - InvalidUserGoalsException の実装（必要に応じて）
 
 ##### ユーザー目標 Web 層の実装（Presentation Layer）- MVP 基本機能
 
-- [ ] **user-web-001**: ユーザー目標 Web 層の実装 - UserController（@RestController）の基本構造作成
-- [ ] **user-web-002**: ユーザー目標 Web 層の実装 - ユーザー目標取得エンドポイント（GET /api/users/goals）の実装
-- [ ] **user-web-003**: ユーザー目標 Web 層の実装 - ユーザー目標更新エンドポイント（PUT /api/users/goals）の実装
+- [ ] **user-web-001**: ユーザー目標 DTO の実装 - UpdateUserGoalsRequest の実装
+  ```java
+  // com.meatmetrics.meatmetrics.api.user.dto.request.UpdateUserGoalsRequest
+  public class UpdateUserGoalsRequest {
+      @NotNull @Positive private Integer calorie;
+      @NotNull @Positive private Integer protein_g;
+      @NotNull @Positive private Integer fat_g;
+      @NotNull @Positive private Integer net_carbs_g;
+  ```
+- [ ] **user-web-002**: ユーザー目標 DTO の実装 - UserGoalsResponse の実装
+  ```java
+  // com.meatmetrics.meatmetrics.api.user.dto.response.UserGoalsResponse
+  public class UserGoalsResponse {
+      private Integer calorie;
+      private Integer protein_g;
+      private Integer fat_g;
+      private Integer net_carbs_g;
+  ```
+- [ ] **user-web-003**: ユーザー目標 Web 層の実装 - UserController（@RestController）の基本構造作成
+  ```java
+  // com.meatmetrics.meatmetrics.api.user.UserController
+  @RestController
+  @RequestMapping("/api/users")
+  @PreAuthorize("isAuthenticated()")
+  public class UserController {
+  ```
+- [ ] **user-web-004**: ユーザー目標 Web 層の実装 - ユーザー目標取得エンドポイント（GET /api/users/goals）の実装
+- [ ] **user-web-005**: ユーザー目標 Web 層の実装 - ユーザー目標更新エンドポイント（PUT /api/users/goals）の実装
 
 **注記**: パスワード変更は auth-web-006 で Auth コンテキストに実装済み（認証操作のため）
 
@@ -307,7 +362,7 @@
 
 ##### 🧪 JUnit 統合テスト・E2E テスト（TDD 後フェーズ）
 
-- [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL 🔄 **今日実装予定**
+- [ ] **auth-test-007**: **[JUnit 統合]** UserRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL
 - [ ] **auth-test-008**: **[JUnit 統合]** RegisterUserService の統合テスト（正常系・重複エラー・バリデーション）
 - [ ] **auth-test-009**: **[JUnit 統合]** LoginService の統合テスト（正常系・認証失敗）
 - [ ] **auth-test-010**: **[SpringBootTest]** AuthController の MockMvc テスト（ユーザー登録・ログイン・ログアウト・トークン更新・パスワード変更 API）
@@ -315,12 +370,15 @@
 - [ ] **auth-test-012**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
 - [ ] **auth-test-013**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス → ログアウト）
 
-##### ユーザー目標システムのテスト実装（MVP 基本機能）
+##### ユーザー目標システムのテスト実装（MVP 基本機能）- Auth テスト構成準拠
 
-- [ ] **user-test-002**: ユーザー目標システムのテスト - UserGoals 値オブジェクトのユニットテスト（バリデーション、デフォルト値）
-- [ ] **user-test-003**: ユーザー目標システムのテスト - GetUserGoalsQueryService のユニットテスト
-- [ ] **user-test-004**: ユーザー目標システムのテスト - UpdateUserGoalsService のユニットテスト
-- [ ] **user-test-005**: ユーザー目標システムのテスト - セキュリティテスト（認証必須、ユーザー分離）
+- [ ] **user-test-002**: ユーザー目標ドメインテスト - UserGoals 値オブジェクトのユニットテスト（バリデーション、デフォルト値、不変性）
+- [ ] **user-test-003**: ユーザー目標アプリケーション層テスト - GetUserGoalsQueryService のユニットテスト（デフォルト値対応）
+- [ ] **user-test-004**: ユーザー目標アプリケーション層テスト - UpdateUserGoalsService のユニットテスト（バリデーション、例外処理）
+- [ ] **user-test-005**: ユーザー目標 Web 層テスト - UpdateUserGoalsRequest の Bean Validation テスト
+- [ ] **user-test-006**: ユーザー目標 Web 層テスト - UserGoalsResponse の変換テスト（fromDomain）
+- [ ] **user-test-007**: ユーザー目標統合テスト - UserController の MockMvc テスト（GET/PUT /api/users/goals）
+- [ ] **user-test-008**: ユーザー目標セキュリティテスト - 認証必須確認、ユーザー分離確認
 
 ##### 🧪 JUnit テストインフラ基盤構築（最優先）
 
