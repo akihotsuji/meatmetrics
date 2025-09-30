@@ -1,11 +1,11 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.request;
 
+import com.meatmetrics.meatmetrics.auth.application.command.LoginCommand;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import com.meatmetrics.meatmetrics.auth.command.LoginCommand;
 
 /**
  * ログインリクエストDTO

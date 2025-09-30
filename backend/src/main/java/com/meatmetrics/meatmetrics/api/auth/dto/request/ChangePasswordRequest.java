@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import com.meatmetrics.meatmetrics.auth.command.ChangePasswordCommand;
+import com.meatmetrics.meatmetrics.auth.application.command.ChangePasswordCommand;
 import com.meatmetrics.meatmetrics.auth.validation.DifferentPasswords;
 
 /**

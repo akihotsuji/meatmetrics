@@ -1,6 +1,7 @@
 package com.meatmetrics.meatmetrics.auth.validation;
 
-import com.meatmetrics.meatmetrics.auth.command.ChangePasswordCommand;
+import com.meatmetrics.meatmetrics.auth.application.command.ChangePasswordCommand;
+
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

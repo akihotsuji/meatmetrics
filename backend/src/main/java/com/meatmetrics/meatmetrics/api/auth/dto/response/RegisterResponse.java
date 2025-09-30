@@ -1,7 +1,8 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.response;
 
 import java.time.LocalDateTime;
-import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
+
+import com.meatmetrics.meatmetrics.auth.domain.account.Account;
 
 /**
  * ユーザー登録結果DTO
@@ -51,12 +52,12 @@ public class RegisterResponse {
      * @param user Userドメインオブジェクト
      * @return RegisterResponse DTO
      */
-    public static RegisterResponse from(User user) {
+    public static RegisterResponse from(Account account) {
         return new RegisterResponse(
-            user.getId(),
-            user.getEmail().getValue(),
-            user.getUsername().getValue(),
-            user.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
+            account.getId(),
+            account.getEmail().getValue(),
+            account.getUsername().getValue(),
+            account.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
         );
     }
     

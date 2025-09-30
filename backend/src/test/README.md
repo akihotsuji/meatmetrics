@@ -15,6 +15,9 @@ docker compose exec backend mvn test
 
 # 既存DB直結（docker-compose の postgres を使用）
 docker compose exec backend bash -lc 'TEST_DB_MODE=compose mvn test'
+
+# auth関連テストのみ実行（推奨）
+docker compose exec backend bash -lc 'TEST_DB_MODE=compose mvn test -Dtest="**/auth/**/*Test"'
 ```
 
 ## 事前準備

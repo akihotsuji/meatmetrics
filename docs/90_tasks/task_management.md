@@ -274,78 +274,60 @@
 
 **注記**: CORS 設定はプロキシで解決（開発: Vite、本番: Nginx）。バックエンドでの CORS 設定は不要
 
-##### ユーザー目標ドメインモデルの実装（Domain Layer）- MVP 基本機能
+##### 🏗️ ユーザープロフィール DDD コンテキスト設計（最優先）
 
-- [ ] **user-domain-001**: ユーザー目標ドメインの実装 - UserGoals 値オブジェクトの実装
-  ```java
-  // com.meatmetrics.meatmetrics.user.domain.UserGoals
-  public class UserGoals {
-      private final Integer calorie;
-      private final Integer proteinG;
-      private final Integer fatG;
-      private final Integer netCarbsG;
-  ```
-- [ ] **user-domain-002**: ユーザー目標ドメインの実装 - UserGoalsValidator の実装（正の値チェック、デフォルト値）
+- [ ] **user-context-001**: **境界づけられたコンテキスト**の定義 - User/Profile コンテキストと Auth コンテキストとの境界明確化
+- [ ] **user-context-002**: **集約設計** - User 集約と Profile 集約の境界と不変条件（プロフィール整合性、表示名制約等）
+- [ ] **user-context-003**: **ユビキタス言語**の策定 - display_name、carnivore_level、activity_level 等の用語統一
 
-##### ユーザー目標アプリケーション層の実装（Application Layer）- MVP 基本機能
+##### 🧪 ユーザープロフィール TDD テスト（テストファースト）
 
-- [ ] **user-app-001**: ユーザー目標コマンドの実装 - UpdateUserGoalsCommand の実装
-  ```java
-  // com.meatmetrics.meatmetrics.user.command.UpdateUserGoalsCommand
-  public class UpdateUserGoalsCommand {
-      private Integer calorie;
-      private Integer proteinG;
-      private Integer fatG;
-      private Integer netCarbsG;
-  ```
-- [ ] **user-app-002**: ユーザー目標サービスの実装 - GetUserGoalsQueryService の実装（目標取得、デフォルト値対応）
-  ```java
-  // com.meatmetrics.meatmetrics.user.service.GetUserGoalsQueryService
-  @Service
-  public class GetUserGoalsQueryService {
-      public UserGoals getUserGoals(Long userId);
-  ```
-- [ ] **user-app-003**: ユーザー目標サービスの実装 - UpdateUserGoalsService の実装（目標更新、バリデーション）
-  ```java
-  // com.meatmetrics.meatmetrics.user.service.UpdateUserGoalsService
-  @Service
-  public class UpdateUserGoalsService {
-      public void updateUserGoals(Long userId, UpdateUserGoalsCommand command);
-  ```
-- [ ] **user-app-004**: ユーザー目標例外の実装 - InvalidUserGoalsException の実装（必要に応じて）
+- [ ] **user-test-001**: **[TDD-Red]** DisplayName 値オブジェクトの失敗テスト作成（長さ制限、文字種バリデーション）
+- [ ] **user-test-002**: **[TDD-Green]** DisplayName 値オブジェクトの実装（3-50 文字、特殊文字制限）
+- [ ] **user-test-003**: **[TDD-Red]** Profile 集約の失敗テスト作成（不変条件、更新ロジック）
+- [ ] **user-test-004**: **[TDD-Green]** Profile 集約の実装（プロフィール管理ロジック）
 
-##### ユーザー目標 Web 層の実装（Presentation Layer）- MVP 基本機能
+##### 🏗️ ユーザープロフィール ドメインモデルの実装（Domain Layer）
 
-- [ ] **user-web-001**: ユーザー目標 DTO の実装 - UpdateUserGoalsRequest の実装
-  ```java
-  // com.meatmetrics.meatmetrics.api.user.dto.request.UpdateUserGoalsRequest
-  public class UpdateUserGoalsRequest {
-      @NotNull @Positive private Integer calorie;
-      @NotNull @Positive private Integer protein_g;
-      @NotNull @Positive private Integer fat_g;
-      @NotNull @Positive private Integer net_carbs_g;
-  ```
-- [ ] **user-web-002**: ユーザー目標 DTO の実装 - UserGoalsResponse の実装
-  ```java
-  // com.meatmetrics.meatmetrics.api.user.dto.response.UserGoalsResponse
-  public class UserGoalsResponse {
-      private Integer calorie;
-      private Integer protein_g;
-      private Integer fat_g;
-      private Integer net_carbs_g;
-  ```
-- [ ] **user-web-003**: ユーザー目標 Web 層の実装 - UserController（@RestController）の基本構造作成
-  ```java
-  // com.meatmetrics.meatmetrics.api.user.UserController
-  @RestController
-  @RequestMapping("/api/users")
-  @PreAuthorize("isAuthenticated()")
-  public class UserController {
-  ```
-- [ ] **user-web-004**: ユーザー目標 Web 層の実装 - ユーザー目標取得エンドポイント（GET /api/users/goals）の実装
-- [ ] **user-web-005**: ユーザー目標 Web 層の実装 - ユーザー目標更新エンドポイント（PUT /api/users/goals）の実装
+- [ ] **user-domain-001**: **Profile 集約ルート**の実装 - ID、ユーザー ID、個人情報とビジネスルール
+- [ ] **user-domain-002**: **DisplayName 値オブジェクト**の実装 - 3-50 文字、日本語・英数字制限
+- [ ] **user-domain-003**: **Gender 列挙型**の実装 - male/female/other/prefer_not_to_say
+- [ ] **user-domain-004**: **CarnivoreLevel 列挙型**の実装 - beginner/intermediate/advanced
+- [ ] **user-domain-005**: **ActivityLevel 列挙型**の実装 - sedentary ～ extremely_active
+- [ ] **user-domain-006**: **ProfileRepository インターフェース**の定義 - findByUserId、save、existsByUserId
 
-**注記**: パスワード変更は auth-web-006 で Auth コンテキストに実装済み（認証操作のため）
+##### ユーザープロフィール インフラ層の実装 (Infrastructure Layer)
+
+- [ ] **user-infra-001**: プロフィール インフラ層の実装 - ProfileEntity（JPA）の実装（@Entity、@Table、制約設定）
+- [ ] **user-infra-002**: プロフィール インフラ層の実装 - ProfileMapper（Entity ↔ Domain）の実装
+- [ ] **user-infra-003**: プロフィール インフラ層の実装 - JPA ProfileRepositoryImpl の実装（@Repository）
+- [ ] **user-infra-004**: プロフィール インフラ層の実装 - ProfileJpaRepository インターフェース定義
+
+##### ユーザープロフィール アプリケーション層の実装 (Application Layer)
+
+- [ ] **user-app-001**: プロフィール コマンドの実装 - UpdateProfileCommand の実装
+- [ ] **user-app-002**: プロフィール ハンドラーの実装 - UpdateProfileHandler の実装（@Service、@Transactional）
+- [ ] **user-app-003**: プロフィール クエリの実装 - GetProfileHandler の実装（@Service、@Transactional(readOnly = true)）
+- [ ] **user-app-004**: プロフィール例外の実装 - ProfileNotFoundException、InvalidProfileDataException
+
+##### ユーザープロフィール Web 層の実装 (Presentation Layer)
+
+- [ ] **user-web-001**: プロフィール DTO の実装 - UpdateProfileRequest の実装（Bean Validation 付き）
+- [ ] **user-web-002**: プロフィール DTO の実装 - ProfileResponse の実装（fromDomain メソッド）
+- [ ] **user-web-003**: プロフィール Web 層の実装 - ProfileController（@RestController）の基本構造作成
+- [ ] **user-web-004**: プロフィール Web 層の実装 - プロフィール取得エンドポイント（GET /api/users/profile）の実装
+- [ ] **user-web-005**: プロフィール Web 層の実装 - プロフィール更新エンドポイント（PUT /api/users/profile）の実装
+- [ ] **user-web-006**: ユーザー情報 Web 層の実装 - 統合情報取得エンドポイント（GET /api/users/me）の実装
+
+##### ユーザー目標 Web 層の実装（既存機能の完成）- Auth 構成準拠
+
+- [ ] **user-goal-001**: ユーザー目標 DTO の実装 - UpdateUserGoalsRequest の実装
+- [ ] **user-goal-002**: ユーザー目標 DTO の実装 - UserGoalsResponse の実装
+- [ ] **user-goal-003**: ユーザー目標 Web 層の実装 - UserController 基本構造作成（@RestController）
+- [ ] **user-goal-004**: ユーザー目標 Web 層の実装 - ユーザー目標取得エンドポイント（GET /api/users/goals）の実装
+- [ ] **user-goal-005**: ユーザー目標 Web 層の実装 - ユーザー目標更新エンドポイント（PUT /api/users/goals）の実装
+
+**注記**: Auth コンテキスト（auth-web-001 ～ 006）の実装パターンに完全準拠した設計
 
 ##### JWT 認証システムの実装（Auth コンテキスト拡張）
 
@@ -370,15 +352,16 @@
 - [ ] **auth-test-012**: **[JUnit 統合]** JwtService の統合テスト（生成、検証、有効期限、ブラックリスト）
 - [ ] **auth-test-013**: **[E2E]** 認証フロー全体テスト（ユーザー登録 → ログイン → 保護リソースアクセス → ログアウト）
 
-##### ユーザー目標システムのテスト実装（MVP 基本機能）- Auth テスト構成準拠
+##### 🧪 ユーザーシステム JUnit 統合テスト（Auth テスト構成準拠）
 
-- [ ] **user-test-002**: ユーザー目標ドメインテスト - UserGoals 値オブジェクトのユニットテスト（バリデーション、デフォルト値、不変性）
-- [ ] **user-test-003**: ユーザー目標アプリケーション層テスト - GetUserGoalsQueryService のユニットテスト（デフォルト値対応）
-- [ ] **user-test-004**: ユーザー目標アプリケーション層テスト - UpdateUserGoalsService のユニットテスト（バリデーション、例外処理）
-- [ ] **user-test-005**: ユーザー目標 Web 層テスト - UpdateUserGoalsRequest の Bean Validation テスト
-- [ ] **user-test-006**: ユーザー目標 Web 層テスト - UserGoalsResponse の変換テスト（fromDomain）
-- [ ] **user-test-007**: ユーザー目標統合テスト - UserController の MockMvc テスト（GET/PUT /api/users/goals）
-- [ ] **user-test-008**: ユーザー目標セキュリティテスト - 認証必須確認、ユーザー分離確認
+- [ ] **user-test-005**: **[JUnit 統合]** ProfileRepository の統合テスト - @DataJpaTest + Testcontainers PostgreSQL
+- [ ] **user-test-006**: **[JUnit 統合]** UpdateProfileHandler の統合テスト（正常系・バリデーション・例外処理）
+- [ ] **user-test-007**: **[JUnit 統合]** GetProfileHandler の統合テスト（存在確認・デフォルト値対応）
+- [ ] **user-test-008**: **[SpringBootTest]** ProfileController の MockMvc テスト（プロフィール API - GET/PUT /profile）
+- [ ] **user-test-009**: **[SpringBootTest]** UserController の MockMvc テスト（ユーザー目標 API - GET/PUT /goals）
+- [ ] **user-test-010**: **[SpringBootTest]** 統合情報取得 API の MockMvc テスト（GET /api/users/me）
+- [ ] **user-test-011**: **[セキュリティ]** 認証必須確認、ユーザー分離確認（プロフィール・目標）
+- [ ] **user-test-012**: **[E2E]** ユーザープロフィール管理フロー全体テスト（登録 → プロフィール設定 → 目標設定 → 統合情報取得）
 
 ##### 🧪 JUnit テストインフラ基盤構築（最優先）
 

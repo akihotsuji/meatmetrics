@@ -1,6 +1,6 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.response;
 
-import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
+import com.meatmetrics.meatmetrics.auth.domain.account.Account;
 
 /**
  * トークン更新結果DTO
@@ -50,7 +50,7 @@ public class RefreshResponse {
      * @param expirationSeconds アクセストークン有効期限（秒）
      * @return RefreshResponse DTO
      */
-    public static RefreshResponse from(User user, String accessToken, String refreshToken, Long expirationSeconds) {
+    public static RefreshResponse from(Account account, String accessToken, String refreshToken, Long expirationSeconds) {
         return new RefreshResponse(
             accessToken,
             expirationSeconds,

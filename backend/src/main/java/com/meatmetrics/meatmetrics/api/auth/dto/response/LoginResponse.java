@@ -1,6 +1,6 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.response;
 
-import com.meatmetrics.meatmetrics.domain.user.aggregate.User;
+import com.meatmetrics.meatmetrics.auth.domain.account.Account;
 
 /**
  * ログイン結果DTO
@@ -50,7 +50,7 @@ public class LoginResponse {
      * @param expirationSeconds アクセストークン有効期限（秒）
      * @return LoginResponse DTO
      */
-    public static LoginResponse from(User user, String accessToken, String refreshToken, Long expirationSeconds) {
+    public static LoginResponse from(Account account, String accessToken, String refreshToken, Long expirationSeconds) {
         return new LoginResponse(
             accessToken,
             expirationSeconds,

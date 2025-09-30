@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.meatmetrics.meatmetrics.api.common.ApiResponse;
-import com.meatmetrics.meatmetrics.auth.command.ChangePasswordCommand;
-import com.meatmetrics.meatmetrics.auth.command.LoginCommand;
-import com.meatmetrics.meatmetrics.auth.command.RefreshCommand;
-import com.meatmetrics.meatmetrics.auth.command.RegisterUserCommand;
 import com.meatmetrics.meatmetrics.api.auth.dto.request.ChangePasswordRequest;
 import com.meatmetrics.meatmetrics.api.auth.dto.request.LoginRequest;
 import com.meatmetrics.meatmetrics.api.auth.dto.request.RefreshRequest;
@@ -21,11 +17,15 @@ import com.meatmetrics.meatmetrics.api.auth.dto.request.RegisterRequest;
 import com.meatmetrics.meatmetrics.api.auth.dto.response.LoginResponse;
 import com.meatmetrics.meatmetrics.api.auth.dto.response.RefreshResponse;
 import com.meatmetrics.meatmetrics.api.auth.dto.response.RegisterResponse;
-import com.meatmetrics.meatmetrics.auth.service.ChangePasswordService;
-import com.meatmetrics.meatmetrics.auth.service.JwtTokenService;
-import com.meatmetrics.meatmetrics.auth.service.LoginService;
-import com.meatmetrics.meatmetrics.auth.service.RegisterUserService;
-import com.meatmetrics.meatmetrics.auth.service.TokenRefreshService;
+import com.meatmetrics.meatmetrics.auth.application.command.ChangePasswordCommand;
+import com.meatmetrics.meatmetrics.auth.application.command.LoginCommand;
+import com.meatmetrics.meatmetrics.auth.application.command.RefreshCommand;
+import com.meatmetrics.meatmetrics.auth.application.command.RegisterAccountCommand;
+import com.meatmetrics.meatmetrics.auth.application.handler.ChangePasswordHnadler;
+import com.meatmetrics.meatmetrics.auth.application.handler.LoginHandler;
+import com.meatmetrics.meatmetrics.auth.application.handler.RegisterAccountHandler;
+import com.meatmetrics.meatmetrics.auth.application.handler.TokenRefreshHandler;
+import com.meatmetrics.meatmetrics.auth.infrastructure.security.JwtTokenService;
 
 import jakarta.validation.Valid;
 
@@ -57,11 +57,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
     
-    private final RegisterUserService registerUserService;
-    private final LoginService loginService;
-    private final ChangePasswordService changePasswordService;
+    private final RegisterAccountHandler registerUserService;
+    private final LoginHandler loginService;
+    private final ChangePasswordHnadler changePasswordService;
     private final JwtTokenService jwtTokenService;
-    private final TokenRefreshService tokenRefreshService;
+    private final TokenRefreshHandler tokenRefreshService;
     
     /**
      * コンストラクタインジェクション
@@ -73,11 +73,11 @@ public class AuthController {
      * @param tokenRefreshService トークン更新サービス
      */
     public AuthController(
-            RegisterUserService registerUserService,
-            LoginService loginService,
-            ChangePasswordService changePasswordService,
+            RegisterAccountHandler registerUserService,
+            LoginHandler loginService,
+            ChangePasswordHnadler changePasswordService,
             JwtTokenService jwtTokenService,
-            TokenRefreshService tokenRefreshService) {
+            TokenRefreshHandler tokenRefreshService) {
         this.registerUserService = registerUserService;
         this.loginService = loginService;
         this.changePasswordService = changePasswordService;
@@ -113,13 +113,13 @@ public class AuthController {
      * @throws WeakPasswordException パスワードが強度要件を満たさない場合
      * @see RegisterRequest
      * @see RegisterResponse
-     * @see RegisterUserService#register(RegisterUserCommand)
+     * @see RegisterAccountHandler#register(RegisterAccountCommand)
      * @since 1.0.0
      */
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
         // Requestをユーザー登録用Commandに変換（正規化：trim、メール小文字化）
-        RegisterUserCommand command = request.toCommand();
+        RegisterAccountCommand command = request.toCommand();
         
         // サービス層でビジネスロジック実行（重複チェック、ドメインモデル生成、永続化）
         RegisterResponse response = registerUserService.register(command);
@@ -156,7 +156,7 @@ public class AuthController {
      * @throws InvalidCredentialsException 認証情報が不正な場合
      * @see LoginRequest
      * @see LoginResponse
-     * @see LoginService#login(LoginCommand)
+     * @see LoginHandler#login(LoginCommand)
      * @since 1.0.0
      */
     @PostMapping("/login")
@@ -245,7 +245,7 @@ public class AuthController {
      * @return 200 OK - パスワード変更成功時のレスポンス
      * @throws AuthenticationException 現在パスワード不一致・認証失敗の場合
      * @see ChangePasswordRequest
-     * @see ChangePasswordService#changePassword(Long, ChangePasswordCommand)
+     * @see ChangePasswordHnadler#changePassword(Long, ChangePasswordCommand)
      * @since 1.0.0
      */
     @PostMapping("/change-password")
@@ -307,7 +307,7 @@ public class AuthController {
      * @throws AuthenticationException リフレッシュトークンが無効な場合
      * @see RefreshRequest
      * @see RefreshResponse
-     * @see TokenRefreshService#refresh(RefreshCommand)
+     * @see TokenRefreshHandler#refresh(RefreshCommand)
      * @since 1.0.0
      */
     @PostMapping("/refresh")

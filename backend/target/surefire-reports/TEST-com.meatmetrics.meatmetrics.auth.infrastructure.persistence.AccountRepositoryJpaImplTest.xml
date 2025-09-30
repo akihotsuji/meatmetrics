@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest" time="34.969" tests="0" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/app/target/test-classes:/app/target/classes:/root/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.5.6/spring-boot-starter-actuator-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.6/spring-boot-starter-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.6/spring-boot-starter-logging-3.5.6.jar:/root/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/root/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/root/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/root/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/root/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/root/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/root/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/root/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.5.6/spring-boot-actuator-autoconfigure-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-actuator/3.5.6/spring-boot-actuator-3.5.6.jar:/root/.m2/repository/io/micrometer/micrometer-observation/1.15.4/micrometer-observation-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-commons/1.15.4/micrometer-commons-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-jakarta9/1.15.4/micrometer-jakarta9-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-core/1.15.4/micrometer-core-1.15.4.jar:/root/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/root/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.6/spring-boot-starter-data-jpa-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.6/spring-boot-starter-jdbc-3.5.6.jar:/root/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar:/root/.m2/repository/org/springframework/spring-jdbc/6.2.11/spring-jdbc-6.2.11.jar:/root/.m2/repository/org/hibernate/orm/hibernate-core/6.6.29.Final/hibernate-core-6.6.29.Final.jar:/root/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/root/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/root/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/root/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/root/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/root/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/root/.m2/repository/net/bytebuddy/byte-buddy/1.17.7/byte-buddy-1.17.7.jar:/root/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/root/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/root/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/root/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/root/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/root/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/root/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/root/.m2/repository/org/springframework/data/spring-data-jpa/3.5.4/spring-data-jpa-3.5.4.jar:/root/.m2/repository/org/springframework/data/spring-data-commons/3.5.4/spring-data-commons-3.5.4.jar:/root/.m2/repository/org/springframework/spring-orm/6.2.11/spring-orm-6.2.11.jar:/root/.m2/repository/org/springframework/spring-context/6.2.11/spring-context-6.2.11.jar:/root/.m2/repository/org/springframework/spring-tx/6.2.11/spring-tx-6.2.11.jar:/root/.m2/repository/org/springframework/spring-beans/6.2.11/spring-beans-6.2.11.jar:/root/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/root/.m2/repository/org/springframework/spring-aspects/6.2.11/spring-aspects-6.2.11.jar:/root/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.6/spring-boot-starter-web-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.6/spring-boot-starter-json-3.5.6.jar:/root/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.6/spring-boot-starter-tomcat-3.5.6.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.46/tomcat-embed-core-10.1.46.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.46/tomcat-embed-websocket-10.1.46.jar:/root/.m2/repository/org/springframework/spring-web/6.2.11/spring-web-6.2.11.jar:/root/.m2/repository/org/springframework/spring-webmvc/6.2.11/spring-webmvc-6.2.11.jar:/root/.m2/repository/org/springframework/spring-expression/6.2.11/spring-expression-6.2.11.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.6/spring-boot-starter-security-3.5.6.jar:/root/.m2/repository/org/springframework/spring-aop/6.2.11/spring-aop-6.2.11.jar:/root/.m2/repository/org/springframework/security/spring-security-config/6.5.5/spring-security-config-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-web/6.5.5/spring-security-web-6.5.5.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.6/spring-boot-starter-validation-3.5.6.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.46/tomcat-embed-el-10.1.46.jar:/root/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/root/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-api/0.12.3/jjwt-api-0.12.3.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-impl/0.12.3/jjwt-impl-0.12.3.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.12.3/jjwt-jackson-0.12.3.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-devtools/3.5.6/spring-boot-devtools-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot/3.5.6/spring-boot-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.6/spring-boot-autoconfigure-3.5.6.jar:/root/.m2/repository/org/postgresql/postgresql/42.7.7/postgresql-42.7.7.jar:/root/.m2/repository/org/checkerframework/checker-qual/3.49.3/checker-qual-3.49.3.jar:/root/.m2/repository/org/flywaydb/flyway-core/11.7.2/flyway-core-11.7.2.jar:/root/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.19.2/jackson-dataformat-toml-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/root/.m2/repository/org/flywaydb/flyway-database-postgresql/11.7.2/flyway-database-postgresql-11.7.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.6/spring-boot-starter-test-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-test/3.5.6/spring-boot-test-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.6/spring-boot-test-autoconfigure-3.5.6.jar:/root/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/root/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/root/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/root/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/root/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/root/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/root/.m2/repository/org/assertj/assertj-core/3.27.4/assertj-core-3.27.4.jar:/root/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/root/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/root/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/root/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/root/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/root/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/root/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/root/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/root/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/root/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/root/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/root/.m2/repository/org/springframework/spring-core/6.2.11/spring-core-6.2.11.jar:/root/.m2/repository/org/springframework/spring-jcl/6.2.11/spring-jcl-6.2.11.jar:/root/.m2/repository/org/springframework/spring-test/6.2.11/spring-test-6.2.11.jar:/root/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:/root/.m2/repository/org/testcontainers/junit-jupiter/1.20.4/junit-jupiter-1.20.4.jar:/root/.m2/repository/org/testcontainers/testcontainers/1.20.4/testcontainers-1.20.4.jar:/root/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/3.0/hamcrest-core-3.0.jar:/root/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/root/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/root/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-api/3.4.0/docker-java-api-3.4.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.4.0/docker-java-transport-zerodep-3.4.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-transport/3.4.0/docker-java-transport-3.4.0.jar:/root/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/root/.m2/repository/org/testcontainers/postgresql/1.20.4/postgresql-1.20.4.jar:/root/.m2/repository/org/testcontainers/jdbc/1.20.4/jdbc-1.20.4.jar:/root/.m2/repository/org/testcontainers/database-commons/1.20.4/database-commons-1.20.4.jar:/root/.m2/repository/org/springframework/security/spring-security-test/6.5.5/spring-security-test-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-core/6.5.5/spring-security-core-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-crypto/6.5.5/spring-security-crypto-6.5.5.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="Etc/UTC"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="APPLICATION_NAME" value="meatmetrics"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/opt/java/openjdk/lib"/>
+    <property name="sun.java.command" value="/app/target/surefire/surefirebooter-20250927154747336_3.jar /app/target/surefire 2025-09-27T15-47-46_447-jvmRun1 surefire-20250927154747336_1tmp surefire_0-20250927154747336_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/app/target/test-classes:/app/target/classes:/root/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.5.6/spring-boot-starter-actuator-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.6/spring-boot-starter-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.6/spring-boot-starter-logging-3.5.6.jar:/root/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/root/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/root/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/root/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/root/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/root/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/root/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/root/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.5.6/spring-boot-actuator-autoconfigure-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-actuator/3.5.6/spring-boot-actuator-3.5.6.jar:/root/.m2/repository/io/micrometer/micrometer-observation/1.15.4/micrometer-observation-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-commons/1.15.4/micrometer-commons-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-jakarta9/1.15.4/micrometer-jakarta9-1.15.4.jar:/root/.m2/repository/io/micrometer/micrometer-core/1.15.4/micrometer-core-1.15.4.jar:/root/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/root/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.6/spring-boot-starter-data-jpa-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.6/spring-boot-starter-jdbc-3.5.6.jar:/root/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar:/root/.m2/repository/org/springframework/spring-jdbc/6.2.11/spring-jdbc-6.2.11.jar:/root/.m2/repository/org/hibernate/orm/hibernate-core/6.6.29.Final/hibernate-core-6.6.29.Final.jar:/root/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/root/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/root/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/root/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/root/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/root/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/root/.m2/repository/net/bytebuddy/byte-buddy/1.17.7/byte-buddy-1.17.7.jar:/root/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/root/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/root/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/root/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/root/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/root/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/root/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/root/.m2/repository/org/springframework/data/spring-data-jpa/3.5.4/spring-data-jpa-3.5.4.jar:/root/.m2/repository/org/springframework/data/spring-data-commons/3.5.4/spring-data-commons-3.5.4.jar:/root/.m2/repository/org/springframework/spring-orm/6.2.11/spring-orm-6.2.11.jar:/root/.m2/repository/org/springframework/spring-context/6.2.11/spring-context-6.2.11.jar:/root/.m2/repository/org/springframework/spring-tx/6.2.11/spring-tx-6.2.11.jar:/root/.m2/repository/org/springframework/spring-beans/6.2.11/spring-beans-6.2.11.jar:/root/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/root/.m2/repository/org/springframework/spring-aspects/6.2.11/spring-aspects-6.2.11.jar:/root/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.6/spring-boot-starter-web-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.6/spring-boot-starter-json-3.5.6.jar:/root/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.6/spring-boot-starter-tomcat-3.5.6.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.46/tomcat-embed-core-10.1.46.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.46/tomcat-embed-websocket-10.1.46.jar:/root/.m2/repository/org/springframework/spring-web/6.2.11/spring-web-6.2.11.jar:/root/.m2/repository/org/springframework/spring-webmvc/6.2.11/spring-webmvc-6.2.11.jar:/root/.m2/repository/org/springframework/spring-expression/6.2.11/spring-expression-6.2.11.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.6/spring-boot-starter-security-3.5.6.jar:/root/.m2/repository/org/springframework/spring-aop/6.2.11/spring-aop-6.2.11.jar:/root/.m2/repository/org/springframework/security/spring-security-config/6.5.5/spring-security-config-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-web/6.5.5/spring-security-web-6.5.5.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.6/spring-boot-starter-validation-3.5.6.jar:/root/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.46/tomcat-embed-el-10.1.46.jar:/root/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/root/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-api/0.12.3/jjwt-api-0.12.3.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-impl/0.12.3/jjwt-impl-0.12.3.jar:/root/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.12.3/jjwt-jackson-0.12.3.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-devtools/3.5.6/spring-boot-devtools-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot/3.5.6/spring-boot-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.6/spring-boot-autoconfigure-3.5.6.jar:/root/.m2/repository/org/postgresql/postgresql/42.7.7/postgresql-42.7.7.jar:/root/.m2/repository/org/checkerframework/checker-qual/3.49.3/checker-qual-3.49.3.jar:/root/.m2/repository/org/flywaydb/flyway-core/11.7.2/flyway-core-11.7.2.jar:/root/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.19.2/jackson-dataformat-toml-2.19.2.jar:/root/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/root/.m2/repository/org/flywaydb/flyway-database-postgresql/11.7.2/flyway-database-postgresql-11.7.2.jar:/root/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.6/spring-boot-starter-test-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-test/3.5.6/spring-boot-test-3.5.6.jar:/root/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.6/spring-boot-test-autoconfigure-3.5.6.jar:/root/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/root/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/root/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/root/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/root/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/root/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/root/.m2/repository/org/assertj/assertj-core/3.27.4/assertj-core-3.27.4.jar:/root/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/root/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/root/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/root/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/root/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/root/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/root/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/root/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/root/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/root/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/root/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/root/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/root/.m2/repository/org/springframework/spring-core/6.2.11/spring-core-6.2.11.jar:/root/.m2/repository/org/springframework/spring-jcl/6.2.11/spring-jcl-6.2.11.jar:/root/.m2/repository/org/springframework/spring-test/6.2.11/spring-test-6.2.11.jar:/root/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:/root/.m2/repository/org/testcontainers/junit-jupiter/1.20.4/junit-jupiter-1.20.4.jar:/root/.m2/repository/org/testcontainers/testcontainers/1.20.4/testcontainers-1.20.4.jar:/root/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/3.0/hamcrest-core-3.0.jar:/root/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/root/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/root/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-api/3.4.0/docker-java-api-3.4.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.4.0/docker-java-transport-zerodep-3.4.0.jar:/root/.m2/repository/com/github/docker-java/docker-java-transport/3.4.0/docker-java-transport-3.4.0.jar:/root/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/root/.m2/repository/org/testcontainers/postgresql/1.20.4/postgresql-1.20.4.jar:/root/.m2/repository/org/testcontainers/jdbc/1.20.4/jdbc-1.20.4.jar:/root/.m2/repository/org/testcontainers/database-commons/1.20.4/database-commons-1.20.4.jar:/root/.m2/repository/org/springframework/security/spring-security-test/6.5.5/spring-security-test-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-core/6.5.5/spring-security-core-6.5.5.jar:/root/.m2/repository/org/springframework/security/spring-security-crypto/6.5.5/spring-security-crypto-6.5.5.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/root"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="/opt/java/openjdk"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/app"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="surefire.real.class.path" value="/app/target/surefire/surefirebooter-20250927154747336_3.jar"/>
+    <property name="polyglot.engine.WarnInterpreterOnly" value="false"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.8+9-LTS"/>
+    <property name="user.name" value="root"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.6.87.2-microsoft-standard-WSL2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-21.0.8+9"/>
+    <property name="localRepository" value="/root/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="21.0.8"/>
+    <property name="user.dir" value="/app"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="2786"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="21.0.8+9-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+    <property name="LOGGED_APPLICATION_NAME" value="[meatmetrics] "/>
+  </properties>
+  <testcase name="shouldMaintainDataIntegrityInSaveAndFind" classname="データ整合性テスト" time="1.054">
+    <system-out><![CDATA[15:48:08.698 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest]: AccountRepositoryJpaImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:48:10.706 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest
+15:48:11.652 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$DataIntegrityTests]: DataIntegrityTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:48:11.660 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$DataIntegrityTests
+15:48:11.903 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-09-27T15:48:13.229Z  INFO 2786 --- [meatmetrics] [           main] c.m.m.a.i.p.AccountRepositoryJpaImplTest : Starting AccountRepositoryJpaImplTest using Java 21.0.8 with PID 2786 (started by root in /app)
+2025-09-27T15:48:13.231Z DEBUG 2786 --- [meatmetrics] [           main] c.m.m.a.i.p.AccountRepositoryJpaImplTest : Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-09-27T15:48:13.232Z  INFO 2786 --- [meatmetrics] [           main] c.m.m.a.i.p.AccountRepositoryJpaImplTest : The following 1 profile is active: "integration"
+2025-09-27T15:48:20.491Z  INFO 2786 --- [meatmetrics] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-27T15:48:21.535Z  INFO 2786 --- [meatmetrics] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1004 ms. Found 2 JPA repository interfaces.
+2025-09-27T15:48:24.623Z  INFO 2786 --- [meatmetrics] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-27T15:48:25.318Z  INFO 2786 --- [meatmetrics] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@490fbeaa
+2025-09-27T15:48:25.335Z  INFO 2786 --- [meatmetrics] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-27T15:48:25.519Z  INFO 2786 --- [meatmetrics] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://postgres:5432/meatmetrics (PostgreSQL 16.9)
+2025-09-27T15:48:26.116Z  INFO 2786 --- [meatmetrics] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 14 migrations (execution time 00:00.447s)
+2025-09-27T15:48:26.152Z  INFO 2786 --- [meatmetrics] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 014
+2025-09-27T15:48:26.157Z  INFO 2786 --- [meatmetrics] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-09-27T15:48:26.934Z  INFO 2786 --- [meatmetrics] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-27T15:48:27.380Z  INFO 2786 --- [meatmetrics] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-09-27T15:48:27.663Z  INFO 2786 --- [meatmetrics] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-27T15:48:28.499Z  INFO 2786 --- [meatmetrics] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-27T15:48:28.941Z  WARN 2786 --- [meatmetrics] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-27T15:48:29.127Z  INFO 2786 --- [meatmetrics] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.9
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-27T15:48:33.506Z  INFO 2786 --- [meatmetrics] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-27T15:48:33.519Z  INFO 2786 --- [meatmetrics] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-27T15:48:35.934Z  WARN 2786 --- [meatmetrics] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-27T15:48:38.040Z  INFO 2786 --- [meatmetrics] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-27T15:48:38.145Z  WARN 2786 --- [meatmetrics] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5a240a41-77e1-49b1-8863-a9331630069d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-09-27T15:48:38.218Z  INFO 2786 --- [meatmetrics] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-27T15:48:40.196Z  INFO 2786 --- [meatmetrics] [           main] c.m.m.a.i.p.AccountRepositoryJpaImplTest : Started AccountRepositoryJpaImplTest in 28.346 seconds (process running for 52.598)
+2025-09-27T15:48:40.736Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:41.322Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+2025-09-27T15:48:41.376Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForNullEmail" classname="findByEmail メソッド" time="0.022">
+    <system-out><![CDATA[2025-09-27T15:48:41.485Z  INFO 2786 --- [meatmetrics] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByEmailMethod]: FindByEmailMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-27T15:48:41.493Z  INFO 2786 --- [meatmetrics] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByEmailMethod
+]]></system-out>
+  </testcase>
+  <testcase name="shouldFindAccountByExistingEmail" classname="findByEmail メソッド" time="0.144">
+    <system-out><![CDATA[2025-09-27T15:48:41.658Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:41.663Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnEmptyForNonExistentEmail" classname="findByEmail メソッド" time="0.019">
+    <system-out><![CDATA[2025-09-27T15:48:41.683Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.email=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnEmptyForNonExistentId" classname="findById メソッド" time="0.026">
+    <system-out><![CDATA[2025-09-27T15:48:41.741Z  INFO 2786 --- [meatmetrics] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByIdMethod]: FindByIdMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-27T15:48:41.750Z  INFO 2786 --- [meatmetrics] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByIdMethod
+2025-09-27T15:48:41.782Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.id=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForNullId" classname="findById メソッド" time="0.014"/>
+  <testcase name="shouldFindAccountByExistingId" classname="findById メソッド" time="0.167">
+    <system-out><![CDATA[2025-09-27T15:48:41.971Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForNullUsername" classname="findByUsername メソッド" time="0.008">
+    <system-out><![CDATA[2025-09-27T15:48:42.009Z  INFO 2786 --- [meatmetrics] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByUsernameMethod]: FindByUsernameMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-27T15:48:42.017Z  INFO 2786 --- [meatmetrics] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$FindByUsernameMethod
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnEmptyForNonExistentUsername" classname="findByUsername メソッド" time="0.011">
+    <system-out><![CDATA[2025-09-27T15:48:42.043Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldFindAccountByExistingUsername" classname="findByUsername メソッド" time="0.148">
+    <system-out><![CDATA[2025-09-27T15:48:42.185Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:42.191Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+Hibernate: 
+    select
+        ae1_0.id,
+        ae1_0.created_at,
+        ae1_0.email,
+        ae1_0.password_hash,
+        ae1_0.updated_at,
+        ae1_0.username 
+    from
+        users ae1_0 
+    where
+        ae1_0.username=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForNullAccount" classname="save メソッド" time="0.009">
+    <system-out><![CDATA[2025-09-27T15:48:42.233Z  INFO 2786 --- [meatmetrics] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$SaveMethod]: SaveMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-27T15:48:42.239Z  INFO 2786 --- [meatmetrics] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$SaveMethod
+]]></system-out>
+  </testcase>
+  <testcase name="shouldSaveNewAccount" classname="save メソッド" time="0.133">
+    <system-out><![CDATA[2025-09-27T15:48:42.382Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+]]></system-out>
+  </testcase>
+  <testcase name="shouldUpdateExistingAccount" classname="save メソッド" time="0.359">
+    <system-out><![CDATA[2025-09-27T15:48:42.529Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForDuplicateUsername" classname="一意性制約テスト" time="0.22">
+    <system-out><![CDATA[2025-09-27T15:48:42.796Z  INFO 2786 --- [meatmetrics] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$UniquenessConstraints]: UniquenessConstraints does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-27T15:48:42.802Z  INFO 2786 --- [meatmetrics] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.meatmetrics.meatmetrics.MeatmetricsApplication for test class com.meatmetrics.meatmetrics.auth.infrastructure.persistence.AccountRepositoryJpaImplTest$UniquenessConstraints
+2025-09-27T15:48:42.927Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:42.931Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:42.978Z  WARN 2786 --- [meatmetrics] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-09-27T15:48:42.979Z ERROR 2786 --- [meatmetrics] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "users_username_key"
+  Detail: Key (username)=(duplicateuser) already exists.
+]]></system-out>
+  </testcase>
+  <testcase name="shouldThrowExceptionForDuplicateEmail" classname="一意性制約テスト" time="0.12">
+    <system-out><![CDATA[2025-09-27T15:48:43.141Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:43.147Z DEBUG 2786 --- [meatmetrics] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, password_hash, updated_at, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-09-27T15:48:43.149Z  WARN 2786 --- [meatmetrics] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-09-27T15:48:43.149Z ERROR 2786 --- [meatmetrics] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "users_email_key"
+  Detail: Key (email)=(duplicate@example.com) already exists.
+]]></system-out>
+  </testcase>
+</testsuite>

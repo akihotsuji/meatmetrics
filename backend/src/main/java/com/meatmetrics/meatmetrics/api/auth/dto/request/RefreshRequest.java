@@ -1,8 +1,8 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import com.meatmetrics.meatmetrics.auth.application.command.RefreshCommand;
 
-import com.meatmetrics.meatmetrics.auth.command.RefreshCommand;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * トークン更新リクエストDTO

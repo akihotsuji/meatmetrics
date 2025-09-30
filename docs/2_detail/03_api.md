@@ -78,6 +78,8 @@ GET /api/summary?date=YYYY-MM-DD
 
 ## 6. ユーザー
 
+### 6.1 栄養目標
+
 ```http
 GET /api/users/goals
   200: { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
@@ -85,7 +87,40 @@ GET /api/users/goals
 PUT /api/users/goals
   body: { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
   200: { "calorie": number, "protein_g": number, "fat_g": number, "net_carbs_g": number }
+```
 
+### 6.2 プロフィール
+
+```http
+GET /api/users/profile
+  200: { 
+    "firstName"?: string, "lastName"?: string, "displayName"?: string,
+    "dateOfBirth"?: string, "gender"?: string, "heightCm"?: number, 
+    "weightKg"?: number, "activityLevel"?: string, "avatarUrl"?: string,
+    "carnivoreStartDate"?: string, "carnivoreLevel": string, "carnivoreGoal"?: string,
+    "measurementUnit": string, "timezone": string, "updatedAt": string
+  }
+
+PUT /api/users/profile
+  body: { 
+    "firstName"?: string, "lastName"?: string, "displayName"?: string,
+    "dateOfBirth"?: string, "gender"?: string, "heightCm"?: number,
+    "weightKg"?: number, "activityLevel"?: string, "avatarUrl"?: string,
+    "carnivoreStartDate"?: string, "carnivoreLevel"?: string, "carnivoreGoal"?: string,
+    "measurementUnit"?: string, "timezone"?: string
+  }
+  200: { "message": "Profile updated successfully" }
+
+GET /api/users/me
+  200: {
+    "id": number, "email": string, "username": string, "createdAt": string,
+    "profile": { ... }, "activeGoal": { ... }
+  }
+```
+
+### 6.3 アカウント
+
+```http
 PUT /api/users/password
   body: { "currentPassword": string, "newPassword": string }
   204

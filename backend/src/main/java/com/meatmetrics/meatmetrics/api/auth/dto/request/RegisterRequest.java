@@ -1,12 +1,12 @@
 package com.meatmetrics.meatmetrics.api.auth.dto.request;
 
+import com.meatmetrics.meatmetrics.auth.application.command.RegisterAccountCommand;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import com.meatmetrics.meatmetrics.auth.command.RegisterUserCommand;
 
 /**
  * ユーザー登録リクエストDTO
@@ -63,10 +63,10 @@ public class RegisterRequest {
      * 
      * @return RegisterUserCommand
      */
-    public RegisterUserCommand toCommand() {
+    public RegisterAccountCommand toCommand() {
         String normalizedEmail = email == null ? null : email.trim().toLowerCase();
         String normalizedUsername = username == null ? null : username.trim();
-        return new RegisterUserCommand(normalizedEmail, password, normalizedUsername);
+        return new RegisterAccountCommand(normalizedEmail, password, normalizedUsername);
     }
     
     // Getters
